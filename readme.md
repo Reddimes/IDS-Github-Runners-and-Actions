@@ -1,5 +1,3 @@
 # Week 1
-1) Repository Setup and Research
-``` markdown
-# Week 1/readme.md
-```
+1) [Repository Setup](Week%201/readme.md)
+2) [Research](Research/Week%201.md)

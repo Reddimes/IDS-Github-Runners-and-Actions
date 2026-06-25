@@ -24,3 +24,6 @@ Of those tools, I think that UASM will be the better option.  Compiling assembly
 During my research this week, I discovered that there is already a Github Action for setting up MASM to run on a Github Runner with Visual Studio 2026. [Setup MASM](https://github.com/marketplace/actions/setup-masm)
 
 There is not a lot of documentation around it, so it may require some testing.  This may be something that I require a little bit of help with, I have not worked primarily with Visual Studio in quite some time.  I imagine that will be be building a Visual Studio Project with masm included.
+## Week 3
+### Research
+I discovered a [MASM Runner](https://marketplace.visualstudio.com/items?itemName=istareatscreens.masm-runner) for VSCode which appears to be compatible with Linux and Mac. This might be useful when it comes to setting up a `devcontainer`.

@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "03d71945947fe705",
+        "id": "6058c96401080032",
         "type": "tabs",
         "children": [
           {
-            "id": "6334268ca70e3383",
+            "id": "c3eb2b3339e3f9c7",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -195,8 +195,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "6334268ca70e3383",
+  "active": "c3eb2b3339e3f9c7",
   "lastOpenFiles": [
-    "readme.md"
+    "Week 1/Repository Setup and Research.md",
+    "readme.md",
+    "Week 1"
   ]
 }

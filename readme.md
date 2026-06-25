@@ -1,2 +1,2 @@
 # Week 1
-1) [[Repository Setup and Research]]
+1) [[Week 1/Repository Setup and Research]]

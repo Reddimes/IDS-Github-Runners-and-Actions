@@ -1,7 +1,10 @@
 # Weekly Activities
 ## Week 1
 ### Repository
->I started reviewing what is needed for the repository.  It seems that the linux runner workflow and windows workflow can exist in the same project.  This means that will only need one repository.  I have created that repository.
+```markdown
+I started reviewing what is needed for the repository.  It seems that the linux runner workflow and windows workflow can exist in the same project.  This means that will only need one repository.  I have created that repository.
+```
+
 ### Research
 To kick off my research for Week 1, I worked on researching what is needed for GitHub runners, actions and workflows.
 

@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "readme.md",
+                "file": "Week.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "readme"
+              "title": "Week"
             }
           }
         ],
@@ -212,8 +212,9 @@
   },
   "active": "ba63b544557e39c5",
   "lastOpenFiles": [
-    "Week 1/Repository Setup and Research.md",
     "readme.md",
+    "Week.md",
+    "Week 1/Repository Setup and Research.md",
     "Week 1"
   ]
 }

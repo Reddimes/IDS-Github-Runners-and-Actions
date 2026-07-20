@@ -31,48 +31,7 @@ jobs:
           Get-ChildItem "C:\Irvine32"
           "INCLUDE=C:\Irvine32" >> $env:GITHUB_ENV
 
-      - name: Compile ASM files
+      - name: Compile and test
         shell: pwsh
         run: |
-          $ml = "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.29.30133\bin\HostX64\x86\ml.exe"
-          $link = "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.29.30133\bin\HostX64\x86\link.exe"
-          $kernel32 = "C:\Program Files (x86)\Windows Kits\10\lib\10.0.26100.0\um\x86\kernel32.lib"
-          $user32 = "C:\Program Files (x86)\Windows Kits\10\lib\10.0.26100.0\um\x86\user32.lib"
-          $irvine = "C:\Irvine32"
-
-          $targets = @(
-            "src/RevStr.asm"
-          )
-
-          foreach ($src in $targets) {
-            $base = [System.IO.Path]::GetFileNameWithoutExtension($src)
-            Write-Host "::group::Building $src"
-
-            & $ml /c $src
-            if ($LASTEXITCODE -ne 0) {
-              Write-Host "::error::Failed to assemble $src"
-              exit 1
-            }
-
-            & $link /SUBSYSTEM:CONSOLE /OUT:$($base).exe "$base.obj" "$irvine\Irvine32.lib" $kernel32 $user32
-            if ($LASTEXITCODE -ne 0) {
-              Write-Host "::error::Failed to link $base"
-              exit 1
-            }
-            Write-Host "::endgroup::"
-          }
-
-      - name: Run tests
-        shell: cmd
-        run: |
-          echo Abraham Lincoln > expected_RevStr.out
-          echo nlocniL maharbA >> expected_RevStr.out
-          RevStr.exe > RevStr.out 2>&1
-          type RevStr.out
-          fc expected_RevStr.out RevStr.out > nul 2>&1
-          if %errorlevel% equ 0 (
-            echo PASS: RevStr
-          ) else (
-            echo ##[error]FAIL: RevStr
-            exit 1
-          )
+          & pwsh -File test.ps1

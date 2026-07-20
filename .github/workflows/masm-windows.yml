@@ -42,6 +42,7 @@ jobs:
         shell: cmd
         run: |
           call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
+          mkdir tools\ConptyCapture\publish
           cl /O2 /EHsc /Fe:tools\ConptyCapture\publish\ConptyCapture.exe tools\ConptyCapture\ConptyCapture.cpp
 
       - name: Run and capture output with ConPTY

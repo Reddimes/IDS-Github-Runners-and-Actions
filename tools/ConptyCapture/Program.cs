@@ -11,11 +11,14 @@ class Program
     static readonly ulong PROC_THREAD_ATTRIBUTE_PSEUDOCONSOLE = 0x00020016;
 
     delegate int CreatePseudoConsoleDelegate(
-        short cx, short cy,
+        COORD size,
         IntPtr hInput, IntPtr hOutput,
         uint dwFlags, out IntPtr hPseudoConsole);
 
     delegate void ClosePseudoConsoleDelegate(IntPtr hPseudoConsole);
+
+    [StructLayout(LayoutKind.Sequential)]
+    struct COORD { public short X; public short Y; }
 
     [StructLayout(LayoutKind.Sequential)]
     struct SECURITY_ATTRIBUTES
@@ -166,7 +169,7 @@ class Program
         {
             nLength = Marshal.SizeOf<SECURITY_ATTRIBUTES>(),
             lpSecurityDescriptor = IntPtr.Zero,
-            bInheritHandle = true
+            bInheritHandle = false
         };
 
         // Input pipe: parent writes to inputWrite, PTY reads from inputRead
@@ -181,13 +184,9 @@ class Program
             Fail("CreatePipe(output)", 11);
         }
 
-        // PTY-side handles must NOT be inherited by child process
-        SetHandleInformation(inputRead, HANDLE_FLAG_INHERIT, 0);
-        SetHandleInformation(outputWrite, HANDLE_FLAG_INHERIT, 0);
-
         // Create pseudo-console
         IntPtr hPty = IntPtr.Zero;
-        int ptyResult = createPty(120, 30, inputRead, outputWrite, 0, out hPty);
+        int ptyResult = createPty(new COORD { X = 120, Y = 30 }, inputRead, outputWrite, 0, out hPty);
         if (ptyResult != 0)
         {
             Console.Error.WriteLine($"CreatePseudoConsole failed: 0x{ptyResult:X8} (Win32: {Marshal.GetLastWin32Error()})");

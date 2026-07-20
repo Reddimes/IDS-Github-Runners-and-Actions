@@ -31,12 +31,17 @@ jobs:
           Get-ChildItem "C:\Irvine32"
           "INCLUDE=C:\Irvine32" >> $env:GITHUB_ENV
 
+      - name: Copy Windows Kit SDK libs to Irvine32
+        shell: cmd
+        run: |
+          copy /y "C:\Program Files (x86)\Windows Kits\10\lib\10.0.26100.0\um\x86\kernel32.lib" C:\Irvine32\
+          copy /y "C:\Program Files (x86)\Windows Kits\10\lib\10.0.26100.0\um\x86\user32.lib" C:\Irvine32\
+
       - name: Compile and run RevStr
         shell: cmd
         run: |
           set LIB=
           call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86
-          set LIB
           "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.29.30133\bin\HostX64\x86\ml.exe" /c src\RevStr.asm
-          "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.29.30133\bin\HostX64\x86\link.exe" /SUBSYSTEM:CONSOLE /OUT:RevStr.exe RevStr.obj C:\Irvine32\Irvine32.lib
+          "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.29.30133\bin\HostX64\x86\link.exe" /SUBSYSTEM:CONSOLE /OUT:RevStr.exe RevStr.obj C:\Irvine32\Irvine32.lib C:\Irvine32\kernel32.lib C:\Irvine32\user32.lib
           RevStr.exe

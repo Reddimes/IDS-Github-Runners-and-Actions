@@ -22,6 +22,8 @@ class Program
     static readonly uint PIPE_WAIT = 0x00000000;
     static readonly uint PIPE_UNLIMITED_INSTANCES = 255;
     static readonly uint PIPE_NOWAIT = 0x00000001;
+    static readonly uint GENERIC_READ = 0x80000000;
+    static readonly uint GENERIC_WRITE = 0x40000000;
 
     delegate int CreatePseudoConsoleDelegate(
         short cx, short cy,
@@ -211,7 +213,7 @@ class Program
 
         // Connect the other ends (client-side) of the pipes
         IntPtr hInputClient = CreateFile(
-            "\\\\.\\pipe\\pty_input", 0, 0, IntPtr.Zero,
+            "\\\\.\\pipe\\pty_input", GENERIC_WRITE, 0, IntPtr.Zero,
             OPEN_EXISTING, 0, IntPtr.Zero);
 
         if (hInputClient == INVALID_HANDLE_VALUE)
@@ -223,7 +225,7 @@ class Program
         }
 
         IntPtr hOutputClient = CreateFile(
-            "\\\\.\\pipe\\pty_output", 0, 0, IntPtr.Zero,
+            "\\\\.\\pipe\\pty_output", GENERIC_READ, 0, IntPtr.Zero,
             OPEN_EXISTING, 0, IntPtr.Zero);
 
         if (hOutputClient == INVALID_HANDLE_VALUE)

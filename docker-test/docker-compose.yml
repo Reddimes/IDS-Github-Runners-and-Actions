@@ -1,0 +1,13 @@
+services:
+  masm-test:
+    build:
+      context: ..
+      dockerfile: docker-test/Dockerfile
+    environment:
+      - WINEDEBUG=-all
+    volumes:
+      - ../src:/app/src
+      - wine-prefix:/root/.wine
+
+volumes:
+  wine-prefix:

@@ -34,3 +34,59 @@ One a side note, I've been researching what is required for GitHub Certification
 - GitHub Administration
 
 For this Independent Study, I intend to stick mostly closely to the GitHub Actions course as that is the essential to what I need.
+---
+## Week 4
+### Single-File Compilation Container
+I consolidated the Docker setup into a single-file compilation container. Instead of mounting an entire `src/` directory, you mount one `.asm` file to `/test.asm` and the container compiles, runs, and validates it automatically:
+```bash
+docker run --rm -v src/RevStr.asm:/test.asm masm-run
+# → PASS: RevStr
+```
+No `-e NAME` environment variable is needed. The entrypoint auto-detects which program it is by comparing the cleaned output against embedded expected outputs.
+
+### MSVC Path Handling
+A critical discovery: MSVC's `ml` and `link` interpret `/` as a flag character. All paths must use `z:` drive notation with double backslashes (e.g., `z:\\test.asm`, `z:\\opt\\irvine32`). The `msvcenv.sh` file is patched during the Docker build to prepend `z:\\opt\\irvine32` to `INCLUDE`, `LIB`, and `LIBPATH`.
+---
+## Week 5
+### Wine Console I/O Workaround
+Wine's `ReadConsoleA`/`WriteConsoleA` produce no stdout without a pseudo-terminal. The solution is the `script` command, which allocates a pty:
+```sh
+script -q -c "wine z:\\test.exe" /dev/null > /tmp/test.out 2>&1
+```
+This was tested and confirmed to be the only reliable way to capture output in headless Docker.
+
+### Output Cleanup
+Wine's console output contains ANSI escape codes and `\r\n` line endings. The `sed` command in the entrypoint cleans this:
+```sh
+sed -i 's/\x1b\[[?0-9;]*[a-zA-Z]//g; s/\r//g' "$ACTUAL"
+```
+This strips cursor hide/show sequences (`[?25l`, `[?25h`) and carriage returns, leaving plain text for comparison.
+
+### Validation System
+The entrypoint embeds expected outputs directly (no external `tests/` directory needed). It loops through known expected outputs to match actual output. A match prints `PASS: <name>`. A mismatch prints the cleaned output for manual review and exits 0.
+---
+## Week 6
+### DOSBox Testing
+I explored using DOSBox instead of Wine. Key findings:
+- DOSBox emulates DOS, not Windows, so Irvine32 won't work (it's a Windows library)
+- DOS programs use `INT 21h` interrupts instead
+- DOSBox would need `SDL_VIDEODRIVER=dummy` for headless mode
+- Output capture would require framebuffer reading, not stdout
+- **Conclusion:** Not viable for Irvine32-based programs
+
+### PowerShell and Batch File Testing
+I tested using PowerShell and batch files under Wine for the validation step instead of shell scripting:
+- PowerShell (`wine powershell -File`) produces no stdout in headless mode
+- PowerShell cannot write files through Wine's path mapping
+- Batch files (`wine cmd /c`) have the same stdout limitation
+- **Conclusion:** Shell-based validation outside Wine is the correct approach
+---
+## Week 7
+### CI Workflow Sync
+Updated the Linux Wine workflow (`masm-wine.yml`) to match the container's proven setup:
+- Added `wine32` to apt packages
+- Fixed `sed` patch to use `z:\\opt\\irvine32` (double backslash)
+- Added SDK lib copies (`kernel32.lib`, `user32.lib` from Windows Kits)
+- Changed compile/link to use `z:` paths via `/tmp/test.asm` copy
+- Changed output capture to use `script -q -c` with `sed` ANSI/CR cleanup
+- Removed the `wine cmd /c` run step (no stdout without pty)

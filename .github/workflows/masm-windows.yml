@@ -1,0 +1,97 @@
+name: MASM (Windows Native)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup MASM
+        uses: glslang/setup-masm@v1.4
+        with:
+          vs-architecture: 'x64'
+
+      - name: Download and extract Irvine32 library
+        shell: pwsh
+        run: |
+          $irvineDir = "C:\Irvine32"
+          New-Item -ItemType Directory -Force -Path $irvineDir | Out-Null
+          $zipPath = "$env:TEMP\Irvine.zip"
+          Invoke-WebRequest -Uri "https://github.com/surferkip/asmbook/raw/main/Irvine.zip" -OutFile $zipPath
+          Expand-Archive -Path $zipPath -DestinationPath "C:\IrvineTemp" -Force
+          Copy-Item "C:\IrvineTemp\Irvine\Irvine32.inc" $irvineDir
+          Copy-Item "C:\IrvineTemp\Irvine\Irvine32.lib" $irvineDir
+          Copy-Item "C:\IrvineTemp\Irvine\*.inc" $irvineDir
+          Write-Output "IRVINE_DIR=$irvineDir" >> $env:GITHUB_ENV
+
+      - name: Discover ASM files
+        id: discover
+        shell: pwsh
+        run: |
+          $files = Get-ChildItem -Recurse -Filter '*.asm' -File |
+            Where-Object { $_.FullName -notlike '*\.github\*' } |
+            Sort-Object FullName
+          if ($files.Count -eq 0) {
+            Write-Host "No .asm files found."
+            exit 0
+          }
+          $list = ($files.FullName -join ';')
+          Write-Output "asm_files=$list" >> $env:GITHUB_OUTPUT
+
+      - name: Compile ASM files
+        id: compile
+        shell: pwsh
+        run: |
+          $asmList = $env:compile_asm_files -split ';'
+          $exeList = @()
+          $irvineDir = $env:IRVINE_DIR
+          foreach ($src in $asmList) {
+            Write-Host "================================"
+            Write-Host "Compiling $src"
+            Write-Host "================================"
+            $base = [System.IO.Path]::GetFileNameWithoutExtension($src)
+            $dir  = [System.IO.Path]::GetDirectoryName($src)
+            $obj  = Join-Path $dir "$base.obj"
+            $exe  = Join-Path $dir "$base.exe"
+
+            & ml /c /I:$irvineDir /Fo"$obj" "$src" 2>&1
+            if ($LASTEXITCODE -ne 0) {
+              Write-Error "Failed to compile $src"
+              exit 1
+            }
+            & link /SUBSYSTEM:CONSOLE /LIBPATH:$irvineDir /OUT:"$exe" "$obj" 2>&1
+            if ($LASTEXITCODE -ne 0) {
+              Write-Error "Failed to link $obj"
+              exit 1
+            }
+            Write-Host "Built $exe successfully"
+            $exeList += $exe
+          }
+          $out = ($exeList -join ';')
+          Write-Output "exes=$out" >> $env:GITHUB_OUTPUT
+
+        env:
+          compile_asm_files: ${{ steps.discover.outputs.asm_files }}
+
+      - name: Run compiled programs
+        if: steps.compile.outputs.exes != ''
+        shell: pwsh
+        run: |
+          $exeList = $env:run_exes -split ';'
+          foreach ($exe in $exeList) {
+            Write-Host "================================"
+            Write-Host "Running $exe"
+            Write-Host "================================"
+            & $exe
+            Write-Host ""
+          }
+        env:
+          run_exes: ${{ steps.compile.outputs.exes }}

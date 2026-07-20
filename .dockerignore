@@ -1,0 +1,6 @@
+src/*.obj
+src/*.exe
+.claude/
+CLAUDE.md
+.obsidian/
+unsloth_compiled_cache/

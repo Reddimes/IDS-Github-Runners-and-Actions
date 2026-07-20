@@ -20,99 +20,25 @@ jobs:
           vs-architecture: 'x64'
 
       - name: Download and extract Irvine32 library
-        shell: pwsh
+        shell: cmd
         run: |
-          $irvineDir = "C:\Irvine32"
-          New-Item -ItemType Directory -Force -Path $irvineDir | Out-Null
-          $zipPath = "$env:TEMP\Irvine.zip"
-          Invoke-WebRequest -Uri "https://github.com/surferkip/asmbook/raw/main/Irvine.zip" -OutFile $zipPath
-          Expand-Archive -Path $zipPath -DestinationPath "C:\IrvineTemp" -Force
-          Copy-Item "C:\IrvineTemp\Irvine\Irvine32.inc" $irvineDir
-          Copy-Item "C:\IrvineTemp\Irvine\Irvine32.lib" $irvineDir
-          Copy-Item "C:\IrvineTemp\Irvine\*.inc" $irvineDir
-          Write-Output "IRVINE_DIR=$irvineDir" >> $env:GITHUB_ENV
+          mkdir C:\Irvine32 2>nul
+          powershell -Command "Invoke-WebRequest -Uri 'https://github.com/surferkip/asmbook/raw/main/Irvine.zip' -OutFile '$env:TEMP\Irvine.zip'"
+          powershell -Command "Expand-Archive -Path '$env:TEMP\Irvine.zip' -DestinationPath 'C:\IrvineTemp' -Force"
+          xcopy "C:\IrvineTemp\Irvine\Irvine32.inc" "C:\Irvine32\" /Y
+          xcopy "C:\IrvineTemp\Irvine\Irvine32.lib" "C:\Irvine32\" /Y
+          xcopy "C:\IrvineTemp\Irvine\*.inc" "C:\Irvine32\" /Y
 
-      - name: Discover ASM files
-        id: discover
-        shell: pwsh
+      - name: Verify tools
+        shell: cmd
         run: |
-          $files = Get-ChildItem -Recurse -Filter '*.asm' -File |
-            Where-Object { $_.FullName -notlike '*\.github\*' } |
-            Sort-Object FullName
-          if ($files.Count -eq 0) {
-            Write-Host "No .asm files found."
-            exit 0
-          }
-          $list = ($files.FullName -join ';')
-          Write-Output "asm_files=$list" >> $env:GITHUB_OUTPUT
+          ml.exe /?
+          link.exe /?
+          dir C:\Irvine32
 
-      - name: Add MASM to PATH
-        shell: pwsh
+      - name: Compile and run RevStr
+        shell: cmd
         run: |
-          $mlPath = Get-Command ml.exe -ErrorAction SilentlyContinue
-          if (-not $mlPath) {
-            Write-Host "ml.exe not in PATH, searching..."
-            $mlPath = Get-ChildItem "C:\Program Files*" -Recurse -Filter "ml.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
-            if ($mlPath) {
-              $masmDir = $mlPath.DirectoryName
-              $env:PATH = "$masmDir;$env:PATH"
-              echo "MASM_PATH=$masmDir" >> $env:GITHUB_ENV
-              Write-Host "Added $masmDir to PATH"
-            } else {
-              Write-Error "ml.exe not found on system"
-              exit 1
-            }
-          }
-          & ml.exe /?
-
-      - name: Compile ASM files
-        id: compile
-        shell: pwsh
-        run: |
-          $mlExe = Join-Path $env:MASM_PATH "ml.exe"
-          $linkExe = Join-Path $env:MASM_PATH "link.exe"
-          $files = $env:compile_asm_files -split ';'
-          $exeList = @()
-          $irvineDir = $env:IRVINE_DIR
-          foreach ($src in $files) {
-            Write-Host "================================"
-            Write-Host "Compiling $src"
-            Write-Host "================================"
-            $base = [System.IO.Path]::GetFileNameWithoutExtension($src)
-            $dir  = [System.IO.Path]::GetDirectoryName($src)
-            $obj  = Join-Path $dir "$base.obj"
-            $exe  = Join-Path $dir "$base.exe"
-
-            & $mlExe /c /I:$irvineDir /Fo"$obj" "$src" 2>&1
-            if ($LASTEXITCODE -ne 0) {
-              Write-Error "Failed to compile $src"
-              exit 1
-            }
-            & $linkExe /SUBSYSTEM:CONSOLE /LIBPATH:$irvineDir /OUT:"$exe" "$obj" 2>&1
-            if ($LASTEXITCODE -ne 0) {
-              Write-Error "Failed to link $obj"
-              exit 1
-            }
-            Write-Host "Built $exe successfully"
-            $exeList += $exe
-          }
-          $out = ($exeList -join ';')
-          Write-Output "exes=$out" >> $env:GITHUB_OUTPUT
-
-        env:
-          compile_asm_files: ${{ steps.discover.outputs.asm_files }}
-
-      - name: Run compiled programs
-        if: steps.compile.outputs.exes != ''
-        shell: pwsh
-        run: |
-          $exeList = $env:run_exes -split ';'
-          foreach ($exe in $exeList) {
-            Write-Host "================================"
-            Write-Host "Running $exe"
-            Write-Host "================================"
-            & $exe
-            Write-Host ""
-          }
-        env:
-          run_exes: ${{ steps.compile.outputs.exes }}
+          ml.exe /c /I:C:\Irvine32 /Fo:RevStr.obj src\RevStr.asm
+          link.exe /SUBSYSTEM:CONSOLE /LIBPATH:C:\Irvine32 /OUT:RevStr.exe RevStr.obj
+          RevStr.exe

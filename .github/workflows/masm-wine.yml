@@ -77,14 +77,14 @@ jobs:
             echo "::group::Building $SRC"
 
             # Compile
-            ml /c /Foz:\\${BASENAME}.obj "$ZPATH" 2>&1
+            ml /c /Foz:\\tmp\\${BASENAME}.obj "$ZPATH" 2>&1
             if [ $? -ne 0 ]; then
               echo "::error::Failed to assemble $SRC"
               exit 1
             fi
 
             # Link
-            link /SUBSYSTEM:CONSOLE /OUT:z:\\${BASENAME}.exe z:\\${BASENAME}.obj "$IRVINE\\Irvine32.lib" "$IRVINE\\kernel32.lib" "$IRVINE\\user32.lib" 2>&1
+            link /SUBSYSTEM:CONSOLE /OUT:z:\\tmp\\${BASENAME}.exe z:\\tmp\\${BASENAME}.obj "$IRVINE\\Irvine32.lib" "$IRVINE\\kernel32.lib" "$IRVINE\\user32.lib" 2>&1
             if [ $? -ne 0 ]; then
               echo "::error::Failed to link $BASENAME"
               exit 1
@@ -93,7 +93,7 @@ jobs:
             # Run with script for pty output capture
             echo "=== Running $BASENAME ==="
             ACTUAL="/tmp/${BASENAME}.out"
-            script -q -c "wine z:\\${BASENAME}.exe" /dev/null > "$ACTUAL" 2>&1
+            script -q -c "wine z:\\tmp\\${BASENAME}.exe" /dev/null > "$ACTUAL" 2>&1
             sed -i 's/\x1b\[[?0-9;]*[a-zA-Z]//g; s/\r//g' "$ACTUAL"
             cat "$ACTUAL"
             echo "::endgroup::"

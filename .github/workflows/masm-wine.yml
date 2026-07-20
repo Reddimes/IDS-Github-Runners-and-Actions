@@ -67,25 +67,24 @@ jobs:
         run: |
           set -e
           IRVINE="z:\\opt\\irvine32"
+          WORKDIR=$(pwd)
           IFS=';' read -ra ASM_LIST <<< "${{ steps.discover.outputs.asm_files }}"
           for SRC in "${ASM_LIST[@]}"; do
             [ -z "$SRC" ] && continue
             BASENAME=$(basename "$SRC" .asm)
-            DIR=$(dirname "$SRC")
+            # Convert unix path to z: wine path (z: maps to /)
+            ZPATH="z:$(echo "$WORKDIR/$SRC" | sed 's|/|\\|g')"
             echo "::group::Building $SRC"
 
-            # Copy to / so z: drive maps correctly
-            cp "$SRC" /test.asm
-
             # Compile
-            ml /c /Foz:\\test.obj "z:\\test.asm" 2>&1
+            ml /c /Foz:\\${BASENAME}.obj "$ZPATH" 2>&1
             if [ $? -ne 0 ]; then
               echo "::error::Failed to assemble $SRC"
               exit 1
             fi
 
             # Link
-            link /SUBSYSTEM:CONSOLE /OUT:z:\\test.exe z:\\test.obj "$IRVINE\\Irvine32.lib" "$IRVINE\\kernel32.lib" "$IRVINE\\user32.lib" 2>&1
+            link /SUBSYSTEM:CONSOLE /OUT:z:\\${BASENAME}.exe z:\\${BASENAME}.obj "$IRVINE\\Irvine32.lib" "$IRVINE\\kernel32.lib" "$IRVINE\\user32.lib" 2>&1
             if [ $? -ne 0 ]; then
               echo "::error::Failed to link $BASENAME"
               exit 1
@@ -94,7 +93,7 @@ jobs:
             # Run with script for pty output capture
             echo "=== Running $BASENAME ==="
             ACTUAL="/tmp/${BASENAME}.out"
-            script -q -c "wine z:\\test.exe" /dev/null > "$ACTUAL" 2>&1
+            script -q -c "wine z:\\${BASENAME}.exe" /dev/null > "$ACTUAL" 2>&1
             sed -i 's/\x1b\[[?0-9;]*[a-zA-Z]//g; s/\r//g' "$ACTUAL"
             cat "$ACTUAL"
             echo "::endgroup::"

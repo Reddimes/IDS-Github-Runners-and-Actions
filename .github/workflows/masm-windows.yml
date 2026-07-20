@@ -69,6 +69,8 @@ jobs:
         id: compile
         shell: pwsh
         run: |
+          $mlExe = Join-Path $env:MASM_PATH "ml.exe"
+          $linkExe = Join-Path $env:MASM_PATH "link.exe"
           $files = $env:compile_asm_files -split ';'
           $exeList = @()
           $irvineDir = $env:IRVINE_DIR
@@ -81,12 +83,12 @@ jobs:
             $obj  = Join-Path $dir "$base.obj"
             $exe  = Join-Path $dir "$base.exe"
 
-            & ml /c /I:$irvineDir /Fo"$obj" "$src" 2>&1
+            & $mlExe /c /I:$irvineDir /Fo"$obj" "$src" 2>&1
             if ($LASTEXITCODE -ne 0) {
               Write-Error "Failed to compile $src"
               exit 1
             }
-            & link /SUBSYSTEM:CONSOLE /LIBPATH:$irvineDir /OUT:"$exe" "$obj" 2>&1
+            & $linkExe /SUBSYSTEM:CONSOLE /LIBPATH:$irvineDir /OUT:"$exe" "$obj" 2>&1
             if ($LASTEXITCODE -ne 0) {
               Write-Error "Failed to link $obj"
               exit 1

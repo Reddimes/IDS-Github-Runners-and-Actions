@@ -17,7 +17,7 @@ jobs:
       - name: Setup MASM
         uses: glslang/setup-masm@v1.4
         with:
-          vs-architecture: 'x64'
+          vs-architecture: 'x86'
 
       - name: Download and extract Irvine32 library
         shell: pwsh

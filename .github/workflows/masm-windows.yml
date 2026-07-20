@@ -39,7 +39,16 @@ jobs:
           link /SUBSYSTEM:CONSOLE /OUT:RevStr.exe RevStr.obj C:\Irvine32\Irvine32.lib kernel32.lib user32.lib
 
       - name: Test
-        shell: cmd
+        shell: pwsh
         run: |
-          start /wait RevStr.exe > output.txt 2>&1
-          type output.txt
+          $null = Start-Process -FilePath "cmd.exe" -ArgumentList "/c", "RevStr.exe" -Wait -NoNewWindow -RedirectStandardOutput "output.txt" -RedirectStandardError "error.txt" -PassThru
+          $captured = (Get-Content "output.txt" -Raw) -replace '\r', ''
+          Write-Host "STDOUT:"
+          Write-Host $captured
+          $expected = "Abraham Lincoln`nnlocniL maharbA"
+          if ($null -ne $captured -and $captured.Trim() -eq $expected) {
+            Write-Host "PASS: RevStr"
+          } else {
+            Write-Host "##[error]FAIL: RevStr - captured: [$captured]"
+            exit 1
+          }

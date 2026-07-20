@@ -45,7 +45,7 @@ jobs:
 
       - name: Run and capture output with ConPTY
         shell: cmd
-        run: tools\ConptyCapture\publish\ConptyCapture.exe RevStr.exe > output.txt 2>&1
+        run: tools\ConptyCapture\publish\ConptyCapture.exe RevStr.exe > output.txt
 
       - name: Test
         shell: pwsh

@@ -161,7 +161,6 @@ class Program
             (ClosePseudoConsoleDelegate)Marshal.GetDelegateForFunctionPointer(
                 pClosePty, typeof(ClosePseudoConsoleDelegate));
 
-        // 1. Create pipe for capturing output
         var sa = new SECURITY_ATTRIBUTES
         {
             nLength = Marshal.SizeOf<SECURITY_ATTRIBUTES>(),
@@ -169,41 +168,48 @@ class Program
             bInheritHandle = false
         };
 
-        if (!CreatePipe(out IntPtr hReadPipe, out IntPtr hWritePipe, ref sa, 0))
+        // Input pipe: PTY reads from hInputRead, parent writes to hInputWrite (if needed)
+        if (!CreatePipe(out IntPtr hInputRead, out IntPtr hInputWrite, ref sa, 0))
         {
-            Fail("CreatePipe failed", 1);
+            Fail("CreatePipe(input) failed", 10);
         }
 
-        // Read end must NOT be inherited by child
-        if (!SetHandleInformation(hReadPipe, HANDLE_FLAG_INHERIT, 0))
+        // Output pipe: PTY writes to hOutputWrite, parent reads from hOutputRead
+        if (!CreatePipe(out IntPtr hOutputRead, out IntPtr hOutputWrite, ref sa, 0))
         {
-            Fail("SetHandleInformation(read) failed", 2);
+            Fail("CreatePipe(output) failed", 11);
         }
 
-        // 2. Create pseudo-console (120x50 cells)
+        // Read ends must NOT be inherited by child
+        SetHandleInformation(hInputRead, HANDLE_FLAG_INHERIT, 0);
+        SetHandleInformation(hOutputRead, HANDLE_FLAG_INHERIT, 0);
+
+        // Create pseudo-console (120x50 cells)
+        // PTY reads input from hInputRead, writes output to hOutputWrite
         IntPtr hPty = IntPtr.Zero;
-        int ptyResult = createPty(120, 50, IntPtr.Zero, hWritePipe, 0, out hPty);
+        int ptyResult = createPty(120, 50, hInputRead, hOutputWrite, 0, out hPty);
         if (ptyResult != 0)
         {
-            Fail($"CreatePseudoConsole failed with error {ptyResult}", 3);
+            Console.Error.WriteLine($"CreatePseudoConsole failed with NTSTATUS 0x{ptyResult:X8}");
+            Environment.Exit(20);
         }
 
-        // 3. Duplicate PTY handle so it's inheritable
+        // Duplicate PTY handle so it's inheritable for child process
         IntPtr hProc = GetCurrentProcess();
         if (!DuplicateHandle(hProc, hPty, hProc, out IntPtr hPtyDup, 0, true, DUPLICATE_SAME_ACCESS))
         {
             closePty(hPty);
-            Fail("DuplicateHandle failed", 4);
+            Fail("DuplicateHandle failed", 30);
         }
 
-        // 4. Build PROC_THREAD_ATTRIBUTE_LIST with pseudo-console attribute
+        // Build PROC_THREAD_ATTRIBUTE_LIST
         IntPtr lpSize = IntPtr.Zero;
         if (!InitializeProcThreadAttributeList(IntPtr.Zero, 1, 0, ref lpSize))
         {
             if (Marshal.GetLastWin32Error() != 122) // ERROR_INSUFFICIENT_BUFFER
             {
                 closePty(hPty);
-                Fail("InitializeProcThreadAttributeList (query) failed", 5);
+                Fail("InitializeProcThreadAttributeList (query) failed", 40);
             }
         }
 
@@ -213,7 +219,7 @@ class Program
             if (!InitializeProcThreadAttributeList(lpAttributeList, 1, 0, ref lpSize))
             {
                 closePty(hPty);
-                Fail("InitializeProcThreadAttributeList (init) failed", 6);
+                Fail("InitializeProcThreadAttributeList (init) failed", 41);
             }
 
             if (!UpdateProcThreadAttribute(
@@ -221,10 +227,10 @@ class Program
                 hPtyDup, (uint)IntPtr.Size, IntPtr.Zero, IntPtr.Zero))
             {
                 closePty(hPty);
-                Fail("UpdateProcThreadAttribute failed", 7);
+                Fail("UpdateProcThreadAttribute failed", 42);
             }
 
-            // 5. Create child process attached to pseudo-console
+            // Create child process attached to pseudo-console
             var si = new STARTUPINFOEX
             {
                 StartupInfo = new STARTUPINFO
@@ -239,23 +245,25 @@ class Program
                 IntPtr.Zero, null, ref si, out PROCESS_INFORMATION pi))
             {
                 closePty(hPty);
-                Fail("CreateProcess failed", 8);
+                Fail("CreateProcess failed", 50);
             }
 
-            // Close handles we don't need in parent
+            // Close handles not needed in parent
             CloseHandle(pi.hThread);
             CloseHandle(hPtyDup);
-            CloseHandle(hWritePipe);
+            CloseHandle(hOutputWrite);
+            CloseHandle(hInputRead);
 
-            // 6. Read all output from the pipe (child writes via PTY -> pipe)
-            string output = ReadAll(hReadPipe);
+            // Read all output from the output pipe
+            string output = ReadAll(hOutputRead);
 
-            // 7. Close PTY to signal EOF, wait for process
+            // Close PTY to signal EOF to child, then wait for process
             closePty(hPty);
             WaitForSingleObject(pi.hProcess, 0xFFFFFFFF); // INFINITE
             GetExitCodeProcess(pi.hProcess, out uint exitCode);
             CloseHandle(pi.hProcess);
-            CloseHandle(hReadPipe);
+            CloseHandle(hOutputRead);
+            CloseHandle(hInputWrite);
 
             // Write captured output to stdout
             Console.Write(output);

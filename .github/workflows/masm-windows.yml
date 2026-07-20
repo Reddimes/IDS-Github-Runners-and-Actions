@@ -32,23 +32,9 @@ jobs:
           "INCLUDE=C:\Irvine32" >> $env:GITHUB_ENV
           "LIB=C:\Irvine32" >> $env:GITHUB_ENV
 
-      - name: Find ml.exe
-        id: find-ml
-        shell: pwsh
-        run: |
-          $ml = Get-ChildItem "C:\" -Recurse -Filter "ml.exe" -ErrorAction SilentlyContinue | Where-Object { $_.DirectoryName -like "*MSVC*" } | Select-Object -First 1
-          if ($ml) {
-            Write-Host "Found ml.exe at $($ml.FullName)"
-            "ML_PATH=$($ml.FullName)" >> $env:GITHUB_ENV
-            "MASM_DIR=$($ml.DirectoryName)" >> $env:GITHUB_ENV
-          } else {
-            Write-Error "ml.exe not found"
-            exit 1
-          }
-
       - name: Compile and run RevStr
         shell: cmd
         run: |
-          "%ML_PATH%" /c /Fo:RevStr.obj src\RevStr.asm
+          "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.29.30133\bin\HostX64\x86\ml.exe" /c /Fo:RevStr.obj src\RevStr.asm
           link.exe /SUBSYSTEM:CONSOLE /OUT:RevStr.exe RevStr.obj
           RevStr.exe

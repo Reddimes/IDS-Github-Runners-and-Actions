@@ -98,12 +98,7 @@ int main(int argc, char* argv[]) {
     CloseHandle(hInputRead);
     CloseHandle(hOutputWrite);
 
-    // Read output from pipe
-    char outputBuf[65536] = { 0 };
-    DWORD totalRead = 0;
-    DWORD bytesRead;
-
-    // Wait for process to exit first
+    // Wait for process to exit
     DWORD exitCode = 0;
     DWORD startTick = GetTickCount();
     while (GetTickCount() - startTick < 15000) {
@@ -114,55 +109,33 @@ int main(int argc, char* argv[]) {
         Sleep(50);
     }
 
-    // Give ConPTY output thread time to flush to our pipe
-    Sleep(500);
+    // Close parent-side input write handle — signals stdin EOF to the ConPTY.
+    CloseHandle(hInputWrite);
 
-    // Read all available data — skip PeekNamedPipe, use ReadFile with overlapped timeout
-    for (int attempt = 0; attempt < 30; attempt++) {
-        DWORD readLen = sizeof(outputBuf) - totalRead - 1;
-        if (readLen == 0) break;
+    // Close the pseudo-console. This terminates the ConPTY's internal output
+    // thread and closes hOutputWrite, which sends EOF on hOutputRead.
+    pClosePty(hPty);
+    fprintf(stderr, "Pseudo-console closed\n");
 
-        OVERLAPPED ov = { 0 };
-        ov.hEvent = CreateEventA(NULL, TRUE, FALSE, NULL);
-        BOOL readOk = ReadFile(hOutputRead, outputBuf + totalRead, readLen, &bytesRead, &ov);
-
-        if (readOk) {
-            CloseHandle(ov.hEvent);
-            if (bytesRead == 0) break;
-            totalRead += bytesRead;
-            fprintf(stderr, "Read %lu bytes (total %lu)\n", bytesRead, totalRead);
-            continue;
-        }
-
-        if (GetLastError() == ERROR_IO_PENDING) {
-            // Wait up to 500ms for the read to complete
-            DWORD wait = WaitForSingleObject(ov.hEvent, 500);
-            BOOL gotResult = GetOverlappedResult(hOutputRead, &ov, &bytesRead, FALSE);
-            CloseHandle(ov.hEvent);
-            if (wait == WAIT_OBJECT_0 && gotResult) {
-                if (bytesRead == 0) break;
-                totalRead += bytesRead;
-                fprintf(stderr, "Read (async) %lu bytes (total %lu)\n", bytesRead, totalRead);
-                continue;
-            } else {
-                fprintf(stderr, "Read timeout (attempt %d)\n", attempt);
-                break;
-            }
-        } else {
-            CloseHandle(ov.hEvent);
+    // Now read all data from the output pipe until EOF.
+    char outputBuf[65536] = { 0 };
+    DWORD totalRead = 0;
+    DWORD bytesRead;
+    while (totalRead < sizeof(outputBuf) - 1) {
+        if (!ReadFile(hOutputRead, outputBuf + totalRead, sizeof(outputBuf) - 1 - totalRead, &bytesRead, NULL)) {
             fprintf(stderr, "ReadFile error: %lu\n", GetLastError());
             break;
         }
+        if (bytesRead == 0) break;
+        totalRead += bytesRead;
+        fprintf(stderr, "Read %lu bytes (total %lu)\n", bytesRead, totalRead);
     }
 
-    GetExitCodeProcess(pi.hProcess, &exitCode);
     fprintf(stderr, "Process exited: code=%lu, bytes read=%lu\n", exitCode, totalRead);
 
     // Cleanup
     CloseHandle(pi.hProcess);
-    CloseHandle(hInputWrite);
     CloseHandle(hOutputRead);
-    pClosePty(hPty);
     DeleteProcThreadAttributeList((LPPROC_THREAD_ATTRIBUTE_LIST)attrBuf);
     free(attrBuf);
 

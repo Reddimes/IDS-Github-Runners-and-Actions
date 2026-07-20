@@ -169,7 +169,7 @@ class Program
         {
             nLength = Marshal.SizeOf<SECURITY_ATTRIBUTES>(),
             lpSecurityDescriptor = IntPtr.Zero,
-            bInheritHandle = false
+            bInheritHandle = true
         };
 
         // Input pipe: parent writes to inputWrite, PTY reads from inputRead
@@ -184,6 +184,14 @@ class Program
             Fail("CreatePipe(output)", 11);
         }
 
+        // Clear inherit flag on pipe handles so they don't leak to the child process.
+        // The pipes must be inheritable for CreatePseudoConsole, but we remove it
+        // afterwards so the child only accesses them via the pseudoconsole.
+        SetHandleInformation(inputRead, HANDLE_FLAG_INHERIT, 0);
+        SetHandleInformation(inputWrite, HANDLE_FLAG_INHERIT, 0);
+        SetHandleInformation(outputRead, HANDLE_FLAG_INHERIT, 0);
+        SetHandleInformation(outputWrite, HANDLE_FLAG_INHERIT, 0);
+
         // Create pseudo-console
         IntPtr hPty = IntPtr.Zero;
         int ptyResult = createPty(new COORD { X = 120, Y = 30 }, inputRead, outputWrite, 0, out hPty);
@@ -192,16 +200,6 @@ class Program
             Console.Error.WriteLine($"CreatePseudoConsole failed: 0x{ptyResult:X8} (Win32: {Marshal.GetLastWin32Error()})");
             Console.Error.WriteLine($"inputRead={inputRead}, outputWrite={outputWrite}");
             Environment.Exit(20);
-        }
-
-        // Duplicate PTY handle to make it inheritable
-        IntPtr hProc = GetCurrentProcess();
-        if (!DuplicateHandle(hProc, hPty, hProc, out IntPtr hPtyDup, 0, true, DUPLICATE_SAME_ACCESS))
-        {
-            int err = Marshal.GetLastWin32Error();
-            Console.Error.WriteLine($"DuplicateHandle failed: Win32={err}, hPty={hPty}, hProc={hProc}");
-            closePty(hPty);
-            Environment.Exit(30);
         }
 
         // Build PROC_THREAD_ATTRIBUTE_LIST
@@ -226,7 +224,7 @@ class Program
 
             if (!UpdateProcThreadAttribute(
                 lpAttrList, 0, PROC_THREAD_ATTRIBUTE_PSEUDOCONSOLE,
-                hPtyDup, (uint)IntPtr.Size, IntPtr.Zero, IntPtr.Zero))
+                hPty, (uint)IntPtr.Size, IntPtr.Zero, IntPtr.Zero))
             {
                 closePty(hPty);
                 Fail("UpdateAttr", 42);
@@ -239,7 +237,7 @@ class Program
             };
 
             if (!CreateProcess(null, commandLine, IntPtr.Zero, IntPtr.Zero,
-                true, CREATE_NO_WINDOW | EXTENDED_STARTUPINFO_PRESENT,
+                false, CREATE_NO_WINDOW | EXTENDED_STARTUPINFO_PRESENT,
                 IntPtr.Zero, null, ref si, out PROCESS_INFORMATION pi))
             {
                 closePty(hPty);
@@ -247,7 +245,6 @@ class Program
             }
 
             CloseHandle(pi.hThread);
-            CloseHandle(hPtyDup);
 
             // Read output in a separate thread so we can also wait for the process
             var outputTask = System.Threading.Tasks.Task.Run(() => ReadAll(outputRead));

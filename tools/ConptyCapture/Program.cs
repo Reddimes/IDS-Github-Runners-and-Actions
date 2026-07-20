@@ -184,13 +184,7 @@ class Program
             Fail("CreatePipe(output)", 11);
         }
 
-        // Clear inherit flag on pipe handles so they don't leak to the child process.
-        // The pipes must be inheritable for CreatePseudoConsole, but we remove it
-        // afterwards so the child only accesses them via the pseudoconsole.
-        SetHandleInformation(inputRead, HANDLE_FLAG_INHERIT, 0);
-        SetHandleInformation(inputWrite, HANDLE_FLAG_INHERIT, 0);
-        SetHandleInformation(outputRead, HANDLE_FLAG_INHERIT, 0);
-        SetHandleInformation(outputWrite, HANDLE_FLAG_INHERIT, 0);
+        Console.Error.WriteLine($"Pipes: inputRead={inputRead} inputWrite={inputWrite} outputRead={outputRead} outputWrite={outputWrite}");
 
         // Create pseudo-console
         IntPtr hPty = IntPtr.Zero;
@@ -201,6 +195,7 @@ class Program
             Console.Error.WriteLine($"inputRead={inputRead}, outputWrite={outputWrite}");
             Environment.Exit(20);
         }
+        Console.Error.WriteLine($"PTY created: hPty={hPty}");
 
         // Build PROC_THREAD_ATTRIBUTE_LIST
         IntPtr lpSize = IntPtr.Zero;
@@ -237,7 +232,7 @@ class Program
             };
 
             if (!CreateProcess(null, commandLine, IntPtr.Zero, IntPtr.Zero,
-                false, CREATE_NO_WINDOW | EXTENDED_STARTUPINFO_PRESENT,
+                true, CREATE_NO_WINDOW | EXTENDED_STARTUPINFO_PRESENT,
                 IntPtr.Zero, null, ref si, out PROCESS_INFORMATION pi))
             {
                 closePty(hPty);
@@ -256,15 +251,18 @@ class Program
             // Wait for child to finish
             WaitForSingleObject(pi.hProcess, 0xFFFFFFFF);
             GetExitCodeProcess(pi.hProcess, out uint exitCode);
+            Console.Error.WriteLine($"Process exited with code: {exitCode}, PID: {pi.dwProcessId}");
             CloseHandle(pi.hProcess);
 
-            // Signal the output pipe to close so ReadAll can return
-            CloseHandle(outputRead);
+            // Close our remaining handles — closing outputRead signals EOF to ReadAll
             CloseHandle(inputWrite);
+            CloseHandle(outputRead);
 
             closePty(hPty);
 
             string output = outputTask.Result;
+            Console.Error.WriteLine($"Output length: {output.Length}");
+            Console.Error.WriteLine($"Output repr: [{output}]");
             Console.Write(output);
             Environment.Exit((int)exitCode);
         }
@@ -280,11 +278,21 @@ class Program
         var sb = new StringBuilder();
         byte[] buffer = new byte[4096];
         uint bytesRead;
-        while (ReadFile(hReadPipe, buffer, (uint)buffer.Length, out bytesRead, IntPtr.Zero))
+        int totalBytes = 0;
+        var sw = System.Diagnostics.Stopwatch.StartNew();
+        while (sw.ElapsedMilliseconds < 10000)
         {
+            if (!ReadFile(hReadPipe, buffer, (uint)buffer.Length, out bytesRead, IntPtr.Zero))
+            {
+                int err = Marshal.GetLastWin32Error();
+                Console.Error.WriteLine($"ReadFile error: Win32={err}");
+                break;
+            }
             if (bytesRead == 0) break;
+            totalBytes += (int)bytesRead;
             sb.Append(Encoding.UTF8.GetString(buffer, 0, (int)bytesRead));
         }
+        Console.Error.WriteLine($"ReadAll: {totalBytes} bytes in {sw.ElapsedMilliseconds}ms");
         return sb.ToString();
     }
 

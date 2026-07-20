@@ -39,9 +39,10 @@ jobs:
           link /SUBSYSTEM:CONSOLE /OUT:RevStr.exe RevStr.obj C:\Irvine32\Irvine32.lib kernel32.lib user32.lib
 
       - name: Build ConptyCapture tool
-        shell: pwsh
+        shell: cmd
         run: |
-          dotnet publish tools/ConptyCapture/ConptyCapture.csproj -c Release -o tools/ConptyCapture/publish
+          call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
+          cl /O2 /EHsc /Fe:tools\ConptyCapture\publish\ConptyCapture.exe tools\ConptyCapture\ConptyCapture.cpp
 
       - name: Run and capture output with ConPTY
         shell: cmd

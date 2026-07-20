@@ -42,7 +42,7 @@ jobs:
         shell: pwsh
         run: |
           $output = Start-Process -FilePath ".\RevStr.exe" -Wait -NoNewWindow -RedirectStandardOutput "output.txt" -PassThru
-          $captured = Get-Content "output.txt" -Raw -replace '\r', ''
+          $captured = (Get-Content "output.txt" -Raw) -replace '\r', ''
           Write-Host $captured
           $expected = "Abraham Lincoln`nnlocniL maharbA"
           if ($captured.Trim() -eq $expected) {

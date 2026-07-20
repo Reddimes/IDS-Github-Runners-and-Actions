@@ -31,9 +31,50 @@ jobs:
           Get-ChildItem "C:\Irvine32"
           "INCLUDE=C:\Irvine32" >> $env:GITHUB_ENV
 
-      - name: Compile and run RevStr
-        shell: cmd
+      - name: Compile and run ASM files
+        shell: pwsh
         run: |
-          "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.29.30133\bin\HostX64\x86\ml.exe" /c src\RevStr.asm
-          "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.29.30133\bin\HostX64\x86\link.exe" /SUBSYSTEM:CONSOLE /OUT:RevStr.exe RevStr.obj C:\Irvine32\Irvine32.lib "C:\Program Files (x86)\Windows Kits\10\lib\10.0.26100.0\um\x86\kernel32.lib" "C:\Program Files (x86)\Windows Kits\10\lib\10.0.26100.0\um\x86\user32.lib"
-          RevStr.exe
+          $ml = "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.29.30133\bin\HostX64\x86\ml.exe"
+          $link = "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.29.30133\bin\HostX64\x86\link.exe"
+          $kernel32 = "C:\Program Files (x86)\Windows Kits\10\lib\10.0.26100.0\um\x86\kernel32.lib"
+          $user32 = "C:\Program Files (x86)\Windows Kits\10\lib\10.0.26100.0\um\x86\user32.lib"
+          $irvine = "C:\Irvine32"
+
+          $asmFiles = Get-ChildItem -Path . -Recurse -Filter '*.asm' | Where-Object { $_.FullName -notmatch '\\\.github\\' } | Sort-Object FullName
+          if (-not $asmFiles) { Write-Host "No .asm files found."; exit 0 }
+
+          foreach ($src in $asmFiles) {
+            $base = [System.IO.Path]::GetFileNameWithoutExtension($src.Name)
+            Write-Host "::group::Building $($src.Name)"
+
+            $obj = "$base.obj"
+            $exe = "$base.exe"
+
+            & $ml /c $src.FullName 2>&1
+            if ($LASTEXITCODE -ne 0) {
+              Write-Host "::error::Failed to assemble $($src.Name)"
+              exit 1
+            }
+
+            & $link /SUBSYSTEM:CONSOLE /OUT:$exe $obj "$irvine\Irvine32.lib" $kernel32 $user32 2>&1
+            if ($LASTEXITCODE -ne 0) {
+              Write-Host "::error::Failed to link $base"
+              exit 1
+            }
+
+            Write-Host "=== Running $base ==="
+            $output = (& $exe 2>&1) -join "`n"
+            $output = $output -replace '\r', ''
+            Write-Host $output
+
+            $matched = ""
+            $expectedRevStr = "Abraham Lincoln`nnlocniL maharbA"
+            if ($output -eq $expectedRevStr) { $matched = "RevStr" }
+
+            if ($matched) {
+              Write-Host "PASS: $matched"
+            } else {
+              Write-Host "Unknown program — review output above."
+            }
+            Write-Host "::endgroup::"
+          }

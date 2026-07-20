@@ -198,8 +198,10 @@ class Program
         IntPtr hProc = GetCurrentProcess();
         if (!DuplicateHandle(hProc, hPty, hProc, out IntPtr hPtyDup, 0, true, DUPLICATE_SAME_ACCESS))
         {
+            int err = Marshal.GetLastWin32Error();
+            Console.Error.WriteLine($"DuplicateHandle failed: Win32={err}, hPty={hPty}, hProc={hProc}");
             closePty(hPty);
-            Fail("DuplicateHandle", 30);
+            Environment.Exit(30);
         }
 
         // Build PROC_THREAD_ATTRIBUTE_LIST

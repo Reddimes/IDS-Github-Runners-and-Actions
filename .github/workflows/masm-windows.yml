@@ -31,7 +31,7 @@ jobs:
           Get-ChildItem "C:\Irvine32"
           "INCLUDE=C:\Irvine32" >> $env:GITHUB_ENV
 
-      - name: Compile and run ASM files
+      - name: Compile ASM files
         shell: pwsh
         run: |
           $ml = "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.29.30133\bin\HostX64\x86\ml.exe"
@@ -40,16 +40,17 @@ jobs:
           $user32 = "C:\Program Files (x86)\Windows Kits\10\lib\10.0.26100.0\um\x86\user32.lib"
           $irvine = "C:\Irvine32"
 
-          $asmFiles = Get-ChildItem -Path . -Recurse -Filter '*.asm' | Where-Object { $_.FullName -notmatch '\\\.github\\' } | Sort-Object FullName
-          if (-not $asmFiles) { Write-Host "No .asm files found."; exit 0 }
+          $targets = @(
+            "src/RevStr.asm"
+          )
 
-          foreach ($src in $asmFiles) {
-            $base = [System.IO.Path]::GetFileNameWithoutExtension($src.Name)
-            Write-Host "::group::Building $($src.Name)"
+          foreach ($src in $targets) {
+            $base = [System.IO.Path]::GetFileNameWithoutExtension($src)
+            Write-Host "::group::Building $src"
 
-            & $ml /c $src.FullName
+            & $ml /c $src
             if ($LASTEXITCODE -ne 0) {
-              Write-Host "::error::Failed to assemble $($src.Name)"
+              Write-Host "::error::Failed to assemble $src"
               exit 1
             }
 
@@ -58,19 +59,36 @@ jobs:
               Write-Host "::error::Failed to link $base"
               exit 1
             }
-
-            Write-Host "=== Running $base ==="
-            $output = (& ".\$($base).exe" 2>&1 | Out-String) -replace '\r', ''
-            Write-Host $output
-
-            $matched = ""
-            $expectedRevStr = "Abraham Lincoln`nnlocniL maharbA"
-            if ($output.Trim() -eq $expectedRevStr) { $matched = "RevStr" }
-
-            if ($matched) {
-              Write-Host "PASS: $matched"
-            } else {
-              Write-Host "Unknown program — review output above."
-            }
             Write-Host "::endgroup::"
           }
+
+      - name: Run tests
+        shell: pwsh
+        run: |
+          $tests = @(
+            @{ Name = "RevStr"; Expected = "Abraham Lincoln`nnlocniL maharbA" }
+          )
+
+          $failed = $false
+          foreach ($test in $tests) {
+            $exe = ".\$($test.Name).exe"
+            if (-not (Test-Path $exe)) {
+              Write-Host "::error::${$test.Name}.exe not found"
+              $failed = $true
+              continue
+            }
+
+            Write-Host "=== Running $($test.Name) ==="
+            $output = (& $exe 2>&1 | Out-String) -replace '\r', ''
+            Write-Host $output
+
+            if ($output.Trim() -eq $test.Expected) {
+              Write-Host "PASS: $($test.Name)"
+            } else {
+              Write-Host "::error::FAIL: $($test.Name)"
+              Write-Host "Expected: $($test.Expected)"
+              Write-Host "Got:      $($output.Trim())"
+              $failed = $true
+            }
+          }
+          if ($failed) { exit 1 }

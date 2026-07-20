@@ -39,7 +39,6 @@ jobs:
           $kernel32 = "C:\Program Files (x86)\Windows Kits\10\lib\10.0.26100.0\um\x86\kernel32.lib"
           $user32 = "C:\Program Files (x86)\Windows Kits\10\lib\10.0.26100.0\um\x86\user32.lib"
           $irvine = "C:\Irvine32"
-          $root = $PWD.Path
 
           $asmFiles = Get-ChildItem -Path . -Recurse -Filter '*.asm' | Where-Object { $_.FullName -notmatch '\\\.github\\' } | Sort-Object FullName
           if (-not $asmFiles) { Write-Host "No .asm files found."; exit 0 }
@@ -48,25 +47,20 @@ jobs:
             $base = [System.IO.Path]::GetFileNameWithoutExtension($src.Name)
             Write-Host "::group::Building $($src.Name)"
 
-            $obj = Join-Path $root "$base.obj"
-            $exe = Join-Path $root "$base.exe"
-
-            $compileOut = & $ml /c "/Fo `"$obj`"" $src.FullName 2>&1 | Out-String
-            Write-Host $compileOut
+            & $ml /c $src.FullName
             if ($LASTEXITCODE -ne 0) {
               Write-Host "::error::Failed to assemble $($src.Name)"
               exit 1
             }
 
-            $linkOut = & $link /SUBSYSTEM:CONSOLE "/OUT:`"$exe`"" "$obj" "$irvine\Irvine32.lib" $kernel32 $user32 2>&1 | Out-String
-            Write-Host $linkOut
+            & $link /SUBSYSTEM:CONSOLE /OUT:$($base).exe "$base.obj" "$irvine\Irvine32.lib" $kernel32 $user32
             if ($LASTEXITCODE -ne 0) {
               Write-Host "::error::Failed to link $base"
               exit 1
             }
 
             Write-Host "=== Running $base ==="
-            $output = (& $exe 2>&1 | Out-String) -replace '\r', ''
+            $output = (& "$($base).exe" 2>&1 | Out-String) -replace '\r', ''
             Write-Host $output
 
             $matched = ""

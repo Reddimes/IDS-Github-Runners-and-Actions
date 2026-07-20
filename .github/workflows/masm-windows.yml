@@ -50,26 +50,27 @@ jobs:
             $obj = "$base.obj"
             $exe = "$base.exe"
 
-            & $ml /c $src.FullName 2>&1
+            $compileOut = & $ml /c /Fo:$obj $src.FullName 2>&1 | Out-String
+            Write-Host $compileOut
             if ($LASTEXITCODE -ne 0) {
               Write-Host "::error::Failed to assemble $($src.Name)"
               exit 1
             }
 
-            & $link /SUBSYSTEM:CONSOLE /OUT:$exe $obj "$irvine\Irvine32.lib" $kernel32 $user32 2>&1
+            $linkOut = & $link /SUBSYSTEM:CONSOLE /OUT:$exe $obj "$irvine\Irvine32.lib" $kernel32 $user32 2>&1 | Out-String
+            Write-Host $linkOut
             if ($LASTEXITCODE -ne 0) {
               Write-Host "::error::Failed to link $base"
               exit 1
             }
 
             Write-Host "=== Running $base ==="
-            $output = (& $exe 2>&1) -join "`n"
-            $output = $output -replace '\r', ''
+            $output = (& $exe 2>&1 | Out-String) -replace '\r', ''
             Write-Host $output
 
             $matched = ""
             $expectedRevStr = "Abraham Lincoln`nnlocniL maharbA"
-            if ($output -eq $expectedRevStr) { $matched = "RevStr" }
+            if ($output.Trim() -eq $expectedRevStr) { $matched = "RevStr" }
 
             if ($matched) {
               Write-Host "PASS: $matched"

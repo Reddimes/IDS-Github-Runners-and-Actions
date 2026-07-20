@@ -102,33 +102,53 @@ int main(int argc, char* argv[]) {
     char outputBuf[65536] = { 0 };
     DWORD totalRead = 0;
     DWORD bytesRead;
+    bool processExited = false;
 
-    // Wait for process with timeout, reading in between
-    HANDLE waitHandles[2] = { pi.hProcess, hOutputRead };
-    DWORD timeout = 10000; // 10s max read time
+    // Poll: wait for process exit or pipe data, with 15s safety timeout
+    DWORD timeout = 15000;
     DWORD startTick = GetTickCount();
 
     while (GetTickCount() - startTick < timeout) {
-        DWORD wr = WaitForMultipleObjects(2, waitHandles, FALSE, 100);
+        // Check if process has exited
+        if (!processExited) {
+            DWORD exitCode = 0;
+            if (GetExitCodeProcess(pi.hProcess, &exitCode) && exitCode != STILL_ACTIVE) {
+                processExited = true;
+                fprintf(stderr, "Process exited: code=%lu\n", exitCode);
+            }
+        }
 
-        if (wr == WAIT_OBJECT_0 || (wr == WAIT_OBJECT_0 + 1 && !PeekNamedPipe(hOutputRead, NULL, 0, NULL, &bytesRead, NULL) && GetLastError() == ERROR_BROKEN_PIPE)) {
-            // Process exited
+        // Check for available data
+        BOOL peekResult = PeekNamedPipe(hOutputRead, NULL, 0, NULL, &bytesRead, NULL);
+        if (!peekResult && GetLastError() == ERROR_BROKEN_PIPE) {
+            fprintf(stderr, "Pipe broken\n");
             break;
         }
 
-        if (wr == WAIT_OBJECT_0 + 1 || (wr == WAIT_TIMEOUT && PeekNamedPipe(hOutputRead, NULL, 0, NULL, &bytesRead, NULL) && bytesRead > 0)) {
-            if (ReadFile(hOutputRead, outputBuf + totalRead, sizeof(outputBuf) - totalRead - 1, &bytesRead, NULL)) {
-                if (bytesRead == 0) break;
+        if (bytesRead > 0) {
+            DWORD readLen = sizeof(outputBuf) - totalRead - 1;
+            if (ReadFile(hOutputRead, outputBuf + totalRead, readLen, &bytesRead, NULL)) {
+                if (bytesRead == 0) {
+                    fprintf(stderr, "ReadFile returned 0 bytes\n");
+                    break;
+                }
                 totalRead += bytesRead;
+                fprintf(stderr, "Read %lu bytes (total %lu)\n", bytesRead, totalRead);
             } else {
                 fprintf(stderr, "ReadFile error: %lu\n", GetLastError());
                 break;
             }
+        } else if (processExited) {
+            // Process done and no more data
+            break;
+        } else {
+            Sleep(50);
         }
     }
 
-    GetExitCodeProcess(pi.hProcess, (LPDWORD)&bytesRead);
-    fprintf(stderr, "Process exited: code=%lu, bytes read=%lu\n", bytesRead, totalRead);
+    DWORD exitCode = 0;
+    GetExitCodeProcess(pi.hProcess, &exitCode);
+    fprintf(stderr, "Process exited: code=%lu, bytes read=%lu\n", exitCode, totalRead);
 
     // Cleanup
     CloseHandle(pi.hProcess);
@@ -144,5 +164,5 @@ int main(int argc, char* argv[]) {
         outputBuf[--totalRead] = '\0';
     fwrite(outputBuf, 1, totalRead, stdout);
 
-    return (int)bytesRead;
+    return (int)exitCode;
 }

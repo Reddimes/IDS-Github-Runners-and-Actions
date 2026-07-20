@@ -38,19 +38,26 @@ jobs:
           ml /c src\RevStr.asm
           link /SUBSYSTEM:CONSOLE /OUT:RevStr.exe RevStr.obj C:\Irvine32\Irvine32.lib kernel32.lib user32.lib
 
-      - name: Run and capture output
+      - name: Build ConptyCapture tool
+        shell: pwsh
+        run: |
+          dotnet publish tools/ConptyCapture/ConptyCapture.csproj -c Release -o tools/ConptyCapture/publish
+
+      - name: Run and capture output with ConPTY
         shell: cmd
-        run: RevStr.exe > output.txt 2>&1
+        run: tools\ConptyCapture\publish\ConptyCapture.exe RevStr.exe > output.txt 2>&1
 
       - name: Test
         shell: pwsh
         run: |
           $captured = (Get-Content "output.txt" -Raw) -replace '\r', ''
-          Write-Host "Captured: [$captured]"
+          Write-Host "Captured output: [$captured]"
           $expected = "Abraham Lincoln`nnlocniL maharbA"
           if ($captured.Trim() -eq $expected) {
             Write-Host "PASS: RevStr"
           } else {
-            Write-Host "##[error]FAIL: RevStr"
+            Write-Host "##[error]FAIL: RevStr - output mismatch"
+            Write-Host "Expected: [$expected]"
+            Write-Host "Got:      [$($captured.Trim())]"
             exit 1
           }

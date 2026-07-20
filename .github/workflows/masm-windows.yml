@@ -60,7 +60,7 @@ jobs:
             }
 
             Write-Host "=== Running $base ==="
-            $output = (& "$($base).exe" 2>&1 | Out-String) -replace '\r', ''
+            $output = (& ".\$($base).exe" 2>&1 | Out-String) -replace '\r', ''
             Write-Host $output
 
             $matched = ""

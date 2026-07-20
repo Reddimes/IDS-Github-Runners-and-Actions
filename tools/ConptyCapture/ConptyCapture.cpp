@@ -98,26 +98,11 @@ int main(int argc, char* argv[]) {
     CloseHandle(hInputRead);
     CloseHandle(hOutputWrite);
 
-    // Wait for process to exit
-    DWORD exitCode = 0;
-    DWORD startTick = GetTickCount();
-    while (GetTickCount() - startTick < 15000) {
-        if (GetExitCodeProcess(pi.hProcess, &exitCode) && exitCode != STILL_ACTIVE) {
-            fprintf(stderr, "Process exited: code=%lu\n", exitCode);
-            break;
-        }
-        Sleep(50);
-    }
-
     // Close parent-side input write handle — signals stdin EOF to the ConPTY.
     CloseHandle(hInputWrite);
 
-    // Close the pseudo-console. This terminates the ConPTY's internal output
-    // thread and closes hOutputWrite, which sends EOF on hOutputRead.
-    pClosePty(hPty);
-    fprintf(stderr, "Pseudo-console closed\n");
-
-    // Now read all data from the output pipe until EOF.
+    // Read all data from the output pipe while the ConPTY is still alive.
+    // Must read BEFORE ClosePseudoConsole to avoid losing buffered data.
     char outputBuf[65536] = { 0 };
     DWORD totalRead = 0;
     DWORD bytesRead;
@@ -131,7 +116,21 @@ int main(int argc, char* argv[]) {
         fprintf(stderr, "Read %lu bytes (total %lu)\n", bytesRead, totalRead);
     }
 
+    // Wait for process to exit
+    DWORD exitCode = 0;
+    DWORD startTick = GetTickCount();
+    while (GetTickCount() - startTick < 15000) {
+        if (GetExitCodeProcess(pi.hProcess, &exitCode) && exitCode != STILL_ACTIVE) {
+            fprintf(stderr, "Process exited: code=%lu\n", exitCode);
+            break;
+        }
+        Sleep(50);
+    }
     fprintf(stderr, "Process exited: code=%lu, bytes read=%lu\n", exitCode, totalRead);
+
+    // Close the pseudo-console after all reads are done.
+    pClosePty(hPty);
+    fprintf(stderr, "Pseudo-console closed\n");
 
     // Cleanup
     CloseHandle(pi.hProcess);

@@ -49,11 +49,29 @@ jobs:
         shell: cmd
         run: tools\ConptyCapture\publish\ConptyCapture.exe RevStr.exe > output.txt
 
+      - name: Debug output
+        shell: pwsh
+        run: |
+          if (Test-Path "output.txt") {
+            $size = (Get-Item "output.txt").Length
+            Write-Host "output.txt size: $size bytes"
+            $raw = Get-Content "output.txt" -Raw
+            Write-Host "Raw content length: $($raw.Length)"
+            $hex = [BitConverter]::ToString([System.Text.Encoding]::UTF8.GetBytes($raw))
+            Write-Host "Hex: $hex"
+          } else {
+            Write-Host "output.txt does not exist"
+          }
+
       - name: Test
         shell: pwsh
         run: |
-          $captured = [string](Get-Content "output.txt" -Raw) -replace '\r', ''
-          $captured = $captured.Trim()
+          if (-not (Test-Path "output.txt")) {
+            Write-Host "##[error]FAIL: output.txt does not exist"
+            exit 1
+          }
+          $raw = [string](Get-Content "output.txt" -Raw)
+          $captured = ($raw -replace '\r', '').Trim()
           Write-Host "Captured output: [$captured]"
           $expected = "Abraham Lincoln`nnlocniL maharbA"
           if ($captured -eq $expected) {

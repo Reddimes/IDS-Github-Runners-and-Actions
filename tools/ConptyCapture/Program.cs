@@ -10,20 +10,25 @@ class Program
     static readonly uint EXTENDED_STARTUPINFO_PRESENT = 0x00080000;
     static readonly ulong PROC_THREAD_ATTRIBUTE_PSEUDOCONSOLE = 0x00020016;
 
+    // Named pipe flags
+    static readonly uint PIPE_ACCESS_INBOUND = 0x00000000;
+    static readonly uint PIPE_ACCESS_OUTBOUND = 0x00000001;
+    static readonly uint PIPE_TYPE_BYTE = 0x00000000;
+    static readonly uint PIPE_READMODE_BYTE = 0x00000000;
+    static readonly uint FILE_SHARE_READ = 0x00000001;
+    static readonly uint FILE_SHARE_WRITE = 0x00000002;
+    static readonly uint OPEN_EXISTING = 3;
+    static readonly uint CREATE_NEW = 1;
+    static readonly uint PIPE_WAIT = 0x00000000;
+    static readonly uint PIPE_UNLIMITED_INSTANCES = 255;
+    static readonly uint PIPE_NOWAIT = 0x00000001;
+
     delegate int CreatePseudoConsoleDelegate(
         short cx, short cy,
         IntPtr hInput, IntPtr hOutput,
         uint dwFlags, out IntPtr hPseudoConsole);
 
     delegate void ClosePseudoConsoleDelegate(IntPtr hPseudoConsole);
-
-    [StructLayout(LayoutKind.Sequential)]
-    struct SECURITY_ATTRIBUTES
-    {
-        public int nLength;
-        public IntPtr lpSecurityDescriptor;
-        public bool bInheritHandle;
-    }
 
     [StructLayout(LayoutKind.Sequential)]
     struct STARTUPINFOEX
@@ -65,9 +70,22 @@ class Program
     }
 
     [DllImport("kernel32.dll", SetLastError = true)]
-    static extern bool CreatePipe(
-        out IntPtr hReadPipe, out IntPtr hWritePipe,
-        ref SECURITY_ATTRIBUTES lpSecurityAttributes, uint nSize);
+    static extern IntPtr CreateNamedPipe(
+        string lpName, uint dwOpenMode,
+        uint dwPipeMode, uint nMaxInstances,
+        uint nOutBufferSize, uint nInBufferSize,
+        uint nDefaultTimeOut, IntPtr lpSecurityAttributes);
+
+    [DllImport("kernel32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    static extern bool ConnectNamedPipe(IntPtr hNamedPipe, IntPtr lpOverlapped);
+
+    [DllImport("kernel32.dll", SetLastError = true)]
+    static extern IntPtr CreateFile(
+        string lpFileName, uint dwDesiredAccess,
+        uint dwShareMode, IntPtr lpSecurityAttributes,
+        uint dwCreationDisposition, uint dwFlagsAndAttributes,
+        IntPtr hTemplateFile);
 
     [DllImport("kernel32.dll", SetLastError = true)]
     static extern bool SetHandleInformation(IntPtr hObject, uint dwMask, uint dwFlags);
@@ -128,6 +146,8 @@ class Program
     [DllImport("kernel32.dll", SetLastError = true)]
     static extern IntPtr GetModuleHandle(string lpModuleName);
 
+    static readonly IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);
+
     static void Main(string[] args)
     {
         if (args.Length < 1)
@@ -143,7 +163,7 @@ class Program
             commandLine += " " + string.Join(" ", args, 1, args.Length - 1);
         }
 
-        // Load ConPTY functions dynamically (Windows 10 1803+)
+        // Load ConPTY functions dynamically
         IntPtr hKernel32 = GetModuleHandle("kernel32.dll");
         IntPtr pCreatePty = GetProcAddress(hKernel32, "CreatePseudoConsole");
         IntPtr pClosePty = GetProcAddress(hKernel32, "ClosePseudoConsole");
@@ -161,55 +181,119 @@ class Program
             (ClosePseudoConsoleDelegate)Marshal.GetDelegateForFunctionPointer(
                 pClosePty, typeof(ClosePseudoConsoleDelegate));
 
-        var sa = new SECURITY_ATTRIBUTES
-        {
-            nLength = Marshal.SizeOf<SECURITY_ATTRIBUTES>(),
-            lpSecurityDescriptor = IntPtr.Zero,
-            bInheritHandle = false
-        };
+        // Create named pipes with correct sharing modes
+        // Input pipe: PTY reads from this end (FILE_SHARE_READ required)
+        IntPtr hInputPipe = CreateNamedPipe(
+            "\\\\.\\pipe\\pty_input",
+            PIPE_ACCESS_INBOUND | FILE_SHARE_READ,
+            PIPE_TYPE_BYTE | PIPE_READMODE_BYTE | PIPE_WAIT,
+            PIPE_UNLIMITED_INSTANCES, 4096, 4096, 0, IntPtr.Zero);
 
-        // Input pipe: PTY reads from hInputRead, parent writes to hInputWrite (if needed)
-        if (!CreatePipe(out IntPtr hInputRead, out IntPtr hInputWrite, ref sa, 0))
+        if (hInputPipe == INVALID_HANDLE_VALUE)
         {
-            Fail("CreatePipe(input) failed", 10);
+            Console.Error.WriteLine($"CreateNamedPipe(input) failed: {Marshal.GetLastWin32Error()}");
+            Environment.Exit(10);
         }
 
-        // Output pipe: PTY writes to hOutputWrite, parent reads from hOutputRead
-        if (!CreatePipe(out IntPtr hOutputRead, out IntPtr hOutputWrite, ref sa, 0))
+        // Output pipe: PTY writes to this end (FILE_SHARE_WRITE required)
+        IntPtr hOutputPipe = CreateNamedPipe(
+            "\\\\.\\pipe\\pty_output",
+            PIPE_ACCESS_OUTBOUND | FILE_SHARE_WRITE,
+            PIPE_TYPE_BYTE | PIPE_READMODE_BYTE | PIPE_WAIT,
+            PIPE_UNLIMITED_INSTANCES, 4096, 4096, 0, IntPtr.Zero);
+
+        if (hOutputPipe == INVALID_HANDLE_VALUE)
         {
-            Fail("CreatePipe(output) failed", 11);
+            CloseHandle(hInputPipe);
+            Console.Error.WriteLine($"CreateNamedPipe(output) failed: {Marshal.GetLastWin32Error()}");
+            Environment.Exit(11);
         }
 
-        // Read ends must NOT be inherited by child
-        SetHandleInformation(hInputRead, HANDLE_FLAG_INHERIT, 0);
-        SetHandleInformation(hOutputRead, HANDLE_FLAG_INHERIT, 0);
+        // Connect the other ends (client-side) of the pipes
+        IntPtr hInputClient = CreateFile(
+            "\\\\.\\pipe\\pty_input", 0, 0, IntPtr.Zero,
+            OPEN_EXISTING, 0, IntPtr.Zero);
 
-        // Create pseudo-console (120x50 cells)
-        // PTY reads input from hInputRead, writes output to hOutputWrite
+        if (hInputClient == INVALID_HANDLE_VALUE)
+        {
+            CloseHandle(hInputPipe);
+            CloseHandle(hOutputPipe);
+            Console.Error.WriteLine($"CreateFile(input) failed: {Marshal.GetLastWin32Error()}");
+            Environment.Exit(12);
+        }
+
+        IntPtr hOutputClient = CreateFile(
+            "\\\\.\\pipe\\pty_output", 0, 0, IntPtr.Zero,
+            OPEN_EXISTING, 0, IntPtr.Zero);
+
+        if (hOutputClient == INVALID_HANDLE_VALUE)
+        {
+            CloseHandle(hInputPipe);
+            CloseHandle(hOutputPipe);
+            CloseHandle(hInputClient);
+            Console.Error.WriteLine($"CreateFile(output) failed: {Marshal.GetLastWin32Error()}");
+            Environment.Exit(13);
+        }
+
+        // Connect named pipes
+        if (!ConnectNamedPipe(hInputPipe, IntPtr.Zero))
+        {
+            int err = Marshal.GetLastWin32Error();
+            if (err != 59) // ERROR_PIPE_CONNECTED
+            {
+                Cleanup(hInputPipe, hOutputPipe, hInputClient, hOutputClient);
+                Console.Error.WriteLine($"ConnectNamedPipe(input) failed: {err}");
+                Environment.Exit(14);
+            }
+        }
+
+        if (!ConnectNamedPipe(hOutputPipe, IntPtr.Zero))
+        {
+            int err = Marshal.GetLastWin32Error();
+            if (err != 59) // ERROR_PIPE_CONNECTED
+            {
+                Cleanup(hInputPipe, hOutputPipe, hInputClient, hOutputClient);
+                Console.Error.WriteLine($"ConnectNamedPipe(output) failed: {err}");
+                Environment.Exit(15);
+            }
+        }
+
+        // Client handles must NOT be inherited
+        SetHandleInformation(hInputClient, HANDLE_FLAG_INHERIT, 0);
+        SetHandleInformation(hOutputClient, HANDLE_FLAG_INHERIT, 0);
+
+        // Create pseudo-console
+        // hInputPipe = read end (PTY reads input from here)
+        // hOutputPipe = write end (PTY writes output here)
         IntPtr hPty = IntPtr.Zero;
-        int ptyResult = createPty(120, 50, hInputRead, hOutputWrite, 0, out hPty);
+        int ptyResult = createPty(120, 50, hInputPipe, hOutputPipe, 0, out hPty);
         if (ptyResult != 0)
         {
+            Cleanup(hInputPipe, hOutputPipe, hInputClient, hOutputClient);
             Console.Error.WriteLine($"CreatePseudoConsole failed with NTSTATUS 0x{ptyResult:X8}");
             Environment.Exit(20);
         }
 
-        // Duplicate PTY handle so it's inheritable for child process
+        // Duplicate PTY handle so it's inheritable
         IntPtr hProc = GetCurrentProcess();
         if (!DuplicateHandle(hProc, hPty, hProc, out IntPtr hPtyDup, 0, true, DUPLICATE_SAME_ACCESS))
         {
             closePty(hPty);
-            Fail("DuplicateHandle failed", 30);
+            Cleanup(hInputPipe, hOutputPipe, hInputClient, hOutputClient);
+            Console.Error.WriteLine($"DuplicateHandle failed: {Marshal.GetLastWin32Error()}");
+            Environment.Exit(30);
         }
 
-        // Build PROC_THREAD_ATTRIBUTE_LIST
+        // Build attribute list
         IntPtr lpSize = IntPtr.Zero;
         if (!InitializeProcThreadAttributeList(IntPtr.Zero, 1, 0, ref lpSize))
         {
             if (Marshal.GetLastWin32Error() != 122) // ERROR_INSUFFICIENT_BUFFER
             {
                 closePty(hPty);
-                Fail("InitializeProcThreadAttributeList (query) failed", 40);
+                Cleanup(hInputPipe, hOutputPipe, hInputClient, hOutputClient);
+                Console.Error.WriteLine($"InitProcThreadAttrList (query) failed: {Marshal.GetLastWin32Error()}");
+                Environment.Exit(40);
             }
         }
 
@@ -219,7 +303,9 @@ class Program
             if (!InitializeProcThreadAttributeList(lpAttributeList, 1, 0, ref lpSize))
             {
                 closePty(hPty);
-                Fail("InitializeProcThreadAttributeList (init) failed", 41);
+                Cleanup(hInputPipe, hOutputPipe, hInputClient, hOutputClient);
+                Console.Error.WriteLine($"InitProcThreadAttrList (init) failed: {Marshal.GetLastWin32Error()}");
+                Environment.Exit(41);
             }
 
             if (!UpdateProcThreadAttribute(
@@ -227,10 +313,11 @@ class Program
                 hPtyDup, (uint)IntPtr.Size, IntPtr.Zero, IntPtr.Zero))
             {
                 closePty(hPty);
-                Fail("UpdateProcThreadAttribute failed", 42);
+                Cleanup(hInputPipe, hOutputPipe, hInputClient, hOutputClient);
+                Console.Error.WriteLine($"UpdateProcThreadAttr failed: {Marshal.GetLastWin32Error()}");
+                Environment.Exit(42);
             }
 
-            // Create child process attached to pseudo-console
             var si = new STARTUPINFOEX
             {
                 StartupInfo = new STARTUPINFO
@@ -245,27 +332,30 @@ class Program
                 IntPtr.Zero, null, ref si, out PROCESS_INFORMATION pi))
             {
                 closePty(hPty);
-                Fail("CreateProcess failed", 50);
+                Cleanup(hInputPipe, hOutputPipe, hInputClient, hOutputClient);
+                Console.Error.WriteLine($"CreateProcess failed: {Marshal.GetLastWin32Error()}");
+                Environment.Exit(50);
             }
 
             // Close handles not needed in parent
             CloseHandle(pi.hThread);
             CloseHandle(hPtyDup);
-            CloseHandle(hOutputWrite);
-            CloseHandle(hInputRead);
+            CloseHandle(hInputPipe);
+            CloseHandle(hOutputPipe);
 
-            // Read all output from the output pipe
-            string output = ReadAll(hOutputRead);
+            // Read all output from the client end of the output pipe
+            string output = ReadAll(hOutputClient);
 
-            // Close PTY to signal EOF to child, then wait for process
+            // Close PTY to signal EOF to child
             closePty(hPty);
-            WaitForSingleObject(pi.hProcess, 0xFFFFFFFF); // INFINITE
+
+            // Wait for process to finish
+            WaitForSingleObject(pi.hProcess, 0xFFFFFFFF);
             GetExitCodeProcess(pi.hProcess, out uint exitCode);
             CloseHandle(pi.hProcess);
-            CloseHandle(hOutputRead);
-            CloseHandle(hInputWrite);
+            CloseHandle(hOutputClient);
+            CloseHandle(hInputClient);
 
-            // Write captured output to stdout
             Console.Write(output);
             Environment.Exit((int)exitCode);
         }
@@ -290,9 +380,12 @@ class Program
         return sb.ToString();
     }
 
-    static void Fail(string msg, int code)
+    static void Cleanup(params IntPtr[] handles)
     {
-        Console.Error.WriteLine($"ERROR: {msg} (Win32: {Marshal.GetLastWin32Error()})");
-        Environment.Exit(code);
+        foreach (var h in handles)
+        {
+            if (h != IntPtr.Zero && h != INVALID_HANDLE_VALUE)
+                CloseHandle(h);
+        }
     }
 }

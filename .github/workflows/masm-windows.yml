@@ -28,6 +28,8 @@ jobs:
           Copy-Item "C:\IrvineTemp\Irvine\Irvine32.inc" "C:\Irvine32\"
           Copy-Item "C:\IrvineTemp\Irvine\Irvine32.lib" "C:\Irvine32\"
           Copy-Item "C:\IrvineTemp\Irvine\*.inc" "C:\Irvine32\"
+          Copy-Item "C:\IrvineTemp\Irvine\Examples\Lib32\kernel32.lib" "C:\Irvine32\" -ErrorAction SilentlyContinue
+          Copy-Item "C:\IrvineTemp\Irvine\Examples\Lib32\user32.lib" "C:\Irvine32\" -ErrorAction SilentlyContinue
           Get-ChildItem "C:\Irvine32"
           "INCLUDE=C:\Irvine32" >> $env:GITHUB_ENV
 
@@ -35,5 +37,5 @@ jobs:
         shell: cmd
         run: |
           "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.29.30133\bin\HostX64\x86\ml.exe" /c src\RevStr.asm
-          link.exe /SUBSYSTEM:CONSOLE /LIBPATH:C:\Irvine32 /OUT:RevStr.exe RevStr.obj
+          link.exe /SUBSYSTEM:CONSOLE /OUT:RevStr.exe RevStr.obj C:\Irvine32\Irvine32.lib
           RevStr.exe

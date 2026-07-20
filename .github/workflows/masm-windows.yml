@@ -30,12 +30,10 @@ jobs:
           Copy-Item "C:\IrvineTemp\Irvine\*.inc" "C:\Irvine32\"
           Get-ChildItem "C:\Irvine32"
           "INCLUDE=C:\Irvine32" >> $env:GITHUB_ENV
-          "LIB=C:\Irvine32" >> $env:GITHUB_ENV
 
       - name: Compile and run RevStr
         shell: cmd
         run: |
           "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.29.30133\bin\HostX64\x86\ml.exe" /c src\RevStr.asm
-          dir *.obj
-          link.exe /SUBSYSTEM:CONSOLE /OUT:RevStr.exe RevStr.obj
+          link.exe /SUBSYSTEM:CONSOLE /LIBPATH:C:\Irvine32 /OUT:RevStr.exe RevStr.obj
           RevStr.exe

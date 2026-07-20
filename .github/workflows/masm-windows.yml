@@ -30,16 +30,28 @@ jobs:
           Copy-Item "C:\IrvineTemp\Irvine\*.inc" "C:\Irvine32\"
           Get-ChildItem "C:\Irvine32"
 
+      - name: Find ml.exe
+        id: find-ml
+        shell: pwsh
+        run: |
+          $ml = Get-ChildItem "C:\" -Recurse -Filter "ml.exe" -ErrorAction SilentlyContinue | Where-Object { $_.DirectoryName -like "*MSVC*" } | Select-Object -First 1
+          if ($ml) {
+            Write-Host "Found ml.exe at $($ml.FullName)"
+            "ML_PATH=$($ml.FullName)" >> $env:GITHUB_ENV
+            "MASM_DIR=$($ml.DirectoryName)" >> $env:GITHUB_ENV
+          } else {
+            Write-Error "ml.exe not found"
+            exit 1
+          }
+
       - name: Verify tools
         shell: cmd
         run: |
-          ml.exe /?
-          link.exe /?
           dir C:\Irvine32
 
       - name: Compile and run RevStr
         shell: cmd
         run: |
-          ml.exe /c /I:C:\Irvine32 /Fo:RevStr.obj src\RevStr.asm
+          "%ML_PATH%" /c /I:C:\Irvine32 /Fo:RevStr.obj src\RevStr.asm
           link.exe /SUBSYSTEM:CONSOLE /LIBPATH:C:\Irvine32 /OUT:RevStr.exe RevStr.obj
           RevStr.exe

@@ -74,8 +74,8 @@ jobs:
             DIR=$(dirname "$SRC")
             echo "::group::Building $SRC"
 
-            # Copy to /tmp to use z: paths with ml/link
-            cp "$SRC" /tmp/test.asm
+            # Copy to / so z: drive maps correctly
+            cp "$SRC" /test.asm
 
             # Compile
             ml /c /Foz:\\test.obj "z:\\test.asm" 2>&1

@@ -46,7 +46,7 @@ jobs:
           $list = ($files.FullName -join ';')
           Write-Output "asm_files=$list" >> $env:GITHUB_OUTPUT
 
-      - name: Find MASM in PATH
+      - name: Add MASM to PATH
         shell: pwsh
         run: |
           $mlPath = Get-Command ml.exe -ErrorAction SilentlyContinue
@@ -54,14 +54,16 @@ jobs:
             Write-Host "ml.exe not in PATH, searching..."
             $mlPath = Get-ChildItem "C:\Program Files*" -Recurse -Filter "ml.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
             if ($mlPath) {
-              echo "$($mlPath.DirectoryName)" >> $env:GITHUB_PATH
-              Write-Host "Added $($mlPath.DirectoryName) to PATH"
+              $masmDir = $mlPath.DirectoryName
+              $env:PATH = "$masmDir;$env:PATH"
+              echo "MASM_PATH=$masmDir" >> $env:GITHUB_ENV
+              Write-Host "Added $masmDir to PATH"
             } else {
               Write-Error "ml.exe not found on system"
               exit 1
             }
           }
-          & ml /?
+          & ml.exe /?
 
       - name: Compile ASM files
         id: compile

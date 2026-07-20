@@ -117,35 +117,42 @@ int main(int argc, char* argv[]) {
     // Give ConPTY output thread time to flush to our pipe
     Sleep(500);
 
-    // Read all available data with retries
-    for (int attempt = 0; attempt < 20; attempt++) {
-        BOOL peekResult = PeekNamedPipe(hOutputRead, NULL, 0, NULL, &bytesRead, NULL);
-        if (!peekResult) {
-            fprintf(stderr, "PeekNamedPipe error: %lu\n", GetLastError());
-            break;
-        }
-        fprintf(stderr, "Peek attempt %d: %lu bytes available\n", attempt, bytesRead);
+    // Read all available data — skip PeekNamedPipe, use ReadFile with overlapped timeout
+    for (int attempt = 0; attempt < 30; attempt++) {
+        DWORD readLen = sizeof(outputBuf) - totalRead - 1;
+        if (readLen == 0) break;
 
-        if (bytesRead > 0) {
-            DWORD readLen = sizeof(outputBuf) - totalRead - 1;
-            if (ReadFile(hOutputRead, outputBuf + totalRead, readLen, &bytesRead, NULL)) {
-                if (bytesRead == 0) break;
-                totalRead += bytesRead;
-                fprintf(stderr, "Read %lu bytes (total %lu)\n", bytesRead, totalRead);
-                continue;
-            } else {
-                fprintf(stderr, "ReadFile error: %lu\n", GetLastError());
-                break;
-            }
-        }
+        OVERLAPPED ov = { 0 };
+        ov.hEvent = CreateEventA(NULL, TRUE, FALSE, NULL);
+        BOOL readOk = ReadFile(hOutputRead, outputBuf + totalRead, readLen, &bytesRead, &ov);
 
-        if (attempt == 0) {
-            // First attempt with 0 bytes — wait longer for ConPTY flush
-            Sleep(200);
+        if (readOk) {
+            CloseHandle(ov.hEvent);
+            if (bytesRead == 0) break;
+            totalRead += bytesRead;
+            fprintf(stderr, "Read %lu bytes (total %lu)\n", bytesRead, totalRead);
             continue;
         }
-        // Subsequent 0-byte peeks — data likely done
-        break;
+
+        if (GetLastError() == ERROR_IO_PENDING) {
+            // Wait up to 500ms for the read to complete
+            DWORD wait = WaitForSingleObject(ov.hEvent, 500);
+            BOOL gotResult = GetOverlappedResult(hOutputRead, &ov, &bytesRead, FALSE);
+            CloseHandle(ov.hEvent);
+            if (wait == WAIT_OBJECT_0 && gotResult) {
+                if (bytesRead == 0) break;
+                totalRead += bytesRead;
+                fprintf(stderr, "Read (async) %lu bytes (total %lu)\n", bytesRead, totalRead);
+                continue;
+            } else {
+                fprintf(stderr, "Read timeout (attempt %d)\n", attempt);
+                break;
+            }
+        } else {
+            CloseHandle(ov.hEvent);
+            fprintf(stderr, "ReadFile error: %lu\n", GetLastError());
+            break;
+        }
     }
 
     GetExitCodeProcess(pi.hProcess, &exitCode);

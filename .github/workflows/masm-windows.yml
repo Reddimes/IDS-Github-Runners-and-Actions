@@ -52,14 +52,15 @@ jobs:
       - name: Test
         shell: pwsh
         run: |
-          $captured = (Get-Content "output.txt" -Raw) -replace '\r', ''
+          $captured = [string](Get-Content "output.txt" -Raw) -replace '\r', ''
+          $captured = $captured.Trim()
           Write-Host "Captured output: [$captured]"
           $expected = "Abraham Lincoln`nnlocniL maharbA"
-          if ($captured.Trim() -eq $expected) {
+          if ($captured -eq $expected) {
             Write-Host "PASS: RevStr"
           } else {
             Write-Host "##[error]FAIL: RevStr - output mismatch"
             Write-Host "Expected: [$expected]"
-            Write-Host "Got:      [$($captured.Trim())]"
+            Write-Host "Got:      [$captured]"
             exit 1
           }

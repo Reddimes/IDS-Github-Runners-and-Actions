@@ -38,17 +38,19 @@ jobs:
           ml /c src\RevStr.asm
           link /SUBSYSTEM:CONSOLE /OUT:RevStr.exe RevStr.obj C:\Irvine32\Irvine32.lib kernel32.lib user32.lib
 
+      - name: Run and capture output
+        shell: cmd
+        run: RevStr.exe > output.txt 2>&1
+
       - name: Test
         shell: pwsh
         run: |
-          $null = Start-Process -FilePath "cmd.exe" -ArgumentList "/c", "RevStr.exe" -Wait -NoNewWindow -RedirectStandardOutput "output.txt" -RedirectStandardError "error.txt" -PassThru
           $captured = (Get-Content "output.txt" -Raw) -replace '\r', ''
-          Write-Host "STDOUT:"
-          Write-Host $captured
+          Write-Host "Captured: [$captured]"
           $expected = "Abraham Lincoln`nnlocniL maharbA"
-          if ($null -ne $captured -and $captured.Trim() -eq $expected) {
+          if ($captured.Trim() -eq $expected) {
             Write-Host "PASS: RevStr"
           } else {
-            Write-Host "##[error]FAIL: RevStr - captured: [$captured]"
+            Write-Host "##[error]FAIL: RevStr"
             exit 1
           }

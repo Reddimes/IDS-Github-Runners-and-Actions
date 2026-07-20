@@ -29,6 +29,8 @@ jobs:
           Copy-Item "C:\IrvineTemp\Irvine\Irvine32.lib" "C:\Irvine32\"
           Copy-Item "C:\IrvineTemp\Irvine\*.inc" "C:\Irvine32\"
           Get-ChildItem "C:\Irvine32"
+          "INCLUDE=C:\Irvine32" >> $env:GITHUB_ENV
+          "LIB=C:\Irvine32" >> $env:GITHUB_ENV
 
       - name: Find ml.exe
         id: find-ml
@@ -44,14 +46,9 @@ jobs:
             exit 1
           }
 
-      - name: Verify tools
-        shell: cmd
-        run: |
-          dir C:\Irvine32
-
       - name: Compile and run RevStr
         shell: cmd
         run: |
-          "%ML_PATH%" /c /I:C:\Irvine32 /Fo:RevStr.obj src\RevStr.asm
-          link.exe /SUBSYSTEM:CONSOLE /LIBPATH:C:\Irvine32 /OUT:RevStr.exe RevStr.obj
+          "%ML_PATH%" /c /Fo:RevStr.obj src\RevStr.asm
+          link.exe /SUBSYSTEM:CONSOLE /OUT:RevStr.exe RevStr.obj
           RevStr.exe

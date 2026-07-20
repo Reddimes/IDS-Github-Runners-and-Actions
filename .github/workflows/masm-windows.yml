@@ -79,7 +79,7 @@ jobs:
             }
 
             Write-Host "=== Running $($test.Name) ==="
-            $output = (& $exe 2>&1 | Out-String) -replace '\r', ''
+            $output = (cmd /c $exe 2>&1 | Out-String) -replace '\r', ''
             Write-Host $output
 
             if ($output.Trim() -eq $test.Expected) {

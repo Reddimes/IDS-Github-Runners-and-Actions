@@ -98,25 +98,7 @@ int main(int argc, char* argv[]) {
     CloseHandle(hInputRead);
     CloseHandle(hOutputWrite);
 
-    // Close parent-side input write handle — signals stdin EOF to the ConPTY.
-    CloseHandle(hInputWrite);
-
-    // Read all data from the output pipe while the ConPTY is still alive.
-    // Must read BEFORE ClosePseudoConsole to avoid losing buffered data.
-    char outputBuf[65536] = { 0 };
-    DWORD totalRead = 0;
-    DWORD bytesRead;
-    while (totalRead < sizeof(outputBuf) - 1) {
-        if (!ReadFile(hOutputRead, outputBuf + totalRead, sizeof(outputBuf) - 1 - totalRead, &bytesRead, NULL)) {
-            fprintf(stderr, "ReadFile error: %lu\n", GetLastError());
-            break;
-        }
-        if (bytesRead == 0) break;
-        totalRead += bytesRead;
-        fprintf(stderr, "Read %lu bytes (total %lu)\n", bytesRead, totalRead);
-    }
-
-    // Wait for process to exit
+    // Wait for process to exit first
     DWORD exitCode = 0;
     DWORD startTick = GetTickCount();
     while (GetTickCount() - startTick < 15000) {
@@ -126,9 +108,45 @@ int main(int argc, char* argv[]) {
         }
         Sleep(50);
     }
-    fprintf(stderr, "Process exited: code=%lu, bytes read=%lu\n", exitCode, totalRead);
+    fprintf(stderr, "Process exited: code=%lu\n", exitCode);
 
-    // Close the pseudo-console after all reads are done.
+    // Close parent-side input write handle — signals stdin EOF to the ConPTY.
+    CloseHandle(hInputWrite);
+
+    // Poll-read available output bytes using PeekNamedPipe (non-blocking).
+    // We read before ClosePseudoConsole to capture all buffered data.
+    // Once PeekNamedPipe reports 0 available for two consecutive polls,
+    // the ConPTY has flushed everything.
+    char outputBuf[65536] = { 0 };
+    DWORD totalRead = 0;
+    DWORD bytesRead;
+    int noDataPolls = 0;
+    while (totalRead < sizeof(outputBuf) - 1 && noDataPolls < 20) {
+        DWORD available = 0;
+        if (!PeekNamedPipe(hOutputRead, NULL, 0, NULL, &available, NULL)) {
+            fprintf(stderr, "PeekNamedPipe error: %lu\n", GetLastError());
+            break;
+        }
+        if (available == 0) {
+            noDataPolls++;
+            Sleep(50);
+            continue;
+        }
+        noDataPolls = 0;
+        DWORD toRead = available;
+        if (toRead > sizeof(outputBuf) - 1 - totalRead)
+            toRead = sizeof(outputBuf) - 1 - totalRead;
+        if (!ReadFile(hOutputRead, outputBuf + totalRead, (unsigned int)toRead, &bytesRead, NULL)) {
+            fprintf(stderr, "ReadFile error: %lu\n", GetLastError());
+            break;
+        }
+        if (bytesRead == 0) break;
+        totalRead += bytesRead;
+        fprintf(stderr, "Read %lu bytes (total %lu, available=%lu)\n", bytesRead, totalRead, available);
+    }
+    fprintf(stderr, "Total bytes read: %lu\n", totalRead);
+
+    // Close the pseudo-console now that data is drained.
     pClosePty(hPty);
     fprintf(stderr, "Pseudo-console closed\n");
 

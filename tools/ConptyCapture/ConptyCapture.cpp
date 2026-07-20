@@ -102,27 +102,34 @@ int main(int argc, char* argv[]) {
     char outputBuf[65536] = { 0 };
     DWORD totalRead = 0;
     DWORD bytesRead;
-    bool processExited = false;
 
-    // Poll: wait for process exit or pipe data, with 15s safety timeout
-    DWORD timeout = 15000;
+    // Wait for process to exit first
+    DWORD exitCode = 0;
     DWORD startTick = GetTickCount();
-
-    while (GetTickCount() - startTick < timeout) {
-        // Always try to read first — process may exit before first poll
-        BOOL peekResult = PeekNamedPipe(hOutputRead, NULL, 0, NULL, &bytesRead, NULL);
-        if (!peekResult && GetLastError() == ERROR_BROKEN_PIPE) {
-            fprintf(stderr, "Pipe broken\n");
+    while (GetTickCount() - startTick < 15000) {
+        if (GetExitCodeProcess(pi.hProcess, &exitCode) && exitCode != STILL_ACTIVE) {
+            fprintf(stderr, "Process exited: code=%lu\n", exitCode);
             break;
         }
+        Sleep(50);
+    }
+
+    // Give ConPTY output thread time to flush to our pipe
+    Sleep(500);
+
+    // Read all available data with retries
+    for (int attempt = 0; attempt < 20; attempt++) {
+        BOOL peekResult = PeekNamedPipe(hOutputRead, NULL, 0, NULL, &bytesRead, NULL);
+        if (!peekResult) {
+            fprintf(stderr, "PeekNamedPipe error: %lu\n", GetLastError());
+            break;
+        }
+        fprintf(stderr, "Peek attempt %d: %lu bytes available\n", attempt, bytesRead);
 
         if (bytesRead > 0) {
             DWORD readLen = sizeof(outputBuf) - totalRead - 1;
             if (ReadFile(hOutputRead, outputBuf + totalRead, readLen, &bytesRead, NULL)) {
-                if (bytesRead == 0) {
-                    fprintf(stderr, "ReadFile returned 0 bytes\n");
-                    break;
-                }
+                if (bytesRead == 0) break;
                 totalRead += bytesRead;
                 fprintf(stderr, "Read %lu bytes (total %lu)\n", bytesRead, totalRead);
                 continue;
@@ -132,26 +139,15 @@ int main(int argc, char* argv[]) {
             }
         }
 
-        // Check if process has exited
-        if (!processExited) {
-            DWORD exitCode = 0;
-            if (GetExitCodeProcess(pi.hProcess, &exitCode) && exitCode != STILL_ACTIVE) {
-                processExited = true;
-                fprintf(stderr, "Process exited: code=%lu\n", exitCode);
-                // Give the pipe a moment to flush after process exit
-                Sleep(100);
-                continue;
-            }
+        if (attempt == 0) {
+            // First attempt with 0 bytes — wait longer for ConPTY flush
+            Sleep(200);
+            continue;
         }
-
-        if (processExited && bytesRead == 0) {
-            break;
-        }
-
-        Sleep(50);
+        // Subsequent 0-byte peeks — data likely done
+        break;
     }
 
-    DWORD exitCode = 0;
     GetExitCodeProcess(pi.hProcess, &exitCode);
     fprintf(stderr, "Process exited: code=%lu, bytes read=%lu\n", exitCode, totalRead);
 

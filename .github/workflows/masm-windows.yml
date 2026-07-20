@@ -51,7 +51,7 @@ jobs:
             $obj = Join-Path $root "$base.obj"
             $exe = Join-Path $root "$base.exe"
 
-            $compileOut = & $ml /c "/Fo:`"$obj`"" $src.FullName 2>&1 | Out-String
+            $compileOut = & $ml /c "/Fo `"$obj`"" $src.FullName 2>&1 | Out-String
             Write-Host $compileOut
             if ($LASTEXITCODE -ne 0) {
               Write-Host "::error::Failed to assemble $($src.Name)"

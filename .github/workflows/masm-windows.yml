@@ -31,7 +31,23 @@ jobs:
           Get-ChildItem "C:\Irvine32"
           "INCLUDE=C:\Irvine32" >> $env:GITHUB_ENV
 
-      - name: Compile and test
+      - name: Compile
+        shell: cmd
+        run: |
+          call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86
+          ml /c src\RevStr.asm
+          link /SUBSYSTEM:CONSOLE /OUT:RevStr.exe RevStr.obj C:\Irvine32\Irvine32.lib kernel32.lib user32.lib
+
+      - name: Test
         shell: pwsh
         run: |
-          & pwsh -File test.ps1
+          $output = Start-Process -FilePath ".\RevStr.exe" -Wait -NoNewWindow -RedirectStandardOutput "output.txt" -PassThru
+          $captured = Get-Content "output.txt" -Raw -replace '\r', ''
+          Write-Host $captured
+          $expected = "Abraham Lincoln`nnlocniL maharbA"
+          if ($captured.Trim() -eq $expected) {
+            Write-Host "PASS: RevStr"
+          } else {
+            Write-Host "##[error]FAIL: RevStr"
+            exit 1
+          }

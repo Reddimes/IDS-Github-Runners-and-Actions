@@ -20,14 +20,15 @@ jobs:
           vs-architecture: 'x64'
 
       - name: Download and extract Irvine32 library
-        shell: cmd
+        shell: pwsh
         run: |
-          mkdir C:\Irvine32 2>nul
-          powershell -Command "Invoke-WebRequest -Uri 'https://github.com/surferkip/asmbook/raw/main/Irvine.zip' -OutFile '$env:TEMP\Irvine.zip'"
-          powershell -Command "Expand-Archive -Path '$env:TEMP\Irvine.zip' -DestinationPath 'C:\IrvineTemp' -Force"
-          xcopy "C:\IrvineTemp\Irvine\Irvine32.inc" "C:\Irvine32\" /Y
-          xcopy "C:\IrvineTemp\Irvine\Irvine32.lib" "C:\Irvine32\" /Y
-          xcopy "C:\IrvineTemp\Irvine\*.inc" "C:\Irvine32\" /Y
+          New-Item -ItemType Directory -Force -Path "C:\Irvine32" | Out-Null
+          Invoke-WebRequest -Uri "https://github.com/surferkip/asmbook/raw/main/Irvine.zip" -OutFile "$env:TEMP\Irvine.zip"
+          Expand-Archive -Path "$env:TEMP\Irvine.zip" -DestinationPath "C:\IrvineTemp" -Force
+          Copy-Item "C:\IrvineTemp\Irvine\Irvine32.inc" "C:\Irvine32\"
+          Copy-Item "C:\IrvineTemp\Irvine\Irvine32.lib" "C:\Irvine32\"
+          Copy-Item "C:\IrvineTemp\Irvine\*.inc" "C:\Irvine32\"
+          Get-ChildItem "C:\Irvine32"
 
       - name: Verify tools
         shell: cmd

@@ -46,14 +46,31 @@ jobs:
           $list = ($files.FullName -join ';')
           Write-Output "asm_files=$list" >> $env:GITHUB_OUTPUT
 
+      - name: Find MASM in PATH
+        shell: pwsh
+        run: |
+          $mlPath = Get-Command ml.exe -ErrorAction SilentlyContinue
+          if (-not $mlPath) {
+            Write-Host "ml.exe not in PATH, searching..."
+            $mlPath = Get-ChildItem "C:\Program Files*" -Recurse -Filter "ml.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
+            if ($mlPath) {
+              echo "$($mlPath.DirectoryName)" >> $env:GITHUB_PATH
+              Write-Host "Added $($mlPath.DirectoryName) to PATH"
+            } else {
+              Write-Error "ml.exe not found on system"
+              exit 1
+            }
+          }
+          & ml /?
+
       - name: Compile ASM files
         id: compile
         shell: pwsh
         run: |
-          $asmList = $env:compile_asm_files -split ';'
+          $files = $env:compile_asm_files -split ';'
           $exeList = @()
           $irvineDir = $env:IRVINE_DIR
-          foreach ($src in $asmList) {
+          foreach ($src in $files) {
             Write-Host "================================"
             Write-Host "Compiling $src"
             Write-Host "================================"

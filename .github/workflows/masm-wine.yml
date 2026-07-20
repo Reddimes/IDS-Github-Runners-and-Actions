@@ -17,6 +17,7 @@ jobs:
       - name: Setup MSVC + Wine (mstorsjo/msvc-wine)
         run: |
           set -e
+          sudo dpkg --add-architecture i386
           sudo apt-get update
           sudo apt-get install -y wine64 wine32 python3 msitools ca-certificates
           mkdir -p /opt/msvc
@@ -96,16 +97,5 @@ jobs:
             script -q -c "wine z:\\test.exe" /dev/null > "$ACTUAL" 2>&1
             sed -i 's/\x1b\[[?0-9;]*[a-zA-Z]//g; s/\r//g' "$ACTUAL"
             cat "$ACTUAL"
-            echo "::endgroup::"
-          done
-          echo "exes=$EXE_LIST" >> $GITHUB_OUTPUT
-
-      - name: Run compiled programs in Wine CMD
-        if: steps.compile.outputs.exes != ''
-        run: |
-          set -e
-          for EXE in ${{ steps.compile.outputs.exes }}; do
-            echo "::group::Running $EXE"
-            WINEDEBUG=-all wine cmd /c "cd /d $(dirname "$EXE") && $(basename "$EXE")" 2>&1
             echo "::endgroup::"
           done

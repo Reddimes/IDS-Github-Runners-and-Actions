@@ -35,6 +35,6 @@ jobs:
       - name: Compile and run RevStr
         shell: cmd
         run: |
-          "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.29.30133\bin\HostX64\x86\ml.exe" /c /Fo:src\RevStr.obj src\RevStr.asm
+          "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.29.30133\bin\HostX64\x86\ml.exe" /c src\RevStr.asm
           link.exe /SUBSYSTEM:CONSOLE /OUT:src\RevStr.exe src\RevStr.obj
           src\RevStr.exe

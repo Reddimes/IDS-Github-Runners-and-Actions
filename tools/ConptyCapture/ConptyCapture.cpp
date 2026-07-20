@@ -109,16 +109,7 @@ int main(int argc, char* argv[]) {
     DWORD startTick = GetTickCount();
 
     while (GetTickCount() - startTick < timeout) {
-        // Check if process has exited
-        if (!processExited) {
-            DWORD exitCode = 0;
-            if (GetExitCodeProcess(pi.hProcess, &exitCode) && exitCode != STILL_ACTIVE) {
-                processExited = true;
-                fprintf(stderr, "Process exited: code=%lu\n", exitCode);
-            }
-        }
-
-        // Check for available data
+        // Always try to read first — process may exit before first poll
         BOOL peekResult = PeekNamedPipe(hOutputRead, NULL, 0, NULL, &bytesRead, NULL);
         if (!peekResult && GetLastError() == ERROR_BROKEN_PIPE) {
             fprintf(stderr, "Pipe broken\n");
@@ -134,16 +125,30 @@ int main(int argc, char* argv[]) {
                 }
                 totalRead += bytesRead;
                 fprintf(stderr, "Read %lu bytes (total %lu)\n", bytesRead, totalRead);
+                continue;
             } else {
                 fprintf(stderr, "ReadFile error: %lu\n", GetLastError());
                 break;
             }
-        } else if (processExited) {
-            // Process done and no more data
-            break;
-        } else {
-            Sleep(50);
         }
+
+        // Check if process has exited
+        if (!processExited) {
+            DWORD exitCode = 0;
+            if (GetExitCodeProcess(pi.hProcess, &exitCode) && exitCode != STILL_ACTIVE) {
+                processExited = true;
+                fprintf(stderr, "Process exited: code=%lu\n", exitCode);
+                // Give the pipe a moment to flush after process exit
+                Sleep(100);
+                continue;
+            }
+        }
+
+        if (processExited && bytesRead == 0) {
+            break;
+        }
+
+        Sleep(50);
     }
 
     DWORD exitCode = 0;

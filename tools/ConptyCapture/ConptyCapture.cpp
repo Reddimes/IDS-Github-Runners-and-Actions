@@ -75,14 +75,14 @@ int main(int argc, char* argv[]) {
     LPVOID attrBuf = malloc(attrSize);
     if (!attrBuf) fail("malloc attrBuf");
 
-    if (!InitializeProcThreadAttributeList(attrBuf, 1, 0, &attrSize)) fail("InitAttrList init");
-    if (!UpdateProcThreadAttribute(attrBuf, 0, PROC_THREAD_ATTRIBUTE_PSEUDOCONSOLE, hPty, sizeof(HANDLE), NULL, NULL))
+    if (!InitializeProcThreadAttributeList((LPPROC_THREAD_ATTRIBUTE_LIST)attrBuf, 1, 0, &attrSize)) fail("InitAttrList init");
+    if (!UpdateProcThreadAttribute((LPPROC_THREAD_ATTRIBUTE_LIST)attrBuf, 0, PROC_THREAD_ATTRIBUTE_PSEUDOCONSOLE, hPty, sizeof(HANDLE), NULL, NULL))
         fail("UpdateProcThreadAttribute");
 
     // Create process
     STARTUPINFOEXA siex = { 0 };
     siex.StartupInfo.cb = sizeof(siex);
-    siex.lpAttributeList = attrBuf;
+    siex.lpAttributeList = (LPPROC_THREAD_ATTRIBUTE_LIST)attrBuf;
 
     PROCESS_INFORMATION pi = { 0 };
     if (!CreateProcessA(NULL, cmdLine, NULL, NULL, TRUE,
@@ -135,7 +135,7 @@ int main(int argc, char* argv[]) {
     CloseHandle(hInputWrite);
     CloseHandle(hOutputRead);
     pClosePty(hPty);
-    DeleteProcThreadAttributeList(attrBuf);
+    DeleteProcThreadAttributeList((LPPROC_THREAD_ATTRIBUTE_LIST)attrBuf);
     free(attrBuf);
 
     fprintf(stderr, "Output [%lu bytes]: [%.*s]\n", totalRead, totalRead, outputBuf);

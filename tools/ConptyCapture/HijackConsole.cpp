@@ -168,11 +168,11 @@ int main(int argc, char* argv[]) {
     gReadDone = CreateEventA(NULL, TRUE, FALSE, NULL);
     HANDLE hReadThread = CreateThread(NULL, 0, ReadThread, hOutputRead, 0, NULL);
 
-    /* ---- inject input if requested (small delay so child is ready to read) ---- */
+    /* ---- inject input immediately (child needs it on startup) ---- */
     if (inputText) {
         fprintf(stderr, "Injecting input: [%s]\n", inputText);
-        Sleep(200);
         InjectInput(hInputWrite, inputText);
+        fprintf(stderr, "Input injected, waiting for child...\n");
     }
 
     /* ---- wait for child to exit ---- */
@@ -180,8 +180,8 @@ int main(int argc, char* argv[]) {
     DWORD startTick = GetTickCount();
     while (GetTickCount() - startTick < 60000) {
         if (GetExitCodeProcess(pi.hProcess, &exitCode) && exitCode != STILL_ACTIVE) {
-            fprintf(stderr, "Child exited: code=%lu (after %lu ms)\n",
-                exitCode, GetTickCount() - startTick);
+            fprintf(stderr, "Child exited: code=%lu (after %lu ms), captured=%zu bytes\n",
+                exitCode, GetTickCount() - startTick, gCaptured.length());
             break;
         }
         Sleep(50);

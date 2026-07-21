@@ -53,21 +53,20 @@ int main(int argc, char* argv[]) {
     snprintf(dllPath, sizeof(dllPath), "%sHookConsole.dll", exeDir);
     fprintf(stderr, "DLL path: %s\n", dllPath);
 
-    /* ---- spawn child ---- */
+    /* ---- spawn child SUSPENDED ---- */
     STARTUPINFOA si = { sizeof(si) };
     si.dwFlags = STARTF_USESHOWWINDOW;
     si.wShowWindow = SW_HIDE;
 
     PROCESS_INFORMATION pi = { 0 };
     if (!CreateProcessA(NULL, argv[exeArg], NULL, NULL, TRUE,
-            CREATE_NO_WINDOW | CREATE_UNICODE_ENVIRONMENT,
+            CREATE_SUSPENDED | CREATE_UNICODE_ENVIRONMENT,
             NULL, NULL, &si, &pi)) {
         fail("CreateProcess");
     }
-    CloseHandle(pi.hThread);
-    fprintf(stderr, "Child created: PID=%lu\n", pi.dwProcessId);
+    fprintf(stderr, "Child created (suspended): PID=%lu\n", pi.dwProcessId);
 
-    /* ---- inject DLL ---- */
+    /* ---- inject DLL while suspended ---- */
     HMODULE hKernel32 = GetModuleHandleA("kernel32.dll");
     FARPROC pLoadLibraryA = GetProcAddress(hKernel32, "LoadLibraryA");
 
@@ -85,8 +84,7 @@ int main(int argc, char* argv[]) {
                 WaitForSingleObject(hRemoteThread, 5000);
                 DWORD threadExit = 0;
                 GetExitCodeThread(hRemoteThread, &threadExit);
-                fprintf(stderr, "DLL injection done, thread exit=%lu, HMODULE=%lu\n",
-                    threadExit, threadExit);
+                fprintf(stderr, "DLL injected, HMODULE=%lu\n", threadExit);
                 CloseHandle(hRemoteThread);
             } else {
                 fprintf(stderr, "CreateRemoteThread failed: %lu\n", GetLastError());
@@ -95,18 +93,10 @@ int main(int argc, char* argv[]) {
         VirtualFreeEx(pi.hProcess, remoteBuf, 0, MEM_RELEASE);
     }
 
-    /* ---- inject input ---- */
-    if (inputText) {
-        fprintf(stderr, "Injecting input: [%s]\n", inputText);
-        HANDLE hStdIn = GetStdHandle(STD_INPUT_HANDLE);
-        if (hStdIn) {
-            char inputBuf[1024] = { 0 };
-            strncpy(inputBuf, inputText, sizeof(inputBuf) - 2);
-            strcat(inputBuf, "\r\n");
-            DWORD written;
-            WriteFile(hStdIn, inputBuf, (DWORD)strlen(inputBuf), &written, NULL);
-        }
-    }
+    /* ---- resume child ---- */
+    ResumeThread(pi.hThread);
+    CloseHandle(pi.hThread);
+    fprintf(stderr, "Child resumed\n");
 
     /* ---- wait for child ---- */
     DWORD startTick = GetTickCount();

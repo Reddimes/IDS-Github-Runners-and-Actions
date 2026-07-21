@@ -47,7 +47,14 @@ jobs:
 
       - name: Run and capture output with ConPTY streaming
         shell: cmd
-        run: tools\ConptyCapture\publish\HijackConsole.exe --input "Abraham Lincoln" RevStr.exe > output.txt
+        run: tools\ConptyCapture\publish\HijackConsole.exe --input "Abraham Lincoln" RevStr.exe > output.txt 2> hijack-stderr.txt
+
+      - name: Debug hijack stderr
+        shell: pwsh
+        run: |
+          if (Test-Path "hijack-stderr.txt") {
+            Get-Content "hijack-stderr.txt"
+          }
 
       - name: Debug output
         shell: pwsh

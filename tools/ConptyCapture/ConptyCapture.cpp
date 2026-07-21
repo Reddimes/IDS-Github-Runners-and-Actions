@@ -112,39 +112,43 @@ int main(int argc, char* argv[]) {
 
     // Close parent-side input write handle — signals stdin EOF to the ConPTY.
     CloseHandle(hInputWrite);
+    fprintf(stderr, "Input write handle closed\n");
+
+    // Brief sleep to let ConPTY process the child's output into the pipe buffer.
+    Sleep(200);
 
     // Poll-read available output bytes using PeekNamedPipe (non-blocking).
     // We read before ClosePseudoConsole to capture all buffered data.
-    // Once PeekNamedPipe reports 0 available for two consecutive polls,
-    // the ConPTY has flushed everything.
+    // Poll up to 5 seconds (100 × 50ms) to give the ConPTY time to flush.
     char outputBuf[65536] = { 0 };
     DWORD totalRead = 0;
     DWORD bytesRead;
-    int noDataPolls = 0;
-    while (totalRead < sizeof(outputBuf) - 1 && noDataPolls < 20) {
+    DWORD pollCount = 0;
+    DWORD maxPolls = 100;
+    while (totalRead < sizeof(outputBuf) - 1 && pollCount < maxPolls) {
+        pollCount++;
         DWORD available = 0;
         if (!PeekNamedPipe(hOutputRead, NULL, 0, NULL, &available, NULL)) {
             fprintf(stderr, "PeekNamedPipe error: %lu\n", GetLastError());
             break;
         }
-        if (available == 0) {
-            noDataPolls++;
-            Sleep(50);
-            continue;
+        if (available > 0) {
+            DWORD toRead = available;
+            if (toRead > sizeof(outputBuf) - 1 - totalRead)
+                toRead = sizeof(outputBuf) - 1 - totalRead;
+            if (!ReadFile(hOutputRead, outputBuf + totalRead, (unsigned int)toRead, &bytesRead, NULL)) {
+                fprintf(stderr, "ReadFile error: %lu\n", GetLastError());
+                break;
+            }
+            if (bytesRead == 0) break;
+            totalRead += bytesRead;
+            fprintf(stderr, "Poll %lu: Read %lu bytes (total %lu, available=%lu)\n", pollCount, bytesRead, totalRead, available);
+        } else {
+            fprintf(stderr, "Poll %lu: 0 bytes available\n", pollCount);
         }
-        noDataPolls = 0;
-        DWORD toRead = available;
-        if (toRead > sizeof(outputBuf) - 1 - totalRead)
-            toRead = sizeof(outputBuf) - 1 - totalRead;
-        if (!ReadFile(hOutputRead, outputBuf + totalRead, (unsigned int)toRead, &bytesRead, NULL)) {
-            fprintf(stderr, "ReadFile error: %lu\n", GetLastError());
-            break;
-        }
-        if (bytesRead == 0) break;
-        totalRead += bytesRead;
-        fprintf(stderr, "Read %lu bytes (total %lu, available=%lu)\n", bytesRead, totalRead, available);
+        Sleep(50);
     }
-    fprintf(stderr, "Total bytes read: %lu\n", totalRead);
+    fprintf(stderr, "Polling done: %lu polls, total %lu bytes\n", pollCount, totalRead);
 
     // Close the pseudo-console now that data is drained.
     pClosePty(hPty);

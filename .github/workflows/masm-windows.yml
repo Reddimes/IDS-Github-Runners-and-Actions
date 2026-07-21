@@ -57,7 +57,12 @@ jobs:
             Write-Host "output.txt size: $size bytes"
             $raw = Get-Content "output.txt" -Raw
             Write-Host "Raw content length: $($raw.Length)"
-            $hex = [BitConverter]::ToString([System.Text.Encoding]::UTF8.GetBytes($raw))
+            if ($raw -and $raw.Length -gt 0) {
+              $hex = [BitConverter]::ToString([System.Text.Encoding]::UTF8.GetBytes($raw))
+              Write-Host "Hex: $hex"
+            } else {
+              Write-Host "File is empty (0 bytes)"
+            }
             Write-Host "Hex: $hex"
           } else {
             Write-Host "output.txt does not exist"

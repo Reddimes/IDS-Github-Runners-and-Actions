@@ -168,9 +168,10 @@ int main(int argc, char* argv[]) {
     gReadDone = CreateEventA(NULL, TRUE, FALSE, NULL);
     HANDLE hReadThread = CreateThread(NULL, 0, ReadThread, hOutputRead, 0, NULL);
 
-    /* ---- inject input if requested ---- */
+    /* ---- inject input if requested (small delay so child is ready to read) ---- */
     if (inputText) {
         fprintf(stderr, "Injecting input: [%s]\n", inputText);
+        Sleep(200);
         InjectInput(hInputWrite, inputText);
     }
 

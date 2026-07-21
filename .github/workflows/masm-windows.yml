@@ -47,7 +47,7 @@ jobs:
 
       - name: Run and capture output with ConPTY streaming
         shell: cmd
-        run: tools\ConptyCapture\publish\HijackConsole.exe RevStr.exe > output.txt
+        run: tools\ConptyCapture\publish\HijackConsole.exe --input "Abraham Lincoln" RevStr.exe > output.txt
 
       - name: Debug output
         shell: pwsh

@@ -1,8 +1,11 @@
 #include <windows.h>
+#include <psapi.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <string>
+
+#pragma comment(lib, "psapi.lib")
 
 static void fail(const char* msg) {
     fprintf(stderr, "ERROR: %s (Win32: %lu)\n", msg, GetLastError());

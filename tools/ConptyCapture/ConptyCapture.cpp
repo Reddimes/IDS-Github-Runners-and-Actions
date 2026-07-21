@@ -51,8 +51,8 @@ int main(int argc, char* argv[]) {
     siex.StartupInfo.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
     siex.StartupInfo.wShowWindow = SW_HIDE;
     /* Give the child our console handle as stdout/stderr so WriteConsoleA targets our buffer */
-    siex.StartupInfo.hStdOut = hOurConsole;
-    siex.StartupInfo.hStdErr = hOurConsole;
+    siex.StartupInfo.hStdOutput = hOurConsole;
+    siex.StartupInfo.hStdError = hOurConsole;
     /* stdin from pipe (unused by RevStr but needed) */
     HANDLE hStdInRead, hStdInWrite;
     CreatePipe(&hStdInRead, &hStdInWrite, &sa, 0);
@@ -96,7 +96,8 @@ int main(int argc, char* argv[]) {
         DWORD cellCount = (DWORD)(rows * cols);
         if (cellCount > sizeof(buf) - 1) cellCount = sizeof(buf) - 1;
 
-        if (ReadConsoleOutputCharacterA(hOurConsole, buf, cellCount, (COORD){0, 0}, NULL)) {
+        COORD origin = { 0, 0 };
+        if (ReadConsoleOutputCharacterA(hOurConsole, buf, cellCount, origin, NULL)) {
             fprintf(stderr, "ReadConsoleOutput: %lu chars\n", cellCount);
             fwrite(buf, 1, cellCount, stdout);
             fflush(stdout);

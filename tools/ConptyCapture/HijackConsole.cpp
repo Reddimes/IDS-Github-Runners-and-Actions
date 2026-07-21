@@ -5,7 +5,7 @@
 #include <string>
 
 /* ------------------------------------------------------------------ */
-/*  ConPTY real-time capture + INPUT_RECORD injection                  */
+/*  ConPTY screen-buffer capture + INPUT_RECORD injection             */
 /*  Usage: HijackConsole.exe [--input "text"] <exe> [args...]         */
 /* ------------------------------------------------------------------ */
 
@@ -17,25 +17,6 @@ static void fail(const char* msg) {
 /* --- ConPTY function pointers --- */
 typedef HRESULT(WINAPI* PFN_CREATE_PSEUDO_CONSOLE)(COORD, HANDLE, HANDLE, DWORD, HANDLE*);
 typedef VOID(WINAPI* PFN_CLOSE_PSEUDO_CONSOLE)(HANDLE);
-
-/* --- Shared state for background read thread --- */
-static std::string gCaptured;
-static HANDLE      gReadDone = NULL;
-
-static DWORD WINAPI ReadThread(LPVOID lpParam) {
-    HANDLE hRead = (HANDLE)lpParam;
-    char chunk[4096];
-    DWORD bytesRead;
-    while (ReadFile(hRead, chunk, sizeof(chunk), &bytesRead, NULL)) {
-        if (bytesRead == 0) break;
-        gCaptured.append(chunk, bytesRead);
-    }
-    DWORD err = GetLastError();
-    fprintf(stderr, "ReadThread exited: lastError=%lu (broken pipe: %d)\n",
-        err, (err == ERROR_BROKEN_PIPE || err == ERROR_PIPE_NOT_CONNECTED));
-    SetEvent(gReadDone);
-    return 0;
-}
 
 /* --- Inject keystrokes + Enter into ConPTY input pipe --- */
 static void InjectInput(HANDLE hInputWrite, const char* text) {
@@ -63,6 +44,25 @@ static void InjectInput(HANDLE hInputWrite, const char* text) {
     enter.Event.KeyEvent.wVirtualScanCode = 0;
     enter.Event.KeyEvent.dwControlKeyState = 0;
     WriteFile(hInputWrite, &enter, sizeof(enter), &written, NULL);
+}
+
+/* --- Read current screen buffer contents --- */
+static DWORD ReadScreenBuffer(HANDLE hPty, char* buf, DWORD bufSize) {
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    if (!GetConsoleScreenBufferInfo(hPty, &csbi)) return 0;
+
+    DWORD cols = (DWORD)csbi.dwSize.X;
+    DWORD rows = (DWORD)csbi.dwSize.Y;
+    DWORD totalChars = cols * rows;
+
+    if (totalChars > bufSize) totalChars = bufSize;
+    if (totalChars == 0) return 0;
+
+    DWORD read;
+    if (!ReadConsoleOutputCharacterA(hPty, buf, (DWORD)totalChars, { 0, 0 }, &read))
+        return 0;
+    buf[read] = '\0';
+    return read;
 }
 
 int main(int argc, char* argv[]) {
@@ -106,21 +106,22 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    /* ---- create inheritable pipes ---- */
+    /* ---- create inheritable pipes for ConPTY input ---- */
     SECURITY_ATTRIBUTES sa = { sizeof(sa), NULL, TRUE };
 
     HANDLE hInputRead, hInputWrite;
     if (!CreatePipe(&hInputRead, &hInputWrite, &sa, 0))
         fail("CreatePipe input");
 
-    HANDLE hOutputRead, hOutputWrite;
-    if (!CreatePipe(&hOutputRead, &hOutputWrite, &sa, 0))
-        fail("CreatePipe output");
+    /* Dummy pipe for ConPTY output (we read screen buffer instead) */
+    HANDLE hDummyRead, hDummyWrite;
+    if (!CreatePipe(&hDummyRead, &hDummyWrite, &sa, 0))
+        fail("CreatePipe dummy output");
 
     /* ---- create pseudo-console ---- */
     HANDLE hPty = NULL;
     COORD  size = { 120, 50 };
-    HRESULT hr = pCreatePty(size, hInputRead, hOutputWrite, 0, &hPty);
+    HRESULT hr = pCreatePty(size, hInputRead, hDummyWrite, 0, &hPty);
     if (FAILED(hr)) {
         fprintf(stderr, "CreatePseudoConsole failed: 0x%lx\n", hr);
         return 20;
@@ -129,8 +130,8 @@ int main(int argc, char* argv[]) {
     /* ---- clear inherit flags (ConPTY holds its own copies) ---- */
     SetHandleInformation(hInputRead,  HANDLE_FLAG_INHERIT, 0);
     SetHandleInformation(hInputWrite, HANDLE_FLAG_INHERIT, 0);
-    SetHandleInformation(hOutputRead, HANDLE_FLAG_INHERIT, 0);
-    SetHandleInformation(hOutputWrite, HANDLE_FLAG_INHERIT, 0);
+    SetHandleInformation(hDummyRead,  HANDLE_FLAG_INHERIT, 0);
+    SetHandleInformation(hDummyWrite, HANDLE_FLAG_INHERIT, 0);
 
     /* ---- build attribute list for child ---- */
     SIZE_T attrSize = 0;
@@ -160,53 +161,60 @@ int main(int argc, char* argv[]) {
     CloseHandle(pi.hThread);
     fprintf(stderr, "Child created: PID=%lu\n", pi.dwProcessId);
 
-    /* ---- close PTY-side pipe ends (ConPTY owns copies) ---- */
+    /* ---- close ConPTY-side pipe ends (ConPTY owns copies) ---- */
     CloseHandle(hInputRead);
-    CloseHandle(hOutputWrite);
+    CloseHandle(hDummyWrite);
 
-    /* ---- spawn background read thread ---- */
-    gReadDone = CreateEventA(NULL, TRUE, FALSE, NULL);
-    HANDLE hReadThread = CreateThread(NULL, 0, ReadThread, hOutputRead, 0, NULL);
-
-    /* ---- inject input immediately (child needs it on startup) ---- */
+    /* ---- inject input if requested ---- */
     if (inputText) {
         fprintf(stderr, "Injecting input: [%s]\n", inputText);
         InjectInput(hInputWrite, inputText);
-        fprintf(stderr, "Input injected, waiting for child...\n");
     }
 
-    /* ---- wait for child to exit ---- */
-    DWORD exitCode = STILL_ACTIVE;
+    /* ---- poll screen buffer until child exits ---- */
+    std::string gCaptured;
+    DWORD lastPos = 0;
+
+    /* Get buffer dimensions once */
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    DWORD bufSize = 120 * 50;
+    char* buf = (char*)malloc(bufSize + 1);
+    if (!buf) fail("malloc buf");
+
     DWORD startTick = GetTickCount();
+    DWORD exitCode = STILL_ACTIVE;
+
     while (GetTickCount() - startTick < 60000) {
-        if (GetExitCodeProcess(pi.hProcess, &exitCode) && exitCode != STILL_ACTIVE) {
-            fprintf(stderr, "Child exited: code=%lu (after %lu ms), captured=%zu bytes\n",
-                exitCode, GetTickCount() - startTick, gCaptured.length());
+        if (GetExitCodeProcess(pi.hProcess, &exitCode) && exitCode != STILL_ACTIVE)
             break;
-        }
+
         Sleep(50);
+
+        DWORD read = ReadScreenBuffer(hPty, buf, bufSize);
+        if (read > lastPos) {
+            gCaptured.append(buf + lastPos, read - lastPos);
+            lastPos = read;
+        }
     }
 
-    /* ---- signal stdin EOF to ConPTY so it flushes output ---- */
-    CloseHandle(hInputWrite);
-    fprintf(stderr, "Input pipe closed, waiting for read thread...\n");
-
-    /* ---- wait for read thread to drain pipe ---- */
-    DWORD readWait = WaitForSingleObject(gReadDone, 5000);
-    if (readWait == WAIT_TIMEOUT) {
-        fprintf(stderr, "ReadThread timeout — forcing termination\n");
-        TerminateThread(hReadThread, 0);
+    /* Final read after child exits */
+    Sleep(100);
+    DWORD read = ReadScreenBuffer(hPty, buf, bufSize);
+    if (read > lastPos) {
+        gCaptured.append(buf + lastPos, read - lastPos);
+        lastPos = read;
     }
-    CloseHandle(hReadThread);
 
-    /* ---- close pseudo-console ---- */
-    pClosePty(hPty);
-    fprintf(stderr, "Pseudo-console closed\n");
+    free(buf);
 
-    /* ---- cleanup handles ---- */
+    fprintf(stderr, "Child exited: code=%lu (after %lu ms), captured=%zu bytes\n",
+        exitCode, GetTickCount() - startTick, gCaptured.length());
+
+    /* ---- cleanup ---- */
     CloseHandle(pi.hProcess);
-    CloseHandle(hOutputRead);
-    CloseHandle(gReadDone);
+    CloseHandle(hInputWrite);
+    CloseHandle(hDummyRead);
+    pClosePty(hPty);
     DeleteProcThreadAttributeList((LPPROC_THREAD_ATTRIBUTE_LIST)attrBuf);
     free(attrBuf);
 
@@ -216,7 +224,7 @@ int main(int argc, char* argv[]) {
     while (len > 0 && (data[len - 1] == '\r' || data[len - 1] == '\n'))
         len--;
 
-    fprintf(stderr, "Captured %zu bytes\n", len);
+    fprintf(stderr, "Trimmed to %zu bytes\n", len);
     fwrite(data, 1, len, stdout);
     fflush(stdout);
 

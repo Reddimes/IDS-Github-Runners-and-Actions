@@ -23,98 +23,103 @@ int main(int argc, char* argv[]) {
         strcat(cmdLine, argv[i]);
     }
 
-    /* Phase 1: free any inherited console, allocate our own */
+    /* Phase 1: free inherited console, allocate our own */
     FreeConsole();
     if (!AllocConsole()) {
-        fprintf(stderr, "AllocConsole failed: %lu\n", GetLastError());
+        fail("AllocConsole");
     }
     fprintf(stderr, "AllocConsole done\n");
 
-    /* Get our console output handle — this is what the child will write to */
-    HANDLE hOurConsole = CreateFileA("CONOUT$", GENERIC_READ | GENERIC_WRITE,
-        FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
-    if (hOurConsole == INVALID_HANDLE_VALUE) {
-        fprintf(stderr, "CreateFile CONOUT$ failed: %lu, falling back to GetStdHandle\n", GetLastError());
-        hOurConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    /* Get the screen buffer handle — WriteConsoleA writes to the attached
+       console's screen buffer, which is what GetStdHandle(STD_OUTPUT_HANDLE) returns */
+    HANDLE hScreen = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (hScreen == INVALID_HANDLE_VALUE || hScreen == NULL) {
+        fail("GetStdHandle STD_OUTPUT_HANDLE");
     }
-    fprintf(stderr, "Our console handle: %p\n", hOurConsole);
+    fprintf(stderr, "Screen buffer handle: %p\n", hScreen);
 
-    /* Phase 2: create pipes for capturing stdout (in case WriteConsoleA somehow goes to pipe) */
+    /* Create pipes for stdin (child needs a valid stdin handle) */
     SECURITY_ATTRIBUTES sa = { sizeof(sa), NULL, TRUE };
-    HANDLE hStdOutRead, hStdOutWrite;
-    CreatePipe(&hStdOutRead, &hStdOutWrite, &sa, 0);
-    SetHandleInformation(hStdOutRead, HANDLE_FLAG_INHERIT, 0);
+    HANDLE hStdInRead, hStdInWrite;
+    CreatePipe(&hStdInRead, &hStdInWrite, &sa, 0);
+    SetHandleInformation(hStdInWrite, HANDLE_FLAG_INHERIT, 0);
 
-    /* Phase 3: create child with our console as stdout/stderr */
+    /* Phase 2: create child — NO CREATE_NEW_CONSOLE, NO CREATE_NO_WINDOW
+       Child will inherit parent's console and WriteConsoleA will target parent's screen buffer.
+       Use EXTENDED_STARTUPINFO_PRESENT to pass explicit handles via STARTUPINFOEX. */
     STARTUPINFOEXA siex = { 0 };
     siex.StartupInfo.cb = sizeof(siex);
     siex.StartupInfo.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
     siex.StartupInfo.wShowWindow = SW_HIDE;
-    /* Give the child our console handle as stdout/stderr so WriteConsoleA targets our buffer */
-    siex.StartupInfo.hStdOutput = hOurConsole;
-    siex.StartupInfo.hStdError = hOurConsole;
-    /* stdin from pipe (unused by RevStr but needed) */
-    HANDLE hStdInRead, hStdInWrite;
-    CreatePipe(&hStdInRead, &hStdInWrite, &sa, 0);
-    SetHandleInformation(hStdInWrite, HANDLE_FLAG_INHERIT, 0);
     siex.StartupInfo.hStdInput = hStdInRead;
+    siex.StartupInfo.hStdOutput = hScreen;
+    siex.StartupInfo.hStdError = hScreen;
 
     PROCESS_INFORMATION pi = { 0 };
     if (!CreateProcessA(NULL, cmdLine, NULL, NULL, TRUE,
-            CREATE_NO_WINDOW | EXTENDED_STARTUPINFO_PRESENT,
+            EXTENDED_STARTUPINFO_PRESENT,
             NULL, NULL, &siex.StartupInfo, &pi)) {
         fail("CreateProcess");
     }
     fprintf(stderr, "Child created: PID=%lu\n", pi.dwProcessId);
     CloseHandle(pi.hThread);
-
-    /* Close parent-side pipe handles we don't need */
     CloseHandle(hStdInRead);
-    CloseHandle(hStdOutWrite);
 
-    /* Phase 4: wait for child to exit */
-    DWORD exitCode = STILL_ACTIVE;
+    /* Phase 3: wait for child to exit */
     DWORD startTick = GetTickCount();
-    WaitForSingleObject(pi.hProcess, 10000);
+    WaitForSingleObject(pi.hProcess, 15000);
+    DWORD exitCode = STILL_ACTIVE;
     GetExitCodeProcess(pi.hProcess, &exitCode);
-    fprintf(stderr, "Child exited: code=%lu (after %lu ms)\n", exitCode, GetTickCount() - startTick);
+    fprintf(stderr, "Child exited: code=%lu (after %lu ms)\n",
+        exitCode, GetTickCount() - startTick);
     CloseHandle(pi.hProcess);
-
-    /* Signal stdin EOF */
     CloseHandle(hStdInWrite);
 
-    /* Phase 5: read our console screen buffer — child wrote here via WriteConsoleA */
-    char buf[8192] = { 0 };
-    CONSOLE_SCREEN_BUFFER_INFO info;
-    if (GetConsoleScreenBufferInfo(hOurConsole, &info)) {
-        fprintf(stderr, "Screen: %dx%d, cursor at %d,%d\n",
-            info.dwSize.X, info.dwSize.Y, info.dwCursorPosition.X, info.dwCursorPosition.Y);
+    /* Phase 4: read the screen buffer the child wrote to */
+    char buf[16384] = { 0 };
+    CONSOLE_SCREEN_BUFFER_INFO sbi;
 
-        /* Read from (0,0) to cursor position */
-        int rows = info.dwCursorPosition.Y + 1;
-        int cols = info.dwSize.X;
+    if (!GetConsoleScreenBufferInfo(hScreen, &sbi)) {
+        fprintf(stderr, "GetConsoleScreenBufferInfo failed: %lu\n", GetLastError());
+    } else {
+        fprintf(stderr, "Screen: %dx%d, cursor at (%d,%d), window=(%d,%d)-(%d,%d)\n",
+            sbi.dwSize.X, sbi.dwSize.Y,
+            sbi.dwCursorPosition.X, sbi.dwCursorPosition.Y,
+            sbi.srWindow.Left, sbi.srWindow.Top,
+            sbi.srWindow.Right, sbi.srWindow.Bottom);
+
+        /* Read the full visible window area */
+        int rows = sbi.srWindow.Bottom - sbi.srWindow.Top + 1;
+        int cols = sbi.dwSize.X;
+        if (rows <= 0) rows = 1;
+        if (cols <= 0) cols = 80;
         DWORD cellCount = (DWORD)(rows * cols);
-        if (cellCount > sizeof(buf) - 1) cellCount = sizeof(buf) - 1;
+        if (cellCount > sizeof(buf) - 1) cellCount = (DWORD)(sizeof(buf) - 1);
 
         COORD origin = { 0, 0 };
-        if (ReadConsoleOutputCharacterA(hOurConsole, buf, cellCount, origin, NULL)) {
-            fprintf(stderr, "ReadConsoleOutput: %lu chars\n", cellCount);
-            fwrite(buf, 1, cellCount, stdout);
-            fflush(stdout);
+        DWORD readCount = 0;
+        if (ReadConsoleOutputCharacterA(hScreen, buf, cellCount, origin, &readCount)) {
+            fprintf(stderr, "ReadConsoleOutputCharacterA: requested=%lu, returned=%lu\n",
+                cellCount, readCount);
         } else {
             fprintf(stderr, "ReadConsoleOutputCharacterA failed: %lu\n", GetLastError());
         }
-    } else {
-        fprintf(stderr, "GetConsoleScreenBufferInfo failed: %lu\n", GetLastError());
     }
 
-    /* Also try reading the pipe (in case anything went there) */
-    char pbuf[4096] = { 0 };
-    DWORD pr = 0;
-    if (ReadFile(hStdOutRead, pbuf, sizeof(pbuf) - 1, &pr, NULL) && pr > 0) {
-        fprintf(stderr, "Pipe output: %lu bytes\n", pr);
+    /* Phase 5: write captured buffer to stdout (parent's stdout for GitHub Actions) */
+    /* Trim trailing whitespace/newlines for comparison */
+    size_t len = strlen(buf);
+    while (len > 0 && (buf[len-1] == '\r' || buf[len-1] == '\n' || buf[len-1] == ' ')) {
+        buf[--len] = '\0';
     }
-    CloseHandle(hStdOutRead);
+    if (len > 0) {
+        fprintf(stderr, "Writing %zu chars to stdout\n", len);
+        fwrite(buf, 1, len, stdout);
+        fprintf(stdout, "\n");
+        fflush(stdout);
+    } else {
+        fprintf(stderr, "Buffer is empty after reading\n");
+    }
 
     FreeConsole();
     return (int)exitCode;

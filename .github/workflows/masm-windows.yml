@@ -38,10 +38,10 @@ jobs:
           ml /c src\RevStr.asm
           link /SUBSYSTEM:CONSOLE /OUT:RevStr.exe RevStr.obj C:\Irvine32\Irvine32.lib kernel32.lib user32.lib
 
-      - name: Build HijackConsole tool
+      - name: Build HijackConsole tool (x86 to match RevStr)
         shell: cmd
         run: |
-          call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
+          call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86
           mkdir tools\ConptyCapture\publish
           cl /O2 /EHsc /Fe:tools\ConptyCapture\publish\HijackConsole.exe tools\ConptyCapture\HijackConsole.cpp
 

@@ -3,9 +3,8 @@
 # Start llama-server
 $HOME/.unsloth/llama.cpp/llama-server \
   -m /home/jeff/.cache/huggingface/hub/models--unsloth--Qwen3.6-27B-MTP-GGUF/snapshots/5cb35eb3dcbf52dbce5f87dbc64df6aaffadcace/Qwen3.6-27B-UD-Q4_K_XL.gguf \
-  --ctx-size 48152 \
-  --gpu-layers 99 \
-  --mlock \
+  --ctx-size 49152 \
+  --gpu-layers all \
   --no-mmap \
   --threads $(nproc) \
   --host 0.0.0.0 \

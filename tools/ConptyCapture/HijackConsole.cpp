@@ -67,8 +67,33 @@ int main(int argc, char* argv[]) {
     fprintf(stderr, "Child created (suspended): PID=%lu\n", pi.dwProcessId);
 
     /* ---- inject DLL while suspended ---- */
-    HMODULE hKernel32 = GetModuleHandleA("kernel32.dll");
-    FARPROC pLoadLibraryA = GetProcAddress(hKernel32, "LoadLibraryA");
+    /* Get LoadLibraryA address from CHILD's kernel32.dll (not parent's) */
+    HMODULE hParentKernel32 = GetModuleHandleA("kernel32.dll");
+    FARPROC pLoadLibraryA = GetProcAddress(hParentKernel32, "LoadLibraryA");
+    DWORD loadLibOffset = (DWORD)pLoadLibraryA - (DWORD)hParentKernel32;
+
+    /* Find kernel32.dll base in child process */
+    HMODULE hMods[1024];
+    DWORD cbNeeded;
+    LPVOID pChildLoadLibraryA = NULL;
+    if (EnumProcessModulesEx(pi.hProcess, hMods, sizeof(hMods), &cbNeeded, LIST_MODULES_32BIT)) {
+        for (int i = 0; i < cbNeeded / sizeof(HMODULE); i++) {
+            char modName[256] = { 0 };
+            if (GetModuleBaseNameA(pi.hProcess, hMods[i], modName, sizeof(modName))) {
+                if (_stricmp(modName, "kernel32.dll") == 0 || _stricmp(modName, "kernel32.DLL") == 0 ||
+                    _stricmp(modName, "kernel32.DLL") == 0) {
+                    pChildLoadLibraryA = (LPVOID)((DWORD)hMods[i] + loadLibOffset);
+                    fprintf(stderr, "kernel32.dll in child: %p, LoadLibraryA: %p\n", hMods[i], pChildLoadLibraryA);
+                    break;
+                }
+            }
+        }
+    }
+
+    if (!pChildLoadLibraryA) {
+        fprintf(stderr, "WARN: Could not find LoadLibraryA in child, using parent offset as fallback\n");
+        pChildLoadLibraryA = (LPVOID)((DWORD)hMods[0] + loadLibOffset);
+    }
 
     LPVOID remoteBuf = VirtualAllocEx(pi.hProcess, NULL, strlen(dllPath) + 1,
         MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
@@ -79,7 +104,7 @@ int main(int argc, char* argv[]) {
             fprintf(stderr, "WriteProcessMemory failed: %lu\n", GetLastError());
         } else {
             HANDLE hRemoteThread = CreateRemoteThread(pi.hProcess, NULL, 0,
-                (LPTHREAD_START_ROUTINE)pLoadLibraryA, remoteBuf, 0, NULL);
+                (LPTHREAD_START_ROUTINE)pChildLoadLibraryA, remoteBuf, 0, NULL);
             if (hRemoteThread) {
                 WaitForSingleObject(hRemoteThread, 5000);
                 DWORD threadExit = 0;

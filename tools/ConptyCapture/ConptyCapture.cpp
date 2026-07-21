@@ -23,30 +23,21 @@ int main(int argc, char* argv[]) {
         strcat(cmdLine, argv[i]);
     }
 
-    /* Phase 1: free inherited console, allocate our own */
     FreeConsole();
     if (!AllocConsole()) {
         fail("AllocConsole");
     }
-    fprintf(stderr, "AllocConsole done\n");
 
-    /* Get the screen buffer handle — WriteConsoleA writes to the attached
-       console's screen buffer, which is what GetStdHandle(STD_OUTPUT_HANDLE) returns */
     HANDLE hScreen = GetStdHandle(STD_OUTPUT_HANDLE);
     if (hScreen == INVALID_HANDLE_VALUE || hScreen == NULL) {
         fail("GetStdHandle STD_OUTPUT_HANDLE");
     }
-    fprintf(stderr, "Screen buffer handle: %p\n", hScreen);
 
-    /* Create pipes for stdin (child needs a valid stdin handle) */
     SECURITY_ATTRIBUTES sa = { sizeof(sa), NULL, TRUE };
     HANDLE hStdInRead, hStdInWrite;
     CreatePipe(&hStdInRead, &hStdInWrite, &sa, 0);
     SetHandleInformation(hStdInWrite, HANDLE_FLAG_INHERIT, 0);
 
-    /* Phase 2: create child — NO CREATE_NEW_CONSOLE, NO CREATE_NO_WINDOW
-       Child will inherit parent's console and WriteConsoleA will target parent's screen buffer.
-       Use EXTENDED_STARTUPINFO_PRESENT to pass explicit handles via STARTUPINFOEX. */
     STARTUPINFOEXA siex = { 0 };
     siex.StartupInfo.cb = sizeof(siex);
     siex.StartupInfo.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
@@ -65,7 +56,6 @@ int main(int argc, char* argv[]) {
     CloseHandle(pi.hThread);
     CloseHandle(hStdInRead);
 
-    /* Phase 3: wait for child to exit */
     DWORD startTick = GetTickCount();
     WaitForSingleObject(pi.hProcess, 15000);
     DWORD exitCode = STILL_ACTIVE;
@@ -75,50 +65,72 @@ int main(int argc, char* argv[]) {
     CloseHandle(pi.hProcess);
     CloseHandle(hStdInWrite);
 
-    /* Phase 4: read the screen buffer the child wrote to */
-    char buf[16384] = { 0 };
+    char raw[16384] = { 0 };
+    char buf[32768] = { 0 };
     CONSOLE_SCREEN_BUFFER_INFO sbi;
 
     if (!GetConsoleScreenBufferInfo(hScreen, &sbi)) {
         fprintf(stderr, "GetConsoleScreenBufferInfo failed: %lu\n", GetLastError());
     } else {
-        fprintf(stderr, "Screen: %dx%d, cursor at (%d,%d), window=(%d,%d)-(%d,%d)\n",
-            sbi.dwSize.X, sbi.dwSize.Y,
-            sbi.dwCursorPosition.X, sbi.dwCursorPosition.Y,
-            sbi.srWindow.Left, sbi.srWindow.Top,
-            sbi.srWindow.Right, sbi.srWindow.Bottom);
-
-        /* Read the full visible window area */
         int rows = sbi.srWindow.Bottom - sbi.srWindow.Top + 1;
         int cols = sbi.dwSize.X;
         if (rows <= 0) rows = 1;
         if (cols <= 0) cols = 80;
         DWORD cellCount = (DWORD)(rows * cols);
-        if (cellCount > sizeof(buf) - 1) cellCount = (DWORD)(sizeof(buf) - 1);
+        if (cellCount > sizeof(raw) - 1) cellCount = (DWORD)(sizeof(raw) - 1);
 
         COORD origin = { 0, 0 };
         DWORD readCount = 0;
-        if (ReadConsoleOutputCharacterA(hScreen, buf, cellCount, origin, &readCount)) {
-            fprintf(stderr, "ReadConsoleOutputCharacterA: requested=%lu, returned=%lu\n",
-                cellCount, readCount);
+        if (ReadConsoleOutputCharacterA(hScreen, raw, cellCount, origin, &readCount)) {
+            fprintf(stderr, "ReadConsole: cols=%d, rows=%d, requested=%lu, returned=%lu\n",
+                cols, rows, cellCount, readCount);
+
+            /* Reconstruct lines: for each row, strip trailing spaces, append \n */
+            int outPos = 0;
+            int actualRows = (int)(readCount / cols);
+            if (actualRows <= 0) actualRows = 1;
+            for (int r = 0; r < actualRows; r++) {
+                int rowStart = r * cols;
+                int rowLen = (r == actualRows - 1)
+                    ? (int)(readCount - rowStart)
+                    : cols;
+                if (rowStart + rowLen > (int)readCount) rowLen = (int)(readCount - rowStart);
+
+                /* Strip trailing spaces from this row */
+                int end = rowStart + rowLen - 1;
+                while (end >= rowStart && raw[end] == ' ') {
+                    end--;
+                }
+                int contentLen = end - rowStart + 1;
+                if (contentLen > 0 && outPos + contentLen + 1 < (int)sizeof(buf)) {
+                    memcpy(buf + outPos, raw + rowStart, contentLen);
+                    outPos += contentLen;
+                    buf[outPos++] = '\n';
+                }
+            }
+            buf[outPos] = '\0';
         } else {
             fprintf(stderr, "ReadConsoleOutputCharacterA failed: %lu\n", GetLastError());
         }
     }
 
-    /* Phase 5: write captured buffer to stdout (parent's stdout for GitHub Actions) */
-    /* Trim trailing whitespace/newlines for comparison */
+    /* Trim leading/trailing whitespace from entire buffer */
     size_t len = strlen(buf);
     while (len > 0 && (buf[len-1] == '\r' || buf[len-1] == '\n' || buf[len-1] == ' ')) {
         buf[--len] = '\0';
     }
+    /* Strip leading newlines */
+    char* start = buf;
+    while (*start == '\r' || *start == '\n' || *start == ' ') start++;
+    if (start != buf) memmove(buf, start, strlen(start) + 1);
+
+    len = strlen(buf);
     if (len > 0) {
         fprintf(stderr, "Writing %zu chars to stdout\n", len);
         fwrite(buf, 1, len, stdout);
-        fprintf(stdout, "\n");
         fflush(stdout);
     } else {
-        fprintf(stderr, "Buffer is empty after reading\n");
+        fprintf(stderr, "Buffer is empty\n");
     }
 
     FreeConsole();

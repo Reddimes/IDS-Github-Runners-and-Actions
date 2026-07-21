@@ -5,8 +5,8 @@
 #include <string>
 
 /* ------------------------------------------------------------------ */
-/*  ConPTY screen-buffer capture + INPUT_RECORD injection             */
-/*  Attaches to child's console to read screen buffer.                */
+/*  ConPTY capture + INPUT_RECORD injection                            */
+/*  Drains output pipe, falls back to screen buffer via AttachConsole. */
 /*  Usage: HijackConsole.exe [--input "text"] <exe> [args...]         */
 /* ------------------------------------------------------------------ */
 
@@ -34,7 +34,6 @@ static void InjectInput(HANDLE hInputWrite, const char* text) {
         ir.Event.KeyEvent.dwControlKeyState = 0;
         WriteFile(hInputWrite, &ir, sizeof(ir), &written, NULL);
     }
-    /* Send Enter (key down) */
     INPUT_RECORD enter;
     ZeroMemory(&enter, sizeof(enter));
     enter.EventType = KEY_EVENT;
@@ -147,7 +146,7 @@ int main(int argc, char* argv[]) {
     CloseHandle(hInputRead);
     CloseHandle(hOutputWrite);
 
-    /* ---- inject input immediately ---- */
+    /* ---- inject input ---- */
     if (inputText) {
         fprintf(stderr, "Injecting input: [%s]\n", inputText);
         InjectInput(hInputWrite, inputText);
@@ -165,8 +164,12 @@ int main(int argc, char* argv[]) {
         Sleep(50);
     }
 
-    /* ---- drain output pipe ---- */
+    /* ---- close input, then ConPTY (triggers pipe EOF) ---- */
     CloseHandle(hInputWrite);
+    pClosePty(hPty);
+    fprintf(stderr, "ConPTY closed, draining output pipe...\n");
+
+    /* ---- drain output pipe ---- */
     std::string captured;
     char chunk[4096];
     DWORD bytesRead;
@@ -178,59 +181,55 @@ int main(int argc, char* argv[]) {
         captured.append(chunk, bytesRead);
     }
     fprintf(stderr, "Pipe drained: %d reads, %zu bytes\n", pipeReads, captured.length());
+    CloseHandle(hOutputRead);
 
-    /* ---- attach to child console, read screen buffer ---- */
-    fprintf(stderr, "Attempting AttachConsole(PID=%lu)...\n", pi.dwProcessId);
-    BOOL attached = AttachConsole(pi.dwProcessId);
-    if (attached) {
-        fprintf(stderr, "Attached to child console. Reading screen buffer...\n");
+    /* ---- fallback: AttachConsole + screen buffer ---- */
+    if (captured.empty()) {
+        fprintf(stderr, "Pipe empty, trying AttachConsole(PID=%lu)...\n", pi.dwProcessId);
+        BOOL attached = AttachConsole(pi.dwProcessId);
+        if (attached) {
+            HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+            fprintf(stderr, "StdOutputHandle=%p\n", hStdOut);
 
-        HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-        fprintf(stderr, "StdOutputHandle=%p\n", hStdOut);
+            CONSOLE_SCREEN_BUFFER_INFO csbi;
+            if (GetConsoleScreenBufferInfo(hStdOut, &csbi)) {
+                DWORD cols = (DWORD)csbi.dwSize.X;
+                DWORD rows = (DWORD)csbi.dwSize.Y;
+                DWORD totalChars = cols * rows;
+                fprintf(stderr, "Screen buffer: %lux%lu = %lu chars\n", cols, rows, totalChars);
 
-        CONSOLE_SCREEN_BUFFER_INFO csbi;
-        BOOL gotInfo = GetConsoleScreenBufferInfo(hStdOut, &csbi);
-        fprintf(stderr, "GetConsoleScreenBufferInfo: %s\n", gotInfo ? "OK" : "FAIL");
-
-        if (gotInfo) {
-            DWORD cols = (DWORD)csbi.dwSize.X;
-            DWORD rows = (DWORD)csbi.dwSize.Y;
-            DWORD totalChars = cols * rows;
-            fprintf(stderr, "Buffer: %lux%lu = %lu chars\n", cols, rows, totalChars);
-
-            char* buf = (char*)malloc(totalChars + 1);
-            DWORD read;
-            BOOL ok = ReadConsoleOutputCharacterA(hStdOut, buf, (DWORD)totalChars,
-                { 0, 0 }, &read);
-            fprintf(stderr, "ReadConsoleOutputCharacter: %s, read=%lu\n",
-                ok ? "OK" : "FAIL", ok ? read : 0);
-
-            if (ok && read > 0) {
-                buf[read] = '\0';
-                fprintf(stderr, "Screen buffer content [%d chars]:\n", read);
-                for (DWORD i = 0; i < read && i < 200; i++) {
-                    fprintf(stderr, "  [%lu] 0x%02x '%c'\n", i, (unsigned char)buf[i],
-                        (buf[i] >= 32 && buf[i] < 127) ? buf[i] : '.');
+                char* buf = (char*)malloc(totalChars + 1);
+                DWORD read;
+                if (ReadConsoleOutputCharacterA(hStdOut, buf, (DWORD)totalChars,
+                    { 0, 0 }, &read)) {
+                    fprintf(stderr, "ReadConsoleOutputCharacter: %lu chars\n", read);
+                    if (read > 0) {
+                        buf[read] = '\0';
+                        /* Dump hex of first 200 chars for debugging */
+                        for (DWORD i = 0; i < read && i < 200; i++) {
+                            fprintf(stderr, "  [%lu] 0x%02x '%c'\n", i,
+                                (unsigned char)buf[i],
+                                (buf[i] >= 32 && buf[i] < 127) ? buf[i] : '.');
+                        }
+                        captured.append(buf, read);
+                    }
+                } else {
+                    fprintf(stderr, "ReadConsoleOutputCharacter failed: %lu\n",
+                        GetLastError());
                 }
-
-                /* Use screen buffer if pipe was empty */
-                if (captured.empty()) {
-                    captured.append(buf, read);
-                }
+                free(buf);
+            } else {
+                fprintf(stderr, "GetConsoleScreenBufferInfo failed: %lu\n",
+                    GetLastError());
             }
-            free(buf);
+            FreeConsole();
+        } else {
+            fprintf(stderr, "AttachConsole failed: %lu\n", GetLastError());
         }
-
-        FreeConsole();
-        fprintf(stderr, "Detached from child console\n");
-    } else {
-        fprintf(stderr, "AttachConsole failed: %lu\n", GetLastError());
     }
 
     /* ---- cleanup ---- */
     CloseHandle(pi.hProcess);
-    CloseHandle(hOutputRead);
-    pClosePty(hPty);
     DeleteProcThreadAttributeList((LPPROC_THREAD_ATTRIBUTE_LIST)attrBuf);
     free(attrBuf);
 

@@ -1,3 +1,9 @@
 CLAUDE.md
 .obsidian/
 unsloth_compiled_cache/
+start-opencode.sh
+.codebase/
+.opencode/
+.supermemory/
+node_modules/
+bun.lock

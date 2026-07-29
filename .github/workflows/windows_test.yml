@@ -16,18 +16,44 @@ jobs:
       - name: Compile with ML (MASM)
         shell: cmd
         run: |
-          ml /c /nologo src/test_windows.asm
+          ml /c /nologo /I . src/RevStr-input.asm
 
-      - name: Run and Redirect
+      - name: Run and Redirect (Direct)
         shell: cmd
         run: |
-          test_windows.exe > output.txt
-          echo Redirect complete.
+          src/RevStr-input.exe > output_direct.txt
+          echo Redirection complete.
 
-      - name: Check Output File
+      - name: Check Direct Output
+        shell: cmd
+        run: type output_direct.txt
+
+  test-asm-pipe-redirection:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Compile with ML (MASM)
         shell: cmd
         run: |
-          type output.txt
+          ml /c /nologo /I . src/RevStr-input.asm
+
+      - name: Run and Pipe (echo | exe > file)
+        shell: cmd
+        run: |
+          echo hello | src/RevStr-input.exe > output_pipe.txt
+          echo Pipe redirection complete.
+
+      - name: Check Pipe Output
+        shell: cmd
+        run: |
+          echo --- Content of output_pipe.txt ---
+          type output_pipe.txt
+          echo -----------------------------------
 
   test-echo:
     runs-on: windows-latest

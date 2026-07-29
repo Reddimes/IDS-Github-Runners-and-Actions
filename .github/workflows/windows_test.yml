@@ -1,0 +1,41 @@
+name: Windows Assembly Redirection Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-asm-redirection:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Compile with ML (MASM)
+        shell: cmd
+        run: |
+          ml /c /nologo src/test_windows.asm
+
+      - name: Run and Redirect
+        shell: cmd
+        run: |
+          test_windows.exe > output.txt
+          echo Redirect complete.
+
+      - name: Check Output File
+        shell: cmd
+        run: |
+          type output.txt
+
+  test-echo:
+    runs-on: windows-latest
+    steps:
+      - name: Echo to file
+        shell: cmd
+        run: echo "Echo redirection works on Windows" > echo_test.txt
+      
+      - name: Verify Echo
+        shell: cmd
+        run: type echo_test.txt

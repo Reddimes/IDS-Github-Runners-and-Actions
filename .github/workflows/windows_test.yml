@@ -26,16 +26,17 @@ jobs:
           Write-Host "Extraction complete."
 
       - name: Compile and Link with ML/Link
-        shell: cmd
+        shell: powershell
         run: |
-          :: Initialize the VS environment for x86
-          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86
+          $vcvars = Get-ChildItem -Path "C:\Program Files\Microsoft Visual Studio" -Filter "vcvarsall.bat" -Recurse | Select-Object -First 1
+          if (-not $vcvars) {
+            Write-Error "vcvarsall.bat not found"
+            exit 1
+          }
+          Write-Host "Found vcvarsall.bat at: $($vcvars.FullName)"
           
-          :: Compile the source to an object file
-          ml /c /nologo /I C:\Irvine32 src/RevStr-input.asm
-          
-          :: Link the object file into an executable, linking Irvine32
-          link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src/RevStr-input.obj C:\Irvine32\Irvine32.lib
+          # Use cmd to run the sequence in the initialized environment
+          & cmd /c "call `"$($vcvars.FullName)`" x86 && ml /c /nologo /I C:\Irvine32 src/RevStr-input.asm && link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src/RevStr-input.obj C:\Irvine32\Irvine32.lib"
 
       - name: Run and Redirect (Direct)
         shell: cmd
@@ -65,15 +66,22 @@ jobs:
           $url = "https://github.com/surferkip/asmbook/raw/refs/heads/main/Irvine.zip"
           $output = "irvine.zip"
           $dest = "C:\\Irvine32"
+          Write-Host "Downloading Irvine32 from $url..."
           Invoke-WebRequest -Uri $url -OutFile $output
+          Write-Host "Extracting to $dest..."
           Expand-Archive -Path $output -DestinationPath $dest -Force
 
       - name: Compile and Link with ML/Link
-        shell: cmd
+        shell: powershell
         run: |
-          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86
-          ml /c /nologo /I C:\Irvine32 src/RevStr-input.asm
-          link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src/RevStr-input.obj C:\Irvine32\Irvine32.lib
+          $vcvars = Get-ChildItem -Path "C:\Program Files\Microsoft Visual Studio" -Filter "vcvarsall.bat" -Recurse | Select-Object -First 1
+          if (-not $vcvars) {
+            Write-Error "vcvarsall.bat not found"
+            exit 1
+          
+          Write-Host "Found vcvarsall.bat at: $($vcvars.FullName)"
+          
+          & cmd /c "call `"$($vcvars.FullName)`" x86 && ml /c /nologo /I C:\Irvine32 src/RevStr-input.asm && link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src/RevStr-input.obj C:\Irvine32\Irvine32.lib"
 
       - name: Run and Pipe (echo | exe > file)
         shell: cmd

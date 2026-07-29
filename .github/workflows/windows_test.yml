@@ -38,7 +38,7 @@ jobs:
         run: |
           call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86
           ml /c /nologo /I C:\Irvine32 src\RevStr-input.asm
-          link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src\RevStr-input.obj C:\Irvine32\Irvine32.lib
+          link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src\RevStr-input.obj C:\Irvine32\Irvine\Irvine32.lib C:\Irvine32\Irvine32.lib
 
       - name: Run and Redirect (Direct)
         shell: cmd
@@ -84,7 +84,7 @@ jobs:
         run: |
           call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86
           ml /c /nologo /I C:\Irvine32 src\RevStr-input.asm
-          link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src\RevStr-input.obj C:\Irvine32\Irvine32.lib
+          link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src\RevStr-input.obj C:\Irvine32\Irvine\Irvine32.lib C:\Irvine32\Irvine32.lib
 
       - name: Run and Pipe (echo | exe > file)
         shell: cmd
@@ -130,7 +130,7 @@ jobs:
         run: |
           call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86
           ml /c /nologo /I C:\Irvine32 src\RevStr-input.asm
-          link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src\RevStr-input.obj C:\Irvine32\Irvine32.lib
+          link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src\RevStr-input.obj C:\Irvine32\Irvine\Irvine32.lib C:\Irvine32\Irvine32.lib
 
       - name: Run with Argument
         shell: cmd
@@ -176,7 +176,7 @@ jobs:
         run: |
           call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86
           ml /c /nologo /I C:\Irvine32 src\RevStr-input.asm
-          link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src\RevStr-input.obj C:\Irvine32\Irvine32.lib
+          link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src\RevStr-input.obj C:\Irvine32\Irvine\Irvine32.lib C:\Irvine32\Irvine32.lib
 
       - name: Run with Newline Input
         shell: cmd
@@ -242,7 +242,7 @@ jobs:
         run: |
           call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86
           ml /c /nologo /I C:\Irvine32 src\RevStr-input.asm
-          link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src\RevStr-input.obj
+          link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src\RevStr-input.obj C:\Irvine32\Irvine\Irvine32.lib
 
       - name: Run and verify HijackCapture
         shell: cmd

@@ -22,6 +22,9 @@ jobs:
           Write-Host "Downloading Irvine32 from $url..."
           Invoke-WebRequest -Uri $url -OutFile $output
           Write-Host "Extracting to $dest..."
+          if (!(Test-Path $dest)) {
+            New-Item -ItemType Directory -Path $dest
+          }
           Expand-Archive -Path $output -DestinationPath $dest -Force
           Write-Host "Extraction complete."
 
@@ -30,13 +33,13 @@ jobs:
         run: |
           $vcvars = Get-ChildItem -Path "C:\Program Files\Microsoft Visual Studio" -Filter "vcvarsall.bat" -Recurse | Select-Object -First 1
           if (-not $vcvars) {
-            Write-Error "vcvarsall.bat not found"
+            Write-Error "vcvarsall.bat not found. Cannot initialize environment."
             exit 1
           }
           Write-Host "Found vcvarsall.bat at: $($vcvars.FullName)"
           
-          # Use cmd to run the sequence in the initialized environment
-          & cmd /c "call `"$($vcvars.FullName)`" x86 && ml /c /nologo /I C:\Irvine32 src/RevStr-input.asm && link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src/RevStr-input.obj C:\Irvine32\Irvine32.lib"
+          # We run the entire toolchain in one cmd process to ensure the environment persists
+          & cmd /c "call `"$($vcvars.FullName)`" x86 && ml /c /nologo /I C:\Irvine32 src/RevStr-input.asm && link src/RevStr-input.obj C:\Irvine32\Irvine32.lib /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32"
 
       - name: Run and Redirect (Direct)
         shell: cmd
@@ -69,6 +72,9 @@ jobs:
           Write-Host "Downloading Irvine32 from $url..."
           Invoke-WebRequest -Uri $url -OutFile $output
           Write-Host "Extracting to $dest..."
+          if (!(Test-Path $dest)) {
+            New-Item -ItemType Directory -Path $dest
+          }
           Expand-Archive -Path $output -DestinationPath $dest -Force
 
       - name: Compile and Link with ML/Link
@@ -76,12 +82,12 @@ jobs:
         run: |
           $vcvars = Get-ChildItem -Path "C:\Program Files\Microsoft Visual Studio" -Filter "vcvarsall.bat" -Recurse | Select-Object -First 1
           if (-not $vcvars) {
-            Write-Error "vcvarsall.bat not found"
+            Write-Error "vcvarsall.bat not found. Cannot initialize environment."
             exit 1
-          
+          }
           Write-Host "Found vcvarsall.bat at: $($vcvars.FullName)"
           
-          & cmd /c "call `"$($vcvars.FullName)`" x86 && ml /c /nologo /I C:\Irvine32 src/RevStr-input.asm && link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src/RevStr-input.obj C:\Irvine32\Irvine32.lib"
+          & cmd /c "call `"$($vcvars.FullName)`" x86 && ml /c /nologo /I C:\Irvine32 src/RevStr-input.asm && link src/RevStr-input.obj C:\Irvine32\Irvine32.lib /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32"
 
       - name: Run and Pipe (echo | exe > file)
         shell: cmd

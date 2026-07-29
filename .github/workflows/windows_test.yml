@@ -7,14 +7,19 @@ jobs:
   test-asm-redirection:
     runs-on: windows-latest
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Setup MASM
+        uses: glslang/setup-masm@v1.4
+        with:
+          vs-architecture: 'x86'
 
       - name: Set up MSBuild
         uses: microsoft/setup-msbuild@v2
 
       - name: Download and Extract Irvine32
-        shell: powershell
+        shell: pwsh
         run: |
           $url = "https://github.com/surferkip/asmbook/raw/refs/heads/main/Irvine.zip"
           $output = "irvine.zip"
@@ -29,21 +34,16 @@ jobs:
           Write-Host "Extraction complete."
 
       - name: Compile and Link with ML/Link
-        shell: powershell
+        shell: cmd
         run: |
-          $vcvars = Get-ChildItem -Path "C:\Program Files\Microsoft Visual Studio" -Filter "vcvarsall.bat" -Recurse | Select-Object -First 1
-          if (-not $vcvars) {
-            Write-Error "vcvarsall.bat not found. Cannot initialize environment."
-            exit 1
-          }
-          Write-Host "Found vcvarsall.bat at: $($vcvars.FullName)"
-          
-          & cmd /c "call `"$($vcvars.FullName)`" x86 && ml /c /nologo /I C:\Irvine32 src/RevStr-input.asm && link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src/RevStr-input.obj C:\Irvine32\Irvine32.lib"
+          call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86
+          ml /c /nologo /I C:\Irvine32 src\RevStr-input.asm
+          link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src\RevStr-input.obj C:\Irvine32\Irvine32.lib
 
       - name: Run and Redirect (Direct)
         shell: cmd
         run: |
-          src/RevStr-input.exe > output_direct.txt
+          src\RevStr-input.exe > output_direct.txt
           echo Redirection complete.
 
       - name: Check Direct Output
@@ -56,42 +56,40 @@ jobs:
   test-asm-pipe-redirection:
     runs-on: windows-latest
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Setup MASM
+        uses: glslang/setup-masm@v1.4
+        with:
+          vs-architecture: 'x86'
 
       - name: Set up MSBuild
         uses: microsoft/setup-msbuild@v2
 
       - name: Download and Extract Irvine32
-        shell: powershell
+        shell: pwsh
         run: |
           $url = "https://github.com/surferkip/asmbook/raw/refs/heads/main/Irvine.zip"
           $output = "irvine.zip"
           $dest = "C:\\Irvine32"
-          Write-Host "Downloading Irvine32 from $url..."
           Invoke-WebRequest -Uri $url -OutFile $output
-          Write-Host "Extracting to $dest..."
           if (!(Test-Path $dest)) {
             New-Item -ItemType Directory -Path $dest
           }
           Expand-Archive -Path $output -DestinationPath $dest -Force
 
       - name: Compile and Link with ML/Link
-        shell: powershell
+        shell: cmd
         run: |
-          $vcvars = Get-Childitem -Path "C:\Program Files\Microsoft Visual Studio" -Filter "vcvarsall.bat" -Recurse | Select-Object -First 1
-          if (-not $vcvars) {
-            Write-Error "vcvarsall.bat not found. Cannot initialize environment."
-            exit 1
-          }
-          Write-Host "Found vcvarsall.bat at: $($vcvars.FullName)"
-          
-          & cmd /c "call `"$($vcvars.FullName)`" x86 && ml /c /nologo /I C:\Irvine32 src/RevStr-input.asm && link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src/RevStr-input.obj C:\Irvine32\Irvine32.lib"
+          call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86
+          ml /c /nologo /I C:\Irvine32 src\RevStr-input.asm
+          link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src\RevStr-input.obj C:\Irvine32\Irvine32.lib
 
       - name: Run and Pipe (echo | exe > file)
         shell: cmd
         run: |
-          echo hello | src/RevStr-input.exe > output_pipe.txt
+          echo hello | src\RevStr-input.exe > output_pipe.txt
           echo Pipe redirection complete.
 
       - name: Check Pipe Output
@@ -104,42 +102,40 @@ jobs:
   test-argument-passing:
     runs-on: windows-latest
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Setup MASM
+        uses: glslang/setup-masm@v1.4
+        with:
+          vs-architecture: 'x86'
 
       - name: Set up MSBuild
         uses: microsoft/setup-msbuild@v2
 
       - name: Download and Extract Irvine32
-        shell: powershell
+        shell: pwsh
         run: |
           $url = "https://github.com/surferkip/asmbook/raw/refs/heads/main/Irvine.zip"
           $output = "irvine.zip"
           $dest = "C:\\Irvine32"
-          Write-Host "Downloading Irvine32 from $url..."
           Invoke-WebRequest -Uri $url -OutFile $output
-          Write-Host "Extracting to $dest..."
           if (!(Test-Path $dest)) {
             New-Item -ItemType Directory -Path $dest
           }
           Expand-Archive -Path $output -DestinationPath $dest -Force
 
       - name: Compile and Link with ML/Link
-        shell: powershell
+        shell: cmd
         run: |
-          $vcvars = Get-Childitem -Path "C:\Program Files\Microsoft Visual Studio" -Filter "vcvarsall.bat" -Recurse | Select-Object -First 1
-          if (-not $vcvars) {
-            Write-Error "vcvarsall.bat not found. Cannot initialize environment."
-            exit 1
-          }
-          Write-Host "Found vcvarsall.bat at: $($vcvars.FullName)"
-          
-          & cmd /c "call `"$($vcvars.FullName)`" x86 && ml /c /nologo /I C:\Irvine32 src/RevStr-input.asm && link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src/RevStr-input.obj C:\Irvine32\Irvine32.lib"
+          call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86
+          ml /c /nologo /I C:\Irvine32 src\RevStr-input.asm
+          link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src\RevStr-input.obj C:\Irvine32\Irvine32.lib
 
       - name: Run with Argument
         shell: cmd
         run: |
-          src/RevStr-input.exe hello > output_arg.txt
+          src\RevStr-input.exe hello > output_arg.txt
           echo Argument test complete.
 
       - name: Check Argument Output
@@ -152,42 +148,40 @@ jobs:
   test-newline-handling:
     runs-on: windows-latest
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Setup MASM
+        uses: glslang/setup-masm@v1.4
+        with:
+          vs-architecture: 'x86'
 
       - name: Set up MSBuild
         uses: microsoft/setup-msbuild@v2
 
       - name: Download and Extract Irvine32
-        shell: powershell
+        shell: pwsh
         run: |
           $url = "https://github.com/surferkip/asmbook/raw/refs/heads/main/Irvine.zip"
           $output = "irvine.zip"
           $dest = "C:\\Irvine32"
-          Write-Host "Downloading Irvine32 from $url..."
           Invoke-WebRequest -Uri $url -OutFile $output
-          Write-Host "Extracting to $dest..."
           if (!(Test-Path $dest)) {
             New-Item -ItemType Directory -Path $dest
           }
           Expand-Archive -Path $output -DestinationPath $dest -Force
 
       - name: Compile and Link with ML/Link
-        shell: powershell
+        shell: cmd
         run: |
-          $vcvars = Get-Childitem -Path "C:\Program Files\Microsoft Visual Studio" -Filter "vcvarsall.bat" -Recurse | Select-Object -First 1
-          if (-not $vcvars) {
-            Write-Error "vcvarsall.bat not found. Cannot initialize environment."
-            exit 1
-          }
-          Write-Host "Found vcvarsall.bat at: $($vcvars.FullName)"
-          
-          & cmd /c "call `"$($vcvars.FullName)`" x86 && ml /c /nologo /I C:\Irvine32 src/RevStr-input.asm && link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src/RevStr-input.obj C:\Irvine32\Irvine32.lib"
+          call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86
+          ml /c /nologo /I C:\Irvine32 src\RevStr-input.asm
+          link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src\RevStr-input.obj C:\Irvine32\Irvine32.lib
 
       - name: Run with Newline Input
         shell: cmd
         run: |
-          echo hello | src/RevStr-input.exe > output_newline.txt
+          echo hello | src\RevStr-input.exe > output_newline.txt
           echo Newline test complete.
 
       - name: Check Newline Output
@@ -207,3 +201,51 @@ jobs:
       - name: Verify Echo
         shell: cmd
         run: type echo_test.txt
+
+  test-hijack-capture:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup MASM
+        uses: glslang/setup-masm@v1.4
+        with:
+          vs-architecture: 'x86'
+
+      - name: Set up MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Download and Extract Irvine32
+        shell: pwsh
+        run: |
+          $url = "https://github.com/surferkip/asmbook/raw/refs/heads/main/Irvine.zip"
+          $output = "irvine.zip"
+          $dest = "C:\\Irvine32"
+          Write-Host "Downloading Irvine32 from $url..."
+          Invoke-WebRequest -Uri $url -OutFile $output
+          Write-Host "Extracting to $dest..."
+          if (!(Test-Path $dest)) {
+            New-Item -ItemType Directory -Path $dest
+          }
+          Expand-Archive -Path $output -DestinationPath $dest -Force
+          Write-Host "Extraction complete."
+
+      - name: Compile HijackConsole.cpp
+        shell: cmd
+        run: |
+          call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86
+          cl /I C:\Irvine32 tools/ConptyCapture/HijackConsole.cpp /Fe:HijackConsole.exe /link /SUBSYSTEM:CONSOLE /LIBPATH:C:\Irvine32 Irvine32.lib
+
+      - name: Compile RevStr-input.asm
+        shell: cmd
+        run: |
+          call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86
+          ml /c /nologo /I C:\Irvine32 src\RevStr-input.asm
+          link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src\RevStr-input.obj C:\Irvine32\Irvine32.lib
+
+      - name: Run and verify HijackCapture
+        shell: cmd
+        run: |
+          HijackConsole.exe src\RevStr-input.exe > hijack_output.txt
+          type hijack_output.txt

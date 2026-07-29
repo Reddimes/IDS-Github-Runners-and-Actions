@@ -13,10 +13,22 @@ jobs:
       - name: Set up MSBuild
         uses: microsoft/setup-msbuild@v2
 
+      - name: Download and Extract Irvine32
+        shell: powershell
+        run: |
+          $url = "https://github.com/surferkip/asmbook/raw/refs/heads/main/Irvine.zip"
+          $output = "irvine.zip"
+          $dest = "C:\\Irvine32"
+          Write-Host "Downloading Irvine32 from $url..."
+          Invoke-WebRequest -Uri $url -OutFile $output
+          Write-Host "Extracting to $dest..."
+          Expand-Archive -Path $output -DestinationPath $dest -Force
+          Write-Host "Extraction complete."
+
       - name: Compile with ML (MASM)
         shell: cmd
         run: |
-          ml /c /nologo /I . src/RevStr-input.asm
+          ml /c /nologo /I C:\Irvine32 src/RevStr-input.asm
 
       - name: Run and Redirect (Direct)
         shell: cmd
@@ -26,7 +38,10 @@ jobs:
 
       - name: Check Direct Output
         shell: cmd
-        run: type output_direct.txt
+        run: |
+          echo --- Content of output_direct.txt ---
+          type output_direct.txt
+          echo -------------------------------
 
   test-asm-pipe-redirection:
     runs-on: windows-latest
@@ -37,10 +52,19 @@ jobs:
       - name: Set up MSBuild
         uses: microsoft/setup-msbuild@v2
 
+      - name: Download and Extract Irvine32
+        shell: powershell
+        run: |
+          $url = "https://github.com/surferkip/asmbook/raw/refs/heads/main/Irvine.zip"
+          $output = "irvine.zip"
+          $dest = "C:\\Irvine32"
+          Invoke-WebRequest -Uri $url -OutFile $output
+          Expand-Archive -Path $output -DestinationPath $dest -Force
+
       - name: Compile with ML (MASM)
         shell: cmd
         run: |
-          ml /c /nologo /I . src/RevStr-input.asm
+          ml /c /nologo /I C:\Irvine32 src/RevStr-input.asm
 
       - name: Run and Pipe (echo | exe > file)
         shell: cmd

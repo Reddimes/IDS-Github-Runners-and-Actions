@@ -38,8 +38,7 @@ jobs:
           }
           Write-Host "Found vcvarsall.bat at: $($vcvars.FullName)"
           
-          # We run the entire toolchain in one cmd process to ensure the environment persists
-          & cmd /c "call `"$($vcvars.FullName)`" x86 && ml /c /nologo /I C:\Irvine32 src/RevStr-input.asm && link src/RevStr-input.obj C:\Irvine32\Irvine32.lib /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32"
+          & cmd /c "call `"$($vcvars.FullName)`" x86 && ml /c /nologo /I C:\Irvine32 src/RevStr-input.asm && link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src/RevStr-input.obj C:\Irvine32\Irvine32.lib"
 
       - name: Run and Redirect (Direct)
         shell: cmd
@@ -80,14 +79,14 @@ jobs:
       - name: Compile and Link with ML/Link
         shell: powershell
         run: |
-          $vcvars = Get-ChildItem -Path "C:\Program Files\Microsoft Visual Studio" -Filter "vcvarsall.bat" -Recurse | Select-Object -First 1
+          $vcvars = Get-Childitem -Path "C:\Program Files\Microsoft Visual Studio" -Filter "vcvarsall.bat" -Recurse | Select-Object -First 1
           if (-not $vcvars) {
             Write-Error "vcvarsall.bat not found. Cannot initialize environment."
             exit 1
           }
           Write-Host "Found vcvarsall.bat at: $($vcvars.FullName)"
           
-          & cmd /c "call `"$($vcvars.FullName)`" x86 && ml /c /nologo /I C:\Irvine32 src/RevStr-input.asm && link src/RevStr-input.obj C:\Irvine32\Irvine32.lib /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32"
+          & cmd /c "call `"$($vcvars.FullName)`" x86 && ml /c /nologo /I C:\Irvine32 src/RevStr-input.asm && link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src/RevStr-input.obj C:\Irvine32\Irvine32.lib"
 
       - name: Run and Pipe (echo | exe > file)
         shell: cmd
@@ -100,6 +99,54 @@ jobs:
         run: |
           echo --- Content of output_pipe.txt ---
           type output_pipe.txt
+          echo -----------------------------------
+
+  test-argument-passing:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Download and Extract Irvine32
+        shell: powershell
+        run: |
+          $url = "https://github.com/surferkip/asmbook/raw/refs/heads/main/Irvine.zip"
+          $output = "irvine.zip"
+          $dest = "C:\\Irvine32"
+          Write-Host "Downloading Irvine32 from $url..."
+          Invoke-WebRequest -Uri $url -OutFile $output
+          Write-Host "Extracting to $dest..."
+          if (!(Test-Path $dest)) {
+            New-Item -ItemType Directory -Path $dest
+          }
+          Expand-Archive -Path $output -DestinationPath $dest -Force
+
+      - name: Compile and Link with ML/Link
+        shell: powershell
+        run: |
+          $vcvars = Get-ChildItem -Path "C:\Program Files\Microsoft Visual Studio" -Filter "vcvarsall.bat" -Recurse | Select-Object -First 1
+          if (-not $vcvars) {
+            Write-Error "vcvarsall.bat not found. Cannot initialize environment."
+            exit 1
+          }
+          Write-Host "Found vcvarsall.bat at: $($vcvars.FullName)"
+          
+          & cmd /c "call `"$($vcvars.FullName)`" x86 && ml /c /nologo /I C:\Irvine32 src/RevStr-input.asm && link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src/RevStr-input.obj C:\Irvine32\Irvine32.lib"
+
+      - name: Run with Argument
+        shell: cmd
+        run: |
+          src/RevStr-input.exe hello > output_arg.txt
+          echo Argument test complete.
+
+      - name: Check Argument Output
+        shell: cmd
+        run: |
+          echo --- Content of output_arg.txt ---
+          type output_arg.txt
           echo -----------------------------------
 
   test-echo:

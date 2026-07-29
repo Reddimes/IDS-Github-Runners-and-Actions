@@ -235,14 +235,14 @@ jobs:
         shell: cmd
         run: |
           call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86
-          cl /I C:\Irvine32 tools/ConptyCapture/HijackConsole.cpp /Fe:HijackConsole.exe /link /SUBSYSTEM:CONSOLE /LIBPATH:C:\Irvine32 Irvine32.lib
+          cl /I C:\Irvine32 tools/ConptyCapture/HijackConsole.cpp /Fe:HijackConsole.exe /link /SUBSYSTEM:CONSOLE
 
       - name: Compile RevStr-input.asm
         shell: cmd
         run: |
           call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86
           ml /c /nologo /I C:\Irvine32 src\RevStr-input.asm
-          link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src\RevStr-input.obj C:\Irvine32\Irvine32.lib
+          link /SUBSYSTEM:CONSOLE /ENTRY:main /LIBPATH:C:\Irvine32 src\RevStr-input.obj
 
       - name: Run and verify HijackCapture
         shell: cmd

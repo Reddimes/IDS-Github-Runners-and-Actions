@@ -83,13 +83,8 @@ jobs:
           python scripts\interact.py tests/interaction_test_cases.json
 
       - name: Display Interaction Log
-        shell: pwsh
-        run: |
-          if (Test-Path "tests/interaction_trace.log") {
-            Get-Content tests/interaction_trace.log | Write-Host
-          } else {
-            Write-Warning "Interaction log (tests/interaction_trace.log) was not found. The test might have failed before logging."
-          }
+        shell: cmd
+        run: if exist tests\interaction_trace.log (type tests\interaction_trace.log) else (echo Interaction log not found.)
 
       - name: Upload Results
         if: always()

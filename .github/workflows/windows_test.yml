@@ -74,7 +74,7 @@ jobs:
       - name: Install dependencies
         shell: cmd
         run: |
-          conda install -n test-env python=3.12 setuptools wexpect -y
+          conda install -n test-env python=3.11 setuptools wexpect -y
 
       - name: Test Run (Data-Driven Interaction)
         shell: cmd

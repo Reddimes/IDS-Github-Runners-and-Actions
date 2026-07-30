@@ -1,0 +1,37 @@
+{
+  "metadata": {
+    "test_name": "MASM Interaction Suite",
+    "target_exe": "src/RevStr-input.exe"
+  },
+  "config": {
+    "prompt_pattern": "Enter String: ",
+    "exit_command": "exit",
+    "fuzzy_match": true
+  },
+  "test_cases": [
+    {
+      "id": "TC-001",
+      "input": "hello",
+      "expected": "olleh",
+      "description": "Standard lowercase"
+    },
+    {
+      "id": "TC-002",
+      "input": "MASM",
+      "expected": "MSAM",
+      "description": "Mixed case"
+    },
+    {
+      "id": "TC-003",
+      "input": "123 456",
+      "expected": "654 321",
+      "description": "Spaces included"
+    },
+    {
+      "id": "TC-004",
+      "input": "!@#$",
+      "expected": "0!",
+      "description": "Special characters"
+    }
+  ]
+}

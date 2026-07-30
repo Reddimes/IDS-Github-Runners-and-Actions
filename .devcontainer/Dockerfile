@@ -18,8 +18,9 @@ WORKDIR /opt/msvc
 RUN git clone --depth 1 https://github.com/mstorsjo/msvc-wine.git src
 RUN PYTHONUNBUFFERED=1 ./src/vsdownload.py --accept-license --dest /opt/msvc --architecture x86
 RUN ./src/install.sh /opt/msvc
-RUN wineboot --init
-RUN while pgrep wineserver > /dev/null; do sleep 1; done
+RUN wineboot --init && \
+    while pgrep wineserver > /dev/null; do sleep 1; done && \
+    sleep 10
 
 # Patch the MSVC environment to include Irvine32 paths (matches workflow)
 RUN sed -i \

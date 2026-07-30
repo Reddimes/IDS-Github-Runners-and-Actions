@@ -85,7 +85,11 @@ jobs:
       - name: Display Interaction Log
         shell: pwsh
         run: |
-          Get-Content tests/interaction_trace.log | Write-Host
+          if (Test-Path "tests/interaction_trace.log") {
+            Get-Content tests/interaction_trace.log | Write-Host
+          } else {
+            Write-Warning "Interaction log (tests/interaction_trace.log) was not found. The test might have failed before logging."
+          }
 
       - name: Upload Results
         if: always()

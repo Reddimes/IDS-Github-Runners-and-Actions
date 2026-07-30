@@ -70,12 +70,7 @@ jobs:
           channels: conda-forge
           activate-environment: test-env
           auto-activate-base: false
-
-      - name: Install dependencies
-        shell: cmd
-        run: |
-          conda install -n test-env python=3.7 setuptools wexpect -y
-
+          environment-file: packages-list.yml
       - name: Test Run (Data-Driven Interaction)
         shell: cmd
         run: conda activate test-env && python scripts\interact.py tests\interaction_test_cases.json

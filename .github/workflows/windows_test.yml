@@ -78,9 +78,7 @@ jobs:
 
       - name: Test Run (Data-Driven Interaction)
         shell: cmd
-        run: |
-          conda activate test-env
-          python scripts\interact.py tests/interaction_test_cases.json
+        run: conda run -n test-env python scripts\interact.py tests\interaction_test_cases.json
 
       - name: Display Interaction Log
         shell: pwsh

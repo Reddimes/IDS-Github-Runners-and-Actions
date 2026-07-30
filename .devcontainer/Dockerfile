@@ -13,11 +13,11 @@ RUN dpkg --add-architecture i386 && \
 
 # === Layer 2: MSVC + Wine ===
 WORKDIR /opt/msvc
-RUN git clone --depth 1 https://github.com/mstorsjo/msvc-wine.git src && \
-    PYTHONUNBUFFERED=1 ./src/vsdownload.py --accept-license --dest /opt/msvc && \
-    ./src/install.sh /opt/msvc && \
-    wineboot --init && \
-    while pgrep wineserver > /dev/null; do sleep 1; done
+RUN git clone --depth 1 https://github.com/mstorsjo/msvc-wine.git src
+RUN PYTHONUNBUFFERED=1 ./src/vsdownload.py --accept-license --dest /opt/msvc
+RUN ./src/install.sh /opt/msvc
+RUN wineboot --init
+RUN while pgrep wineserver > /dev/null; do sleep 1; done
 
 # Patch the MSVC environment to include Irvine32 paths (matches workflow)
 RUN sed -i \
@@ -35,11 +35,8 @@ RUN mkdir -p /opt/Irvine32 && \
 
 # === Layer 4: VS Code Extension (trailofbits/vscode-masm) ===
 WORKDIR /opt
-RUN git clone --depth 1 https://github.com/trailofbits/vscode-masm.git && \
-    cd vscode-masm && \
-    npm install && \
-    npx @vscode/vsce package && \
-    mv *.vsix /opt/vscode-masm.vsix
+RUN git clone --depth 1 https://github.com/trailofbits/vscode-masm.git
+RUN cd vscode-masm && npm install && npx @vscode/vsce package && mv *.vsix /opt/vscode-masm.vsix
 
 # === Final Setup ===
 WORKDIR /app

@@ -1,11 +1,11 @@
-import os
-import json
-import datetime
-import sys
-import wexpect
-
 def fuzzy_match(actual, expected):
     return str(actual).strip().lower() == str(expected).strip().lower()
+
+import os
+import sys
+import json
+import datetime
+import wexpect
 
 def run_test_suite(manifest_path):
     # Get the directory where the script is located
@@ -27,7 +27,7 @@ def run_test_suite(manifest_path):
     if not os.path.exists(manifest_path):
         print(f"Error: Manifest file not found: {manifest_path}")
         sys.exit(1)
-
+    
     with open(manifest_path, 'r') as f:
         data = json.load(f)
     
@@ -44,7 +44,7 @@ def run_test_suite(manifest_path):
     else:
         print(f"Error: Target executable not found: {target_exe}")
         sys.exit(1)
-
+    
     config = data['config']
     test_cases = data['test_cases']
     
@@ -69,10 +69,6 @@ def run_test_suite(manifest_path):
             
             for tc in test_cases:
                 tc_id = tc['id']
-                input_str = tc['input']
-                expected_str = tc['expected']
-                
-                log_file.write(f"\n[Test Case {tc_id}] Input: '{input_str}' | Expected: '{expected_str}'\n")
                 print(f"Running {tc_id}...")
                 
                 child = None
@@ -80,42 +76,80 @@ def run_test_suite(manifest_path):
                     child = wexpect.spawn(target_exe, encoding="utf-8")
                     log_file.write(f"\n[Test Case {tc_id}] Starting new process...\n")
                     
-                    # Wait for prompt
+                    # Wait for initial prompt
                     child.expect(config['prompt_pattern'])
                     log_file.write(f"PROMPT: {child.before}\n")
                     
-                    # Send input
-                    child.sendline(input_str)
-                    log_file.write(f"SENT: {input_str}\n")
+                    # Handle legacy single-input format fallback
+                    if 'steps' not in tc:
+                        tc['steps'] = [{
+                            'input': tc['input'],
+                            'expected': tc['expected'],
+                            'fuzzy_match': config.get('fuzzy_match', False),
+                            'skip_verification': False
+                        }]
                     
-                    # Wait for the next prompt or EOF
-                    try:
-                        child.expect([config['prompt_pattern'], wexpect.EOF], timeout=2)
-                    except wexpect.TIMEOUT:
-                        log_file.write("TIMEOUT waiting for next prompt/EOF\n")
+                    test_passed = True
+                    step_results = []
                     
-                    actual_output = child.before.strip()
-                    log_file.write(f"ACTUAL OUTPUT: {actual_output}\n")
-                    
-                    # Match logic
-                    is_match = fuzzy_match(actual_output, expected_str) if config.get('fuzzy_match') else (actual_output == expected_str)
-                    
-                    if is_match:
+                    for idx, step in enumerate(tc['steps']):
+                        input_str = step['input']
+                        expected_str = step['expected']
+                        fuzzy = step.get('fuzzy_match', False)
+                        skip_verif = step.get('skip_verification', False)
+                        
+                        log_file.write(f"STEP {idx+1}: Input: '{input_str}' | Expected: '{expected_str}' | Fuzzy: {fuzzy} | SkipVerif: {skip_verif}\n")
+                        print(f"  Step {idx+1}/{len(tc['steps'])}: Sending '{input_str}'")
+                        
+                        child.sendline(input_str)
+                        log_file.write(f"  SENT: {input_str}\n")
+                        
+                        try:
+                            child.expect([config['prompt_pattern'], wexpect.EOF], timeout=2)
+                        except wexpect.TIMEOUT:
+                            log_file.write("  TIMEOUT waiting for next prompt/EOF\n")
+                        
+                        actual_output = child.before.strip()
+                        log_file.write(f"  ACTUAL OUTPUT: {actual_output}\n")
+                        
+                        if skip_verif:
+                            is_match = True
+                            log_file.write("  VERIFICATION SKIPPED\n")
+                        else:
+                            is_match = fuzzy_match(actual_output, expected_str) if fuzzy else (actual_output == expected_str)
+                        
+                        step_status = "passed" if is_match else "failed"
+                        if not is_match:
+                            test_passed = False
+                            log_file.write(f"  STEP RESULT: {step_status.upper()} (Expected: '{expected_str}', Got: '{actual_output}')\n")
+                        else:
+                            log_file.write(f"  STEP RESULT: PASS\n")
+                        
+                        step_results.append({
+                            "step": idx + 1,
+                            "input": input_str,
+                            "expected": expected_str,
+                            "actual": actual_output,
+                            "status": step_status
+                        })
+                        
+                        if not test_passed:
+                            break  # Stop this test case if a step fails
+                            
+                    if test_passed:
                         results['summary']['passed'] += 1
                         status = "passed"
-                        log_file.write(f"RESULT: PASS\n")
                     else:
                         results['summary']['failed'] += 1
                         status = "failed"
-                        log_file.write(f"RESULT: FAIL (Expected: '{expected_str}', Got: '{actual_output}')\n")
                     
                     results['details'].append({
                         "id": tc_id,
                         "status": status,
-                        "input": input_str,
-                        "expected": expected_str,
-                        "actual": actual_output
+                        "steps": step_results
                     })
+                    
+                    log_file.write(f"RESULT: {status.upper()}\n")
                 
                 except Exception as e:
                     log_file.write(f"ERROR in test case {tc_id}: {str(e)}\n")
@@ -149,15 +183,6 @@ def run_test_suite(manifest_path):
             log_file.write(f"Final Score: {score}%\n")
             results['summary']['score'] = score
             
-        # Finalize results to JSON
-        with open(results_file_path, "w") as f:
-            json.dump(results, f, indent=2)
-            
-    except Exception as e:
-        print(f"Setup or Execution Failure: {e}")
-        sys.exit(1)
-
-                
         # Finalize results to JSON
         with open(results_file_path, "w") as f:
             json.dump(results, f, indent=2)

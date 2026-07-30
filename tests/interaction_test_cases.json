@@ -1,7 +1,7 @@
 {
   "metadata": {
     "test_name": "MASM Interaction Suite",
-    "target_exe": "src/RevStr-input.exe"
+    "target_exe": "src\\RevStr-input.exe"
   },
   "config": {
     "prompt_pattern": "Enter String: ",

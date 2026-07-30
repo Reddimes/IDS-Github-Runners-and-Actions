@@ -34,10 +34,14 @@ def run_test_suite(manifest_path):
     target_exe = data['metadata']['target_exe']
     # Resolve target_exe relative to the project root
     if not os.path.isabs(target_exe):
-        target_exe = os.path.join(project_root, target_exe)
+        target_exe = os.path.normpath(os.path.join(project_root, target_exe))
+    else:
+        target_exe = os.path.normpath(target_exe)
     print(f"DEBUG: Target exe path: {target_exe}")
     
-    if not os.path.exists(target_exe):
+    if os.path.exists(target_exe):
+        print(f"DEBUG: Target executable found: {target_exe}")
+    else:
         print(f"Error: Target executable not found: {target_exe}")
         sys.exit(1)
 

@@ -12,25 +12,25 @@
     {
       "id": "TC-001",
       "input": "hello",
-      "expected": "olleh",
+      "expected": "hello\r\nolleh",
       "description": "Standard lowercase"
     },
     {
       "id": "TC-002",
       "input": "MASM",
-      "expected": "MSAM",
+      "expected": "MASM\r\nMSAM",
       "description": "Mixed case"
     },
     {
       "id": "TC-003",
       "input": "123 456",
-      "expected": "654 321",
+      "expected": "123 456\r\n654 321",
       "description": "Spaces included"
     },
     {
       "id": "TC-004",
       "input": "!@#$",
-      "expected": "$#@!",
+      "expected": "!@#$\r\n$#@!",
       "description": "Special characters"
     }
   ]

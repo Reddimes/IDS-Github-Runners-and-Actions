@@ -128,15 +128,18 @@ def run_test_suite(manifest_path):
                     print(f"Error in {tc_id}: {e}")
                 finally:
                     # CLEANUP PER TEST CASE
-                    if child and child.is_alive:
-                        if config.get('exit_command'):
-                            try:
-                                child.sendline(config['exit_command'])
-                                child.expect(wexpect.EOF, timeout=2)
-                            except Exception:
+                    if child:
+                        try:
+                            if config.get('exit_command'):
+                                try:
+                                    child.sendline(config['exit_command'])
+                                    child.expect(wexpect.EOF, timeout=2)
+                                except Exception:
+                                    child.terminate(force=True)
+                            else:
                                 child.terminate(force=True)
-                        else:
-                            child.terminate(force=True)
+                        except Exception:
+                            pass
             
             # Finalize session
             log_file.write(f"\n--- Interaction Session End ---\n")

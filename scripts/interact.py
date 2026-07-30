@@ -61,93 +61,99 @@ def run_test_suite(manifest_path):
     }
     
     try:
-        # Spawn the target process
-        child = wexpect.spawn(target_exe, encoding="utf-8")
-        
         with open(log_file_path, "w") as log_file:
-            try:
-                log_file.write(f"--- Interaction Session Start ---\n")
-                log_file.write(f"Target: {target_exe}\n")
-                log_file.write(f"Timestamp: {data['metadata'].get('timestamp', datetime.datetime.now().isoformat())}\n")
-                log_file.write("-" * 30 + "\n")
+            log_file.write(f"--- Test Suite Started ---\n")
+            log_file.write(f"Target: {target_exe}\n")
+            log_file.write(f"Timestamp: {data['metadata'].get('timestamp', datetime.datetime.now().isoformat())}\n")
+            log_file.write("-" * 30 + "\n")
+            
+            for tc in test_cases:
+                tc_id = tc['id']
+                input_str = tc['input']
+                expected_str = tc['expected']
                 
-                for tc in test_cases:
-                    tc_id = tc['id']
-                    input_str = tc['input']
-                    expected_str = tc['expected']
+                log_file.write(f"\n[Test Case {tc_id}] Input: '{input_str}' | Expected: '{expected_str}'\n")
+                print(f"Running {tc_id}...")
+                
+                child = None
+                try:
+                    child = wexpect.spawn(target_exe, encoding="utf-8")
+                    log_file.write(f"\n[Test Case {tc_id}] Starting new process...\n")
                     
-                    log_file.write(f"\n[Test Case {tc_id}] Input: '{input_str}' | Expected: '{expected_str}'\n")
-                    print(f"Running {tc_id}...")
+                    # Wait for prompt
+                    child.expect(config['prompt_pattern'])
+                    log_file.write(f"PROMPT: {child.before}\n")
                     
+                    # Send input
+                    child.sendline(input_str)
+                    log_file.write(f"SENT: {input_str}\n")
+                    
+                    # Wait for the next prompt or EOF
                     try:
-                        # Wait for prompt
-                        child.expect(config['prompt_pattern'])
-                        log_file.write(f"PROMPT: {child.before}\n")
-                        
-                        # Send input
-                        child.sendline(input_str)
-                        log_file.write(f"SENT: {input_str}\n")
-                        
-                        # Wait for the next prompt or EOF
-                        try:
-                            child.expect([config['prompt_pattern'], wexpect.EOF], timeout=2)
-                        except wexpect.TIMEOUT:
-                            log_file.write("TIMEOUT waiting for next prompt/EOF\n")
-                        
-                        actual_output = child.before.strip()
-                        log_file.write(f"ACTUAL OUTPUT: {actual_output}\n")
-                        
-                        # Match logic
-                        is_match = fuzzy_match(actual_output, expected_str) if config.get('fuzzy_match') else (actual_output == expected_str)
-                        
-                        if is_match:
-                            results['summary']['passed'] += 1
-                            status = "passed"
-                            log_file.write(f"RESULT: PASS\n")
-                        else:
-                            results['summary']['failed'] += 1
-                            status = "failed"
-                            log_file.write(f"RESULT: FAIL (Expected: '{expected_str}', Got: '{actual_output}')\n")
-                        
-                        results['details'].append({
-                            "id": tc_id,
-                            "status": status,
-                            "input": input_str,
-                            "expected": expected_str,
-                            "actual": actual_output
-                        })
+                        child.expect([config['prompt_pattern'], wexpect.EOF], timeout=2)
+                    except wexpect.TIMEOUT:
+                        log_file.write("TIMEOUT waiting for next prompt/EOF\n")
                     
-                    except Exception as e:
-                        log_file.write(f"ERROR in test case {tc_id}: {str(e)}\n")
+                    actual_output = child.before.strip()
+                    log_file.write(f"ACTUAL OUTPUT: {actual_output}\n")
+                    
+                    # Match logic
+                    is_match = fuzzy_match(actual_output, expected_str) if config.get('fuzzy_match') else (actual_output == expected_str)
+                    
+                    if is_match:
+                        results['summary']['passed'] += 1
+                        status = "passed"
+                        log_file.write(f"RESULT: PASS\n")
+                    else:
                         results['summary']['failed'] += 1
-                        results['details'].append({
-                            "id": tc_id,
-                            "status": "error",
-                            "error": str(e)
-                        })
-                        print(f"Error in {tc_id}: {e}")
+                        status = "failed"
+                        log_file.write(f"RESULT: FAIL (Expected: '{expected_str}', Got: '{actual_output}')\n")
+                    
+                    results['details'].append({
+                        "id": tc_id,
+                        "status": status,
+                        "input": input_str,
+                        "expected": expected_str,
+                        "actual": actual_output
+                    })
                 
-                # Clean up
-                if config.get('exit_command'):
-                    log_file.write(f"\nSending exit command: {config['exit_command']}\n")
-                    child.sendline(config['exit_command'])
-                    child.expect(wexpect.EOF)
-                else:
-                    child.terminate(force=True)
-                
-                log_file.write(f"\n--- Interaction Session End ---\n")
-                log_file.write(f"Final Results: {results['summary']}\n")
-                
-                # Append final score within the context manager
-                log_file.write("-" * 30 + "\n")
-                log_file.write(f"Final Score: {(results['summary']['passed'] / results['summary']['total'] * 100) if results['summary']['total'] > 0 else 0}%\n")
-                
-                # Update results dictionary with the score for JSON output
-                results['summary']['score'] = (results['summary']['passed'] / results['summary']['total'] * 100) if results['summary']['total'] > 0 else 0
-                
-            except Exception as e:
-                print(f"Critical Failure during interaction: {e}")
-                sys.exit(1)
+                except Exception as e:
+                    log_file.write(f"ERROR in test case {tc_id}: {str(e)}\n")
+                    results['summary']['failed'] += 1
+                    results['details'].append({
+                        "id": tc_id,
+                        "status": "error",
+                        "error": str(e)
+                    })
+                    print(f"Error in {tc_id}: {e}")
+                finally:
+                    # CLEANUP PER TEST CASE
+                    if child and child.is_alive:
+                        if config.get('exit_command'):
+                            try:
+                                child.sendline(config['exit_command'])
+                                child.expect(wexpect.EOF, timeout=2)
+                            except Exception:
+                                child.terminate(force=True)
+                        else:
+                            child.terminate(force=True)
+            
+            # Finalize session
+            log_file.write(f"\n--- Interaction Session End ---\n")
+            log_file.write(f"Final Results: {results['summary']}\n")
+            log_file.write("-" * 30 + "\n")
+            score = (results['summary']['passed'] / results['summary']['total'] * 100) if results['summary']['total'] > 0 else 0
+            log_file.write(f"Final Score: {score}%\n")
+            results['summary']['score'] = score
+            
+        # Finalize results to JSON
+        with open(results_file_path, "w") as f:
+            json.dump(results, f, indent=2)
+            
+    except Exception as e:
+        print(f"Setup or Execution Failure: {e}")
+        sys.exit(1)
+
                 
         # Finalize results to JSON
         with open(results_file_path, "w") as f:

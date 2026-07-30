@@ -5,13 +5,11 @@
     "context": ".."
   },
   "overrideCommand": false,
-  "forwardPorts": [
-    7681
-  ],
+  "forwardPorts": [],
   "customizations": {
     "vscode": {
       "extensions": [
-        "blindtiger.masm"
+        "trailofbits.vscode-masm"
       ],
       "settings": {
         "terminal.integrated.shell.linux": "/bin/bash",
@@ -23,5 +21,5 @@
     }
   },
   "runArgs": ["--init"],
-  "overrideCommand": "ttyd -p 7681 wine /app/src/revstr-input.exe"
+  "overrideCommand": "wine /app/src/revstr-input.exe"
 }

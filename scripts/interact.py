@@ -1,3 +1,4 @@
+import os
 import sys
 import json
 import wexpect
@@ -26,7 +27,7 @@ def run_test_suite(manifest_path):
         "details": []
     }
 
-    log_file_path = "interaction_trace.log"
+    log_file_path = os.path.join("tests", "interaction_trace.log")
     
     try:
         # Spawn the target process
@@ -120,7 +121,7 @@ def run_test_suite(manifest_path):
         log_file.write("-" * 30 + "\n")
         log_file.write(f"Final Score: {results['summary']['score']}%\n")
 
-    with open("test_results.json", "w") as f:
+    with open(os.path.join("tests", "test_results.json"), "w") as f:
         json.dump(results, f, indent=2)
 
     print(f"\nTest Suite Complete: {results['summary']['passed']}/{results['summary']['total']} passed.")

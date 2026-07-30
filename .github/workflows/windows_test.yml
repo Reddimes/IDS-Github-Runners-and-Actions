@@ -88,5 +88,5 @@ jobs:
         with:
           name: interaction-results
           path: |
-            interaction_trace.log
-            test_results.json
+            tests/interaction_trace.log
+            tests/test_results.json

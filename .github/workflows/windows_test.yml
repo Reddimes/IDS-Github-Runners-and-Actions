@@ -85,11 +85,10 @@ jobs:
       - name: Display Interaction Log
         shell: pwsh
         run: |
-          $logPath = "$env:GITHUB_WORKSPACE\tests\interaction_trace.log"
-          if (Test-Path $logPath) {
-            Get-Content $logPath | Write-Host
+          if (Test-Path "tests\interaction_trace.log") {
+            Get-Content "tests\interaction_trace.log" | Write-Host
           } else {
-            Write-Warning "Interaction log not found at $logPath"
+            Write-Warning "Interaction log (tests\interaction_trace.log) not found."
           }
 
       - name: Upload Results

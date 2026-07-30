@@ -37,64 +37,42 @@ jobs:
       - name: Download and extract Irvine32 library
         run: |
           set -e
-          IRVINE_DIR="/opt/irvine32"
+          IRVINE_DIR="/opt/Irvine32"
           mkdir -p "$IRVINE_DIR"
           curl -sL -o /tmp/Irvine.zip "https://github.com/surferkip/asmbook/raw/main/Irvine.zip"
           unzip -o -q /tmp/Irvine.zip -d /tmp/
-          cp /tmp/Irvine/Irvine32.inc "$IRVINE_DIR/"
-          cp /tmp/Irvine/Irvine32.lib "$IRVINE_DIR/"
-          cp /tmp/Irvine/*.inc "$IRVINE_DIR/"
-          cp /tmp/Irvine/Examples/Lib32/kernel32.lib "$IRVINE_DIR/"
-          cp /tmp/Irvine/Examples/Lib32/user32.lib "$IRVINE_DIR/"
-          rm -rf /tmp/Irvine.zip /tmp/Irvine
-          cp "/opt/msvc/Windows Kits/10/Lib/10.0.26100.0/um/x86/kernel32.lib" "$IRVINE_DIR/"
-          cp "/opt/msvc/Windows Kits/10/Lib/10.0.26100.0/um/x86/user32.lib" "$IRVINE_DIR/"
+          mv /tmp/Irvine "$IRVINE_DIR"
+          rm -rf /tmp/Irvine.zip
+          # cp "/opt/msvc/Windows Kits/10/Lib/10.0.26100.0/um/x86/kernel32.lib" "$IRVINE_DIR/"
+          # cp "/opt/msvc/Windows Kits/10/Lib/10.0.26100.0/um/x86/user32.lib" "$IRVINE_DIR/"
           echo "IRVINE_DIR=$IRVINE_DIR" >> "$GITHUB_ENV"
 
-      - name: Discover ASM files
-        id: discover
+      - name: Compile and run file
         run: |
           set -e
-          ASM_FILES=$(find . -maxdepth 3 -name '*.asm' -not -path './.github/*' | sort)
-          if [ -z "$ASM_FILES" ]; then
-            echo "No .asm files found."
-            exit 0
-          fi
-          LIST=$(echo "$ASM_FILES" | tr '\n' ';')
-          echo "asm_files=$LIST" >> $GITHUB_OUTPUT
-
-      - name: Compile and run ASM files
-        run: |
-          set -e
-          IRVINE="z:\\opt\\irvine32"
+          IRVINE="z:\\opt\\Irvine32"
           WORKDIR=$(pwd)
-          IFS=';' read -ra ASM_LIST <<< "${{ steps.discover.outputs.asm_files }}"
-          for SRC in "${ASM_LIST[@]}"; do
-            [ -z "$SRC" ] && continue
-            BASENAME=$(basename "$SRC" .asm)
-            # Convert unix path to z: wine path (z: maps to /)
-            ZPATH="z:$(echo "$WORKDIR/$SRC" | sed 's|/|\\|g')"
-            echo "::group::Building $SRC"
+          BASENAME=RevStr-input.asm
+          # Convert unix path to z: wine path (z: maps to /)
+          ZPATH="z:$(echo "$WORKDIR/$SRC" | sed 's|/|\\|g')"
+          echo "::group::Building $SRC"
 
-            # Compile
-            ml /c /Foz:\\tmp\\${BASENAME}.obj "$ZPATH" 2>&1
-            if [ $? -ne 0 ]; then
-              echo "::error::Failed to assemble $SRC"
-              exit 1
-            fi
+          # Compile
+          ml /c /Foz:\\tmp\\${BASENAME}.obj "$ZPATH" 2>&1
+          if [ $? -ne 0 ]; then
+            echo "::error::Failed to assemble $SRC"
+            exit 1
+          fi
 
-            # Link
-            link /SUBSYSTEM:CONSOLE /OUT:z:\\tmp\\${BASENAME}.exe z:\\tmp\\${BASENAME}.obj "$IRVINE\\Irvine32.lib" "$IRVINE\\kernel32.lib" "$IRVINE\\user32.lib" 2>&1
-            if [ $? -ne 0 ]; then
-              echo "::error::Failed to link $BASENAME"
-              exit 1
-            fi
+          # Link
+          link /SUBSYSTEM:CONSOLE /OUT:z:\\tmp\\${BASENAME}.exe z:\\tmp\\${BASENAME}.obj "$IRVINE\\Irvine32.lib" "$IRVINE\\kernel32.lib" "$IRVINE\\user32.lib" 2>&1
+          if [ $? -ne 0 ]; then
+            echo "::error::Failed to link $BASENAME"
+            exit 1
+          fi
 
-            # Run with script for pty output capture
-            echo "=== Running $BASENAME ==="
-            ACTUAL="/tmp/${BASENAME}.out"
-            script -q -c "wine z:\\tmp\\${BASENAME}.exe" /dev/null > "$ACTUAL" 2>&1
-            sed -i 's/\x1b\[[?0-9;]*[a-zA-Z]//g; s/\r//g' "$ACTUAL"
-            cat "$ACTUAL"
-            echo "::endgroup::"
-          done
+          echo "=== Running $BASENAME ==="
+          ACTUAL="/tmp/${BASENAME}.out"
+          script -q -c "wine z:\\tmp\\${BASENAME}.exe" /dev/null > "$ACTUAL" 2>&1
+          sed -i 's/\x1b\[[?0-9;]*[a-zA-Z]//g; s/\r//g' "$ACTUAL"
+          cat "$ACTUAL"

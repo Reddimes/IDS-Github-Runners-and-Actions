@@ -1,0 +1,74 @@
+[file] ./.git/hooks/applypatch-msg.sample  (1 matches)
+  
+  L14: test -x "$commitmsg" && exec "$commitmsg" ${1+"$@"}
+[file] ./.git/hooks/commit-msg.sample  (2 matches)
+  
+  L23: test "" = "$(grep '^Signed-off-by: ' "$1" |
+  	ret=1
+  	/^Index: /{p;q;}
+  L67: if test -n "$line"
+  	echo >&2 "To fix this indent the diff."
+[file] ./.git/hooks/pre-applypatch.sample  (1 matches)
+  
+  L13: test -x "$precommit" && exec "$precommit" ${1+"$@"}
+[file] ./.git/hooks/pre-commit.sample  (1 matches)
+  	# Note that the use of brackets around a tr range is ok here, (it's
+  L31: 	test $(git diff-index --cached --name-only --diff-filter=A -z $against |
+  	cat <<\EOF
+[file] ./.git/hooks/pre-merge-commit.sample  (1 matches)
+  # To enable this hook, rename this file to "pre-merge-commit".
+  L11: test -x "$GIT_DIR/hooks/pre-commit" &&
+[file] ./.git/hooks/pre-push.sample  (2 matches)
+  
+  L29: 	if test "$local_oid" = "$zero"
+  			range="$local_oid"
+  
+  L45: 		if test -n "$commit"
+  			exit 1
+[file] ./.git/hooks/pre-rebase.sample  (4 matches)
+  
+  L20: if test "$#" = 2
+  else
+  
+  L47: if test -z "$not_in_master"
+  	exit 1 ;# we could allow it, but there is no point.
+  # Is topic ever merged to next?  If so you should not be rebasing it.
+  L56: if test "$only_next_1" = "$only_next_2"
+  		exit 1 ;# we could allow it, but there is no point.
+     the tip of the "master".  This is not strictly necessary, but
+  L107:  * Whenever you need to test or publish your changes to topic
+  The script, being an example, hardcodes the publish branch name
+[file] ./.git/hooks/pre-receive.sample  (1 matches)
+  #
+  L9: if test -n "$GIT_PUSH_OPTION_COUNT"
+  		case "$value" in
+[file] ./.git/hooks/prepare-commit-msg.sample  (1 matches)
+  
+  L39: # if test -z "$COMMIT_SOURCE"
+  # fi
+[file] ./.git/hooks/sendemail-validate.sample  (2 matches)
+  
+  L48: if test "$GIT_SENDEMAIL_FILE_COUNTER" = 1
+  	ref=$(git config --default HEAD --get sendemail.validateRemoteRef) &&
+  	validate_cover_letter "$1"
+  L72: if test "$GIT_SENDEMAIL_FILE_COUNTER" = "$GIT_SENDEMAIL_FILE_TOTAL"
+  	trap 'git worktree remove -ff "$worktree"' EXIT &&
+[file] ./.git/logs/refs/heads/main  (4 matches)
+  cc2dc21373ffaeab855bb48abce4796e11ed500f f7642b207f200b6be4b097310545ca4b8d28f244 Jeff Young <jeffyoung1990@gmail.com> 1784523620 -0600	commit: Revert to copying SDK libs: GITHUB_ENV LIB approach doesn't work with setup-masm
+  L30: 025b2245d71c303fdcacb5ab2862fadb863c5863 026fa3a40262c539d5b50dcbb57d05f1f99e81f4 Jeff Young <jeffyoung1990@gmail.com> 1784524040 -0600	commit: Convert Windows workflow to auto-discover and test all .asm files in pwsh
+  84cacc818f8b3bd4e7095696cc5376cb8696d7cf d1780ade5650ee41f52b7cec36d784113afc785a Jeff Young <jeffyoung1990@gmail.com> 1784524626 -0600	commit: Fix /Fo flag: use space instead of colon to avoid colon-quote collision
+  938a9b81e49f1c1076fea93f86730e1cd196f0cc ce2406cf48ac0825c97fced5056e182799104683 Jeff Young <jeffyoung1990@gmail.com> 1784525462 -0600	commit: Split into separate Compile and Run steps with explicit targets
+  L39: 951d178a6018693d3e6195cb7228bda860b64ae3 46289a7e50dcf23296ea0ba7cf0e2480c2b3c22d Jeff Young <jeffyoung1990@gmail.com> 1784526663 -0600	commit: Consolidate compile and test into single pwsh step via test.ps1
+  d2d7ef4f3b2402c3a7813b50a26c845394f127c5 da5c1302e7f29e1de8cac0eb0e33fce6feaefe5c Jeff Young <jeffyoung1990@gmail.com> 1784528037 -0600	commit: Use cmd.exe wrapper for Start-Process to allocate console for WriteConsoleA
+  f9d494ea01bf255ad72dbd636d882b261f8706de 9030225799d90455a162891b97ac638af957fe03 Jeff Young <jeffyoung1990@gmail.com> 1784640596 -0600	commit: fix: add psapi.h include and lib for EnumProcessModulesEx
+  L90: d5e0064fd6c4618936cb9883a0ab34b7cb4300ee 46b69992eadd92c4a7eb4e443d59291f56559216 Jeff Young <jeffyoung1990@gmail.com> 1785301104 -0600	commit: test: add windows github workflow for redirection testing
+  ebf0bd617c4654d518067af39e5126519853d07e 6c77e1ab33f4cce84d939b78e812c6f5fb2d8489 Jeff Young <jeffyoung1990@gmail.com> 1785374284 -0600	commit: Manual
+  4413881bce1b4496f50dd4a9d9d0b30858ef4f55 89d7358bbb0eb8c0a7e4fa2f89f3568becf4791a Jeff Young <jeffyoung1990@gmail.com> 1785375336 -0600	commit: Manual
+  L118: f3ab0f52259d97d5807755d99848868010d9483f ed6ac2025e1c1edc5b84165d2ec43d118799c046 Jeff Young <jeffyoung1990@gmail.com> 1785389553 -0600	commit: test(deployment): add interaction test runner and workflow configuration
+[file] ./.git/logs/refs/heads/deploy-test  (2 matches)
+  43b9f6a37299391883a67d7891bb4989d3a8b28f 28566982ac04710c968d126f089d6a9c35aa1912 Jeff Young <jeffyoung1990@gmail.com> 1785389824 -0600	commit: fix(ci): correct object file paths in Windows workflow
+  L5: d40a1ce59a30724718375ce3e6d0d8ed18c5c243 6c70d45d8526ecefff883cedd6954f2c44729396 Jeff Young <jeffyoung1990@gmail.com> 1785390366 -0600	commit: fix(ci): restore baseline workflow and correctly add interaction test job
+  5b0382f118da4828aa9e463c6a98af53deaa1bc5 61ad0cadc2a90c57bd327f1200a1554c71c94cd9 Jeff Young <jeffyoung1990@gmail.com> 1785401421 -0600	commit: restore(ci): keep improved interact.py with absolute paths
+  443a70c93400a7ec4c97cd903389f177e97f0581 169f80573d3d50ace43b6edd6eade4af0a244aea Jeff Young <jeffyoung1990@gmail.com> 1785426747 -0600	commit: Manual
+  L35: e7660c3c2178ae9d2a60734a99204637a96af50e 92a7708b6d95165c612f2d3d24ecfe2a89967c46 Jeff Young <jeffyoung1990@gmail.com> 1785429709 -0600	commit: fix(test): restart target process for every test case in interact.py
+51 matches across 12 files

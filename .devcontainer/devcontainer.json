@@ -1,0 +1,23 @@
+{
+  "name": "Interactive RevStr Dev",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "overrideCommand": false,
+  "forwardPorts": [
+    7681
+  ],
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+      }
+    }
+  },
+  "runArgs": ["--init"],
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/app,type=bind"
+  ],
+  "overrideCommand": "ttyd -p 7681 wine /app/src/revstr-input.exe"
+}

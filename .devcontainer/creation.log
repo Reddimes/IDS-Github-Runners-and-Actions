@@ -1,0 +1,743 @@
+
+#9 49.91 Unpacking Microsoft.VisualStudio.VC.MSBuild.v180.x86.v145
+#9 49.92 Unpacking Microsoft.VisualStudio.VC.MSBuild.v180.X86
+#9 49.93 Skipping unpacking of Microsoft.Windows.UniversalCRT.Redistributable.Msi of type Msi
+#9 49.93 Unpacking Microsoft.VS.VC.vcvars.x64.Shortcuts
+#9 49.93 Unpacking Microsoft.VS.VC.vcvars.x86.Shortcuts
+#9 49.93 Unpacking Microsoft.VisualStudio.VC.vcvars
+#9 49.94 Unpacking Microsoft.VisualCpp.CRT.Headers
+#9 49.94 Unpacking Microsoft.VC.14.51.CRT.Headers.base
+#9 50.12 Unpacking Microsoft.VC.14.51.Servicing.CrtHeaders
+#9 50.13 Unpacking Microsoft.VC.14.51.Servicing
+#9 50.13 Unpacking Microsoft.VC.14.51.CRT.Headers.Resources
+#9 50.14 Unpacking Microsoft.VC.14.51.CRT.Headers.Resources.base
+#9 50.16 Skipping unpacking of Microsoft.VisualCpp.Redist.14 of type Exe
+#9 50.16 Unpacking Microsoft.VisualCpp.Servicing.Redist
+#9 50.16 Skipping unpacking of Microsoft.VisualCpp.RuntimeDebug.14 of type Msi
+#9 50.16 Skipping unpacking of Microsoft.VisualCpp.Redist.14.Latest of type Exe
+#9 50.16 Unpacking Microsoft.VisualCpp.CRT.Redist.X64
+#9 50.37 Unpacking Microsoft.VC.14.51.CRT.Redist.X64.base
+#9 50.52 Unpacking Microsoft.VisualCpp.CRT.Redist.Resources
+#9 50.55 Unpacking Microsoft.VisualCpp.CRT.Redist.X86
+#9 50.60 Unpacking Microsoft.VC.14.51.CRT.Redist.X86.base
+#9 50.92 Unpacking Microsoft.VisualCpp.CRT.Source
+#9 50.92 Unpacking Microsoft.VC.14.51.CRT.Source.base
+#9 51.11 Unpacking Microsoft.VisualCpp.CRT.x64.Desktop
+#9 51.12 Unpacking Microsoft.VC.14.51.CRT.x64.Desktop.base
+#9 52.26 Unpacking Microsoft.VisualCpp.CRT.x86.Desktop
+#9 52.26 Unpacking Microsoft.VC.14.51.CRT.x86.Desktop.base
+#9 53.90 Unpacking Microsoft.VisualCpp.Tools.Core.x86
+#9 53.91 Unpacking Microsoft.VisualCpp.Tools.Common.Utils
+#9 53.94 Unpacking Microsoft.VisualCpp.Tools.Common.Utils.Resources
+#9 53.94 Unpacking Microsoft.VC.14.51.Tools.Core.Props
+#9 53.94 Unpacking Microsoft.VisualCpp.Tools.Core.Resources
+#9 53.94 Skipping unpacking of Microsoft.VisualCpp.CRT.ClickOnce.Msi of type Msi
+#9 53.94 Unpacking Microsoft.VisualCpp.CRT.Redist.x64.OneCore.Desktop
+#9 53.95 Unpacking Microsoft.VC.14.51.CRT.Redist.x64.OneCore.Desktop.base
+#9 54.02 Unpacking Microsoft.VisualCpp.CRT.Redist.x86.OneCore.Desktop
+#9 54.02 Unpacking Microsoft.VC.14.51.CRT.Redist.x86.OneCore.Desktop.base
+#9 54.06 Unpacking Microsoft.VisualCpp.CRT.x64.OneCore.Desktop
+#9 54.07 Unpacking Microsoft.VC.14.51.CRT.x64.OneCore.Desktop.base
+#9 64.16 Unpacking Microsoft.VisualCpp.CRT.x64.Store
+#9 64.17 Unpacking Microsoft.VC.14.51.CRT.x64.Store.base
+#9 65.07 Unpacking Microsoft.VisualCpp.CRT.x86.OneCore.Desktop
+#9 65.07 Unpacking Microsoft.VC.14.51.CRT.x86.OneCore.Desktop.base
+#9 72.01 Unpacking Microsoft.VisualCpp.CRT.x86.Store
+#9 72.15 Unpacking Microsoft.VC.14.51.CRT.x86.Store.base
+#9 76.81 Unpacking Microsoft.VisualCpp.PGO.Headers
+#9 76.82 Unpacking Microsoft.VC.14.51.PGO.Headers.base
+#9 76.82 Unpacking Microsoft.VisualCpp.PGO.X64
+#9 76.83 Unpacking Microsoft.VC.14.51.PGO.X64.base
+#9 76.84 Unpacking Microsoft.VisualCpp.PGO.X86
+#9 76.84 Unpacking Microsoft.VC.14.51.PGO.X86.base
+#9 76.85 Unpacking Microsoft.VisualCpp.Premium.Tools.HostX64.TargetX86
+#9 76.85 Unpacking Microsoft.VC.14.51.Premium.Tools.HostX64.TargetX86.base
+#9 76.87 Unpacking Microsoft.VC.14.51.Prem.HostX64.TargetX86.Res.base
+#9 76.88 Unpacking Microsoft.VisualCpp.Tools.HostX64.TargetX86
+#9 76.89 Unpacking Microsoft.VC.14.51.Tools.HostX64.TargetX86.base
+#9 77.39 Unpacking Microsoft.VC.14.51.Tools.HostX64.TargetX86.Res.base
+#9 77.43 Unpacking Microsoft.VC.14.51.Props.x86
+#9 77.44 Unpacking Microsoft.VC.14.51.Props
+#9 77.45 Unpacking Microsoft.VC.14.51.Servicing.Compilers
+#9 77.47 Unpacking Microsoft.VisualStudio.StaticAnalysis.auxil
+#9 77.50 Unpacking Microsoft.VisualStudio.StaticAnalysis.auxil.Resources
+#9 77.51 Unpacking Microsoft.VisualStudio.StaticAnalysis.FxCop
+#9 77.68 Unpacking Microsoft.VisualStudio.StaticAnalysis.FxCop.Resources
+#9 77.68 Unpacking Microsoft.VisualStudio.StaticAnalysis.IDE
+#9 77.82 Unpacking Microsoft.VisualStudio.StaticAnalysis.IDE.Resources
+#9 77.86 Unpacking Microsoft.VisualCpp.CA.Ext.Hostx64.Targetx86
+#9 77.88 Unpacking Microsoft.VC.14.51.CA.Ext.Hostx64.Targetx86.base
+#9 78.14 Unpacking Microsoft.VC.14.51.Servicing.CAExtensions
+#9 78.15 Unpacking Microsoft.VC.14.51.CA.Rulesets.base
+#9 78.16 Unpacking Microsoft.VC.14.51.Servicing.CARulesets
+#9 78.16 Unpacking Microsoft.VisualCpp.CodeAnalysis.Extensions
+#9 78.17 Unpacking Microsoft.VisualStudio.VC.UnitTest.Desktop.Build.Core
+#9 78.18 Unpacking Microsoft.VisualStudio.TestTools.TestPlatform.V1.CPP
+#9 78.19 Unpacking Microsoft.VisualStudio.TestTools.TP.V1.CPP.Resources
+#9 78.20 Unpacking Win11SDK_10.0.26100
+#9 78.20 Extracting Application Verifier arm64 External Package (DesktopEditions)-arm64_en-us.msi
+#9 78.38 Extracting Application Verifier arm64 External Package (OnecoreUAP)-arm64_en-us.msi
+#9 78.44 Extracting Application Verifier x64 External Package (DesktopEditions)-x64_en-us.msi
+#9 84.13 Extracting Application Verifier x64 External Package (OnecoreUAP)-x64_en-us.msi
+#9 84.31 Extracting Application Verifier x86 External Package (DesktopEditions)-x86_en-us.msi
+#9 84.33 Extracting Application Verifier x86 External Package (OnecoreUAP)-x86_en-us.msi
+#9 84.46 Extracting Kits Configuration Installer-x86_en-us.msi
+#9 84.50 Extracting MSI Development Tools-x86_en-us.msi
+#9 84.52 Extracting MsiVal2-x86_en-us.msi
+#9 84.81 Extracting Orca-x86_en-us.msi
+#9 84.94 Extracting SDK ARM64 Additions-x86_en-us.msi
+#9 84.94 Extracting SDK ARM64 Redistributables-x86_en-us.msi
+#9 84.97 Extracting Universal CRT Extension SDK-x86_en-us.msi
+#9 85.02 Extracting Universal CRT Headers Libraries and Sources-x86_en-us.msi
+#9 87.00 Extracting Universal CRT Redistributable-x86_en-us.msi
+#9 87.08 Extracting Universal CRT Tools arm64-arm64_en-us.msi
+#9 87.11 Extracting Universal CRT Tools x64-x64_en-us.msi
+#9 87.18 Extracting Universal CRT Tools x86-x86_en-us.msi
+#9 87.24 Extracting Universal General MIDI DLS Extension SDK-x86_en-us.msi
+#9 87.28 Extracting WinAppDeploy-x86_en-us.msi
+#9 87.35 Extracting Windows App Certification Kit Native Components-x64_en-us.msi
+#9 87.45 Extracting Windows App Certification Kit Native Components-x86_en-us.msi
+#9 87.89 Extracting Windows App Certification Kit SupportedApiList x86-x86_en-us.msi
+#9 87.92 Extracting Windows App Certification Kit x64 (OnecoreUAP)-x86_en-us.msi
+#9 87.96 Extracting Windows App Certification Kit x64-x86_en-us.msi
+#9 89.03 Extracting Windows App Certification Kit x86 (OnecoreUAP)-x86_en-us.msi
+#9 92.79 Extracting Windows App Certification Kit x86-x86_en-us.msi
+#9 98.74 Extracting Windows Desktop Extension SDK Contracts-x86_en-us.msi
+#9 98.94 Extracting Windows Desktop Extension SDK-x86_en-us.msi
+#9 98.96 Extracting Windows IoT Extension SDK Contracts-x86_en-us.msi
+#9 98.97 Extracting Windows IoT Extension SDK-x86_en-us.msi
+#9 99.00 Extracting Windows Mobile Extension SDK Contracts-x86_en-us.msi
+#9 99.02 Extracting Windows Mobile Extension SDK-x86_en-us.msi
+#9 99.03 Extracting Windows SDK ARM64 Desktop Tools-x86_en-us.msi
+#9 99.06 Extracting Windows SDK Desktop Headers arm64-x86_en-us.msi
+#9 99.07 Extracting Windows SDK Desktop Headers x64-x86_en-us.msi
+#9 99.09 Extracting Windows SDK Desktop Headers x86-x86_en-us.msi
+#9 99.53 Extracting Windows SDK Desktop Libs arm64-x86_en-us.msi
+#9 100.3 Extracting Windows SDK Desktop Libs x64-x86_en-us.msi
+#9 100.6 Extracting Windows SDK Desktop Libs x86-x86_en-us.msi
+#9 101.0 Extracting Windows SDK Desktop Tools arm64-x86_en-us.msi
+#9 101.1 Extracting Windows SDK Desktop Tools x64-x86_en-us.msi
+#9 101.3 Extracting Windows SDK Desktop Tools x86-x86_en-us.msi
+#9 101.5 Extracting Windows SDK DirectX x64 Remote-x64_en-us.msi
+#9 101.5 Extracting Windows SDK DirectX x86 Remote-x86_en-us.msi
+#9 102.4 Extracting Windows SDK EULA-x86_en-us.msi
+#9 102.5 Extracting Windows SDK Facade Windows WinMD Versioned-x86_en-us.msi
+#9 102.5 Extracting Windows SDK for Windows Store Apps Contracts-x86_en-us.msi
+#9 102.7 Extracting Windows SDK for Windows Store Apps DirectX x64 Remote-x64_en-us.msi
+#9 102.8 Extracting Windows SDK for Windows Store Apps DirectX x86 Remote-x86_en-us.msi
+#9 103.0 Extracting Windows SDK for Windows Store Apps Headers OnecoreUap-x86_en-us.msi
+#9 103.0 Extracting Windows SDK for Windows Store Apps Headers-x86_en-us.msi
+#9 109.8 Extracting Windows SDK for Windows Store Apps Legacy Tools-x86_en-us.msi
+#9 109.8 Extracting Windows SDK for Windows Store Apps Libs-x86_en-us.msi
+#9 110.8 Extracting Windows SDK for Windows Store Apps Metadata-x86_en-us.msi
+#9 110.9 Extracting Windows SDK for Windows Store Apps Tools-x86_en-us.msi
+#9 119.9 Extracting Windows SDK for Windows Store Apps-x86_en-us.msi
+#9 119.9 Extracting Windows SDK for Windows Store Managed Apps Libs-x86_en-us.msi
+#9 120.0 Extracting Windows SDK Modern Non-Versioned Developer Tools-x86_en-us.msi
+#9 120.2 Extracting Windows SDK Modern Versioned Developer Tools-x86_en-us.msi
+#9 120.6 Extracting Windows SDK OnecoreUap Headers arm64-x86_en-us.msi
+#9 121.0 Extracting Windows SDK OnecoreUap Headers x64-x86_en-us.msi
+#9 121.1 Extracting Windows SDK OnecoreUap Headers x86-x86_en-us.msi
+#9 121.2 Extracting Windows SDK Redistributables-x86_en-us.msi
+#9 121.2 Extracting Windows SDK Signing Tools-x86_en-us.msi
+#9 121.4 Extracting Windows SDK-x86_en-us.msi
+#9 121.4 Extracting Windows Team Extension SDK Contracts-x86_en-us.msi
+#9 121.4 Extracting Windows Team Extension SDK-x86_en-us.msi
+#9 121.4 Extracting WinRT Intellisense Desktop - en-us-x86_en-us.msi
+#9 121.5 Extracting WinRT Intellisense Desktop - Other Languages-x86_en-us.msi
+#9 121.6 Extracting WinRT Intellisense IoT - en-us-x86_en-us.msi
+#9 121.6 Extracting WinRT Intellisense IoT - Other Languages-x86_en-us.msi
+#9 121.6 Extracting WinRT Intellisense Mobile - en-us-x86_en-us.msi
+#9 128.1 Extracting WinRT Intellisense PPI - en-us-x86_en-us.msi
+#9 128.1 Extracting WinRT Intellisense PPI - Other Languages-x86_en-us.msi
+#9 128.1 Extracting WinRT Intellisense UAP - en-us-x86_en-us.msi
+#9 128.1 Extracting WinRT Intellisense UAP - Other Languages-x86_en-us.msi
+#9 128.6 Extracting UAPSDKAddOn-x86.msi
+#9 128.6 Unpacking Microsoft.VisualStudio.VC.ExternalBuildFramework
+#9 128.7 Unpacking Microsoft.VisualStudio.VC.ExternalBuildFramework.Resources
+#9 128.7 Unpacking devenv_groupconfig
+#9 128.7 Unpacking newtonsoft.json_13.0.4_netfx
+#9 128.7 Unpacking Microsoft.VisualStudio.VC.CMake.Project
+#9 128.7 Unpacking Microsoft.VisualStudio.VC.CMake.Project.Resources
+#9 128.8 Unpacking Microsoft.VisualStudio.VC.CMake.Client
+#9 128.8 Unpacking Microsoft.VisualStudio.VC.CMake.Client.Resources
+#9 128.8 Unpacking Microsoft.VisualStudio.VC.Ide.Linux.Shared
+#9 128.8 Unpacking Microsoft.VisualStudio.VC.Ide.Linux.Shared.Resources
+#9 128.8 Unpacking SQLitePCLRaw
+#9 128.8 Unpacking SQLitePCLRaw.Targeted
+#9 128.8 Unpacking Microsoft.VisualStudio.VC.CMake
+#9 130.2 Unpacking Microsoft.VisualStudio.WebTools
+#9 130.7 Unpacking Microsoft.VisualStudio.MinShell.Targeted
+#9 131.8 Unpacking Microsoft.VisualStudio.MinShell.Resources.x64
+#9 131.9 Unpacking Microsoft.VisualStudio.Devenv.Config
+#9 131.9 Unpacking Microsoft.VisualStudio.NativeImageSupport
+#9 132.0 Unpacking Microsoft.VisualStudio.WPF.Internal
+#9 134.5 Unpacking Microsoft.VisualStudio.WebTools.WSP.FSA
+#9 135.4 Unpacking Microsoft.VisualStudio.WebTools.WSP.FSA.Resources
+#9 135.4 Unpacking Microsoft.VisualStudio.WebTools.Resources
+#9 135.7 Unpacking Microsoft.VisualStudio.WebToolsExtensions.MSBuild
+#9 135.9 Unpacking Microsoft.VisualStudio.WebToolsExtensions.MSBuild.Resources
+#9 135.9 Unpacking Microsoft.VisualStudio.WebToolsExtensions
+#9 136.0 Unpacking Microsoft.VisualStudio.WebToolsExtensions.Core
+#9 140.9 Unpacking Microsoft.WebTools.Shared
+#9 141.0 Unpacking Microsoft.WebTools.DotNet.Core.ItemTemplates
+#9 141.0 Unpacking Microsoft.WebTools.DotNet.Core.ItemTemplates.Resources
+#9 141.0 Unpacking Microsoft.WebTools.Shared.Resources
+#9 141.1 Unpacking Microsoft.VisualStudio.WebToolsExtensions.Resources
+#9 141.1 Unpacking Microsoft.VisualStudio.ConnectedServices.Core
+#9 141.2 Unpacking Microsoft.WebTools.Languages.Shared
+#9 141.3 Unpacking Microsoft.WebTools.Languages.Shared.Resources
+#9 141.3 Unpacking Microsoft.VisualStudio.ProTools
+#9 141.4 Unpacking Microsoft.VisualStudio.ProTools.Resources
+#9 141.4 Unpacking SQLCommon
+#9 141.6 Unpacking SQLCommon.Resources
+#9 141.6 Unpacking SQLCommon.Targeted
+#9 141.6 Skipping unpacking of sqlsysclrtypes of type Msi
+#9 141.6 Unpacking Microsoft.VisualStudio.VC.Ide.Base
+#9 141.7 Unpacking Microsoft.VisualStudio.VC.Ide.Base.Resources
+#9 141.7 Unpacking Microsoft.VisualStudio.MinShell
+#9 141.9 Unpacking Microsoft.VisualStudio.MinShell.Auto
+#9 142.1 Unpacking Microsoft.VisualStudio.MinShell.Auto.Resources
+#9 142.1 Unpacking Microsoft.VisualStudio.CoreDotNet
+#9 142.2 Unpacking Microsoft.VisualStudio.CoreDotNet.Resources
+#9 142.2 Unpacking Microsoft.VisualStudio.UIInternal
+#9 142.4 Unpacking Microsoft.VisualStudio.UIInternal.Resources
+#9 142.4 Unpacking Microsoft.VisualStudio.UIInternal.Guide
+#9 142.5 Unpacking Microsoft.VisualStudio.Platform.Editor
+#9 142.7 Unpacking Microsoft.VisualStudio.ExtensionManager
+#9 142.8 Unpacking Microsoft.VisualStudio.ExtensionManager.Resources
+#9 142.8 Unpacking Microsoft.VisualStudio.ExtensionManager.Targeted
+#9 142.8 Skipping unpacking of Microsoft.VisualStudio.Initializer of type Exe
+#9 142.8 Unpacking Microsoft.VisualStudio.MefHosting
+#9 142.9 Unpacking Microsoft.VisualStudio.MefHosting.Resources
+#9 142.9 Unpacking Microsoft.VisualStudio.Platform.Terminal
+#9 142.9 Unpacking Microsoft.VisualStudio.Platform.Terminal.Resources
+#9 142.9 Unpacking Microsoft.VisualStudio.Platform.Terminal.Targeted
+#9 142.9 Unpacking Microsoft.VisualStudio.LanguageServer
+#9 142.9 Skipping unpacking of Microsoft.VisualStudio.Setup.Configuration of type Msi
+#9 142.9 Unpacking Microsoft.VisualStudio.Setup.Configuration.Interop
+#9 143.0 Skipping unpacking of Microsoft.VisualStudio.Setup.WMIProvider of type Msi
+#9 143.0 Unpacking Microsoft.VisualStudio.WhatsNew
+#9 143.0 Skipping unpacking of Microsoft.Net.8.0.WindowsDesktop.Runtime of type Zip
+#9 143.0 Skipping unpacking of Microsoft.Net.8.0.Runtime of type Zip
+#9 143.0 Skipping unpacking of Microsoft.Net.10.0.WindowsDesktop.Runtime of type Zip
+#9 143.0 Skipping unpacking of Microsoft.Net.10.0.Runtime of type Zip
+#9 143.0 Skipping unpacking of Microsoft.VisualStudio.VsWebProtocolSelector.Msi of type Msi
+#9 143.0 Skipping unpacking of Microsoft.VisualStudio.VsWebProtocolSelector.Msi.Resources of type Msi
+#9 143.0 Skipping unpacking of Microsoft.VisualStudio.GitHubProtocolHandler.Msi of type Msi
+#9 143.0 Unpacking Microsoft.VisualStudio.IdentityDependencies
+#9 143.1 Unpacking microsoft.identitymodel.abstractions_8.15.0_netfx
+#9 143.1 Unpacking Microsoft.VisualStudio.Licensing
+#9 143.1 Unpacking Microsoft.VisualStudio.Copilot.Contracts
+#9 143.2 Unpacking Microsoft.VisualStudio.OpenTelemetry.Core.netfx
+#9 143.2 Unpacking microsoft.identitymodel.jsonwebtokens_8.15.0_netfx
+#9 143.2 Unpacking microsoft.bcl.timeprovider_8.0.1_netfx
+#9 143.2 Unpacking microsoft.bcl.asyncinterfaces_10.0.4_netfx
+#9 143.2 Unpacking system.threading.tasks.extensions_4.6.3_netfx
+#9 143.2 Unpacking system.runtime.compilerservices.unsafe_6.1.2_netfx
+#9 143.2 Unpacking microsoft.identitymodel.tokens_8.15.0_netfx
+#9 143.2 Unpacking microsoft.extensions.logging.abstractions_10.0.4_netfx
+#9 143.2 Unpacking microsoft.extensions.dependencyinjection.abstractions_10.0.4_netfx
+#9 143.2 Unpacking system.buffers_4.6.1_netfx
+#9 143.2 Unpacking system.diagnostics.diagnosticsource_10.0.4_netfx
+#9 143.3 Unpacking system.memory_4.6.3_netfx
+#9 143.3 Unpacking system.numerics.vectors_4.6.1_netfx
+#9 143.3 Unpacking microsoft.identitymodel.logging_8.15.0_netfx
+#9 143.3 Unpacking system.text.json_10.0.4_netfx
+#9 143.3 Unpacking system.io.pipelines_10.0.4_netfx
+#9 143.3 Unpacking system.text.encodings.web_10.0.4_netfx
+#9 143.3 Unpacking microsoft.visualstudio.remotecontrol_16.3.52_netfx
+#9 143.3 Unpacking microsoft.visualstudio.utilities.internal_16.3.90_netfx
+#9 143.4 Unpacking system.collections.immutable_10.0.4_netfx
+#9 143.4 Unpacking system.identitymodel.tokens.jwt_8.15.0_netfx
+#9 143.4 Unpacking system.reflection.metadata_10.0.4_netfx
+#9 143.4 Unpacking system.reflection.metadataloadcontext_10.0.4_netfx
+#9 143.4 Unpacking system.threading.channels_10.0.4_netfx
+#9 143.4 Unpacking system.threading.tasks.dataflow_10.0.4_netfx
+#9 143.4 Unpacking Microsoft.VisualStudio.VC.Llvm.Base
+#9 144.4 Unpacking Microsoft.VisualStudio.VC.Ide.LanguageService
+#9 145.2 Unpacking Microsoft.VisualStudio.VC.Ide.LanguageService.Resources
+#9 145.3 Unpacking Microsoft.VisualStudio.VC.Ide.ProjectSystem
+#9 145.6 Unpacking Microsoft.VisualStudio.VC.Ide.Core.VCProjectEngine
+#9 145.6 Unpacking Microsoft.VisualStudio.VC.Ide.Core.VCProjectEngine.Resources
+#9 145.6 Unpacking Microsoft.VisualStudio.VC.Ide.ProjectSystem.Resources
+#9 145.6 Unpacking Microsoft.VisualStudio.VisualC.Utilities
+#9 145.6 Unpacking Microsoft.VisualStudio.VisualC.Utilities.Resources
+#9 145.6 Unpacking Microsoft.VisualStudio.VC.Ide.Core
+#9 145.7 Unpacking Microsoft.VisualStudio.VC.Ide.LanguageService.Dependencies
+#9 145.7 Unpacking Microsoft.VisualStudio.VC.Ide.LanguageService.Dependencies.Resources
+#9 145.7 Unpacking Microsoft.VisualStudio.VC.Ide.Progression.Enterprise
+#9 145.7 Unpacking Microsoft.VisualStudio.VC.Ide.Progression.Enterprise.Resources
+#9 145.8 Unpacking Microsoft.VisualStudio.VC.Ide.ResourceEditor
+#9 146.3 Unpacking Microsoft.VisualStudio.VC.Ide.ResourceEditor.Resources
+#9 146.4 Unpacking Microsoft.VisualStudio.VC.Ide.VCPkgDatabase
+#9 146.7 Unpacking Microsoft.VisualStudio.VC.Ide.CodeModel
+#9 146.7 Unpacking Microsoft.VisualStudio.VC.Copilot.Setup
+#9 146.9 Unpacking Microsoft.VisualStudio.VC.Copilot.Setup.Resources
+#9 146.9 Unpacking Microsoft.VisualStudio.Cache.Service
+#9 149.8 Unpacking Microsoft.VisualStudio.VC.Ide.Common
+#9 150.8 Unpacking Microsoft.VisualStudio.VC.Ide.Common.Resources
+#9 150.8 Unpacking Microsoft.VisualStudio.VC.MSVCDis
+#9 151.4 Unpacking Microsoft.VisualStudio.VC.Ide.Debugger
+#9 153.4 Unpacking Microsoft.VisualStudio.VC.Ide.Debugger.Resources
+#9 153.4 Unpacking Microsoft.VisualStudio.VC.Ide.Debugger.Concord
+#9 153.6 Unpacking Microsoft.VisualStudio.VC.Ide.Debugger.Concord.Resources
+#9 153.6 Unpacking Microsoft.VisualStudio.VC.Ide.Dskx
+#9 153.7 Unpacking Microsoft.VisualStudio.VC.Ide.Dskx.Resources
+#9 153.7 Unpacking Microsoft.VisualStudio.VC.Ide.WinXPlus
+#9 153.7 Unpacking Microsoft.VisualStudio.Debugger
+#9 153.9 Unpacking Microsoft.VisualStudio.Debugger.Remote.DiagnosticsHub.Client
+#9 153.9 Unpacking Microsoft.VisualStudio.Debugger.Package.DiagHub.Client
+#9 153.9 Unpacking Microsoft.VisualStudio.PerfLib
+#9 153.9 Unpacking Microsoft.DiaSymReader.PortablePdb
+#9 153.9 Unpacking Microsoft.VisualStudio.Debugger.Resources
+#9 154.0 Unpacking Microsoft.VisualStudio.Debugger.Concord
+#9 154.1 Unpacking Microsoft.VisualStudio.Debugger.Concord.Resources
+#9 154.1 Unpacking Microsoft.IntelliTrace.DiagnosticsHub
+#9 154.1 Unpacking Microsoft.IntelliTrace.DiagnosticsHub.Resources
+#9 154.1 Unpacking Microsoft.VisualStudio.Editors
+#9 154.2 Unpacking Microsoft.VisualStudio.AzureSDK
+#9 154.2 Unpacking Microsoft.VisualStudio.DIA
+#9 154.3 Unpacking Microsoft.VisualStudio.MSAGL
+#9 154.3 Unpacking Microsoft.VisualStudio.Debugger.Remote
+#9 154.4 Unpacking Microsoft.VisualStudio.Debugger.Remote.Resources
+#9 154.4 Unpacking Microsoft.VisualStudio.Debugger.Concord.Remote
+#9 154.5 Unpacking Microsoft.VisualStudio.Debugger.Concord.Remote.Resources
+#9 154.5 Unpacking Microsoft.VisualStudio.Debugger.TargetComposition
+#9 154.9 Unpacking Microsoft.VisualStudio.Debugger.TargetComposition.Remote
+#9 155.2 Unpacking Microsoft.VisualStudio.Debugger.Managed
+#9 155.3 Unpacking Microsoft.VisualStudio.Debugger.Managed.Resources
+#9 155.3 Unpacking Microsoft.VisualStudio.Debugger.Concord.Managed
+#9 155.4 Unpacking Microsoft.VisualStudio.Debugger.Concord.Managed.Resources
+#9 155.4 Unpacking Microsoft.CodeAnalysis.VisualStudio.ServiceHub.Setup.x64
+#9 156.9 Unpacking Microsoft.CodeAnalysis.VisualStudio.Setup
+#9 164.7 Unpacking Microsoft.CodeAnalysis.ExpressionEvaluator
+#9 164.7 Unpacking Microsoft.DiaSymReader
+#9 164.7 Unpacking Microsoft.VisualStudio.Debugger.Parallel
+#9 164.8 Unpacking Microsoft.VisualStudio.Debugger.Parallel.Resources
+#9 164.8 Unpacking Microsoft.VisualStudio.Debugger.CollectionAgents
+#9 164.8 Unpacking Microsoft.VisualStudio.Debugger.TimeTravel.Replay.Plat.17
+#9 164.8 Unpacking Microsoft.VisualStudio.Debugger.TimeTravel.Replay.17
+#9 164.9 Unpacking Microsoft.VisualStudio.Debugger.TimeTravel.Replay.VS.17
+#9 164.9 Unpacking Microsoft.VisualStudio.Debugger.AzureAttach
+#9 164.9 Unpacking Microsoft.VisualStudio.Debugger.AzureAttach.Resources
+#9 164.9 Unpacking Microsoft.VisualStudio.Web.Azure.Common
+#9 164.9 Unpacking Microsoft.VisualStudio.Web.Azure.Common.Resources
+#9 164.9 Unpacking Microsoft.VisualStudio.Debugger.VSCodeDebuggerHost
+#9 165.0 Unpacking Microsoft.VisualStudio.Debugger.BrokeredServices
+#9 165.0 Unpacking Microsoft.VisualStudio.Debugger.VsDbgExe.Concord
+#9 165.1 Unpacking Microsoft.VisualStudio.Debugger.VsDbgExe.Concord.Resources
+#9 165.1 Unpacking Microsoft.VisualStudio.Debugger.VsDbgExe.VS
+#9 165.2 Unpacking Microsoft.VisualStudio.Debugger.VsDbgExe.VS.Resources
+#9 165.2 Skipping unpacking of Microsoft.VisualStudio.Debugger.Script.Msi of type Msi
+#9 165.2 Unpacking Microsoft.VisualStudio.VC.Ide.x64
+#9 165.2 Unpacking Microsoft.VisualStudio.Connected
+#9 165.3 Unpacking Microsoft.VisualStudio.Connected.Resources
+#9 165.3 Unpacking Microsoft.VisualStudio.Connected.Auto
+#9 165.4 Unpacking Microsoft.VisualStudio.Connected.Auto.Resources
+#9 165.4 Unpacking Microsoft.Developer.IdentityServiceGS
+#9 165.4 Unpacking Microsoft.VisualStudio.Identity
+#9 165.7 Unpacking Microsoft.VisualStudio.CoreEditor
+#9 165.7 Unpacking Microsoft.VisualStudio.Platform.NavigateTo
+#9 165.7 Unpacking Microsoft.VisualStudio.CoreEditor.UserProfiles
+#9 165.8 Unpacking Microsoft.VisualStudio.Devenv
+#9 165.8 Unpacking Microsoft.VisualStudio.Devenv.Resources
+#9 165.8 Unpacking Microsoft.VisualStudio.ErrorList
+#9 165.8 Unpacking Microsoft.VisualStudio.Finalizer
+#9 165.8 Unpacking Microsoft.VisualStudio.Log
+#9 165.9 Unpacking Microsoft.VisualStudio.Log.Resources
+#9 165.9 Unpacking Microsoft.VisualStudio.Log.Targeted
+#9 165.9 Skipping unpacking of CoreEditorFonts of type Msi
+#9 165.9 Unpacking Microsoft.VisualStudio.NgenRunner
+#9 165.9 Unpacking Microsoft.VisualStudio.NgenRunner.Resources
+#9 165.9 Unpacking Microsoft.VisualStudio.MinShell.Interop
+#9 165.9 Skipping unpacking of Microsoft.VisualStudio.MinShell.Msi of type Msi
+#9 165.9 Skipping unpacking of Microsoft.VisualStudio.MinShell.Shared.Msi of type Msi
+#9 165.9 Skipping unpacking of Microsoft.VisualStudio.MinShell.Msi.Resources of type Msi
+#9 165.9 Skipping unpacking of Microsoft.VisualStudio.FileHandler.Msi of type Msi
+#9 165.9 Unpacking Microsoft.VisualStudio.OpenFolder.VSIX
+#9 166.0 Unpacking Microsoft.VisualStudio.ProjectServices
+#9 166.1 Unpacking Microsoft.ServiceHub.Node
+#9 166.1 Unpacking Microsoft.VisualStudio.TeamExplorer
+#9 167.2 Unpacking Microsoft.VisualStudio.Platform.Markdown
+#9 167.2 Unpacking Microsoft.VisualStudio.TextMateGrammars
+#9 167.3 Unpacking Microsoft.VisualStudio.GraphProvider
+#9 167.4 Unpacking Microsoft.VisualStudio.GraphProvider.Resources
+#9 167.4 Unpacking Microsoft.VisualStudio.GraphProvider.Auto
+#9 167.4 Unpacking Microsoft.VisualStudio.GraphProvider.Auto.Resources
+#9 167.4 Unpacking Microsoft.VisualStudio.GraphModel
+#9 167.4 Unpacking Microsoft.VisualStudio.GraphModel.Resources
+#9 167.5 Unpacking Microsoft.VisualStudio.PerformanceProvider
+#9 167.5 Unpacking Microsoft.VisualStudio.VirtualTree
+#9 167.5 Unpacking Microsoft.VisualStudio.VirtualTree.Resources
+#9 167.5 Unpacking Microsoft.VisualStudio.VC.DevCmd
+#9 167.5 Unpacking Microsoft.VisualStudio.VC.DevCmd.Resources
+#9 167.5 Unpacking Microsoft.VisualStudio.VsDevCmd.Core.DotNet
+#9 167.5 Unpacking Microsoft.VisualStudio.VsDevCmd.Core.WinSdk
+#9 167.5 Unpacking Microsoft.VisualStudio.VsDevCmd.Ext.NetFxSdk
+#9 167.5 Unpacking Microsoft.VisualCpp.Tools.Common.UtilsPrereq
+#9 167.6 Unpacking Microsoft.VisualStudio.ScriptedHost
+#9 167.6 Unpacking Microsoft.VisualStudio.ScriptedHost.Resources
+#9 167.6 Unpacking Microsoft.VisualStudio.ScriptedHost.Targeted
+#9 167.6 Skipping unpacking of Microsoft.WebView2 of type Exe
+#9 167.6 Skipping unpacking of Microsoft.DiagnosticsHub.Collection.Service of type Msi
+#9 167.6 Unpacking Microsoft.DiagnosticsHub.Collection
+#9 167.7 Unpacking Microsoft.DiagnosticsHub.Runtime
+#9 167.7 Unpacking Microsoft.DiagnosticsHub.Runtime.Resources
+#9 167.8 Unpacking Microsoft.DiagnosticsHub.Runtime.Targeted
+#9 167.9 Unpacking Microsoft.VisualStudio.Languages.Json
+#9 167.9 Unpacking Microsoft.VisualStudio.WebToolsExtensions.Json
+#9 168.2 Unpacking Microsoft.VisualStudio.WebToolsExtensions.Json.Resources
+#9 168.2 Unpacking Microsoft.VisualStudio.Languages.Json.Resources
+#9 168.2 Skipping unpacking of Microsoft.VisualStudio.MinShell.Interop.Msi of type Msi
+#9 168.2 Skipping unpacking of Microsoft.VisualStudio.MinShell.Interop.Shared.Msi of type Msi
+#9 168.2 Skipping unpacking of Microsoft.VisualStudio.Devenv.Msi of type Msi
+#9 168.2 Skipping unpacking of Microsoft.VisualStudio.Devenv.Shared.Msi of type Msi
+#9 168.2 Skipping unpacking of Microsoft.VisualStudio.Community.Msi of type Msi
+#9 168.2 Skipping unpacking of Microsoft.VisualStudio.Community.Shared.Msi of type Msi
+#9 168.2 Skipping unpacking of Microsoft.VisualStudio.Community.Msi.Resources of type Msi
+#9 168.2 Unpacking Microsoft.VisualStudio.Community.ProductArch.Neutral
+#9 168.3 Unpacking Microsoft.VisualStudio.Community.ProductArch.NeutralExtra
+#9 168.4 Unpacking Microsoft.VisualStudio.Platform.CallHierarchy
+#9 168.4 Unpacking Microsoft.MSHtml
+#9 168.4 Unpacking Microsoft.VisualStudio.WebSiteProject.DTE
+#9 168.5 Unpacking Microsoft.VisualStudio.Diagnostics.AspNetHelper
+#9 168.5 Unpacking Microsoft.VisualStudio.Diagnostics.AspNetHelper.Enterprise
+#9 168.5 Unpacking Microsoft.VisualStudio.Diagnostics.AspNetHelper.Resources
+#9 168.5 Unpacking Microsoft.VisualStudio.Diagnostics.AspNetHelper.Standard
+#9 168.5 Unpacking Microsoft.VisualStudio.Community.ProductArch.Resources.Neutral
+#9 168.5 Unpacking Microsoft.VisualStudio.Community.ProductArch.Resources.NeutralExtra
+#9 168.5 Unpacking Microsoft.VisualStudio.Net.Eula.Resources
+#9 168.5 Unpacking Microsoft.VisualStudio.Community.ProductArch.Resources.Targeted
+#9 168.6 Unpacking Microsoft.VisualStudio.Community.CSharp.Resources.Neutral
+#9 168.6 Unpacking Microsoft.VisualStudio.Community.CSharp.Resources.Targeted
+#9 168.6 Unpacking Microsoft.VisualStudio.Community.VB.Resources.Neutral
+#9 168.7 Unpacking Microsoft.VisualStudio.Community.VB.Resources.Targeted
+#9 168.7 Unpacking Microsoft.IntelliTrace.CollectorCab
+#9 168.7 Unpacking Microsoft.VisualStudio.Community.ProductArch.Targeted
+#9 168.9 Unpacking Microsoft.VisualStudio.Community.ProductArch.TargetedExtra
+#9 168.9 Unpacking Microsoft.VisualStudio.Community.CSharp.Neutral
+#9 169.0 Unpacking Microsoft.VisualStudio.Community.CSharp.Targeted
+#9 169.0 Unpacking Microsoft.VisualStudio.Community.VB.Neutral
+#9 169.0 Unpacking Microsoft.VisualStudio.Community.VB.Targeted
+#9 169.1 Unpacking Microsoft.VisualStudio.Community.x64
+#9 169.1 Unpacking Microsoft.VisualStudio.ProjectSystem.Full
+#9 169.1 Unpacking Microsoft.VisualStudio.ProjectSystem
+#9 169.2 Unpacking Microsoft.VisualStudio.ProjectSystem.Query
+#9 169.2 Unpacking Microsoft.VisualStudio.LiveShareApi
+#9 169.2 Unpacking Microsoft.VisualStudio.Enterprise
+#9 169.3 Unpacking Microsoft.ShDocVw
+#9 169.3 Unpacking Microsoft.VisualStudio.Enterprise.Resources
+#9 169.3 Unpacking Microsoft.VisualStudio.Professional
+#9 169.3 Unpacking Microsoft.VisualStudio.Professional.Resources
+#9 169.3 Unpacking Microsoft.VisualStudio.ClientDiagnostics
+#9 169.4 Unpacking Microsoft.VisualStudio.ClientDiagnostics.Resources
+#9 169.4 Unpacking Microsoft.VisualStudio.ClientDiagnostics.Targeted
+#9 169.4 Unpacking Microsoft.VisualStudio.AppResponsiveness
+#9 169.5 Unpacking Microsoft.VisualStudio.AppResponsiveness.Resources
+#9 169.5 Unpacking Microsoft.VisualStudio.AppResponsiveness.Targeted
+#9 169.5 Unpacking Microsoft.VisualStudio.TestTools.TeamFoundationClient
+#9 169.6 Unpacking Microsoft.VisualStudio.TestTools.TeamFoundationClient.Resources
+#9 169.6 Unpacking Microsoft.VisualStudio.CodeSense.Community
+#9 169.6 Unpacking Microsoft.VisualStudio.CodeSense.Community.Resources
+#9 169.6 Unpacking Microsoft.VisualStudio.SccCodeLenses
+#9 169.7 Unpacking Microsoft.VisualStudio.VC.Ide.MDD
+#9 169.7 Unpacking Microsoft.VisualStudio.VC.Ide.MDD.Resources
+#9 169.8 Unpacking Microsoft.VisualStudio.Copilot.Testing.UI
+#9 170.5 Unpacking Microsoft.VisualStudio.TestTools.TestPlatform.V2.CLI
+#9 170.9 Unpacking Microsoft.VisualStudio.TestTools.TestPlatform.V1.CLI
+#9 170.9 Unpacking Microsoft.VisualStudio.TestTools.TP.V1.CLI.Resources
+#9 170.9 Unpacking Microsoft.VisualStudio.TestTools.CodeCoverage
+#9 171.0 Unpacking Microsoft.VisualStudio.TestTools.CodeCoverage.Resources
+#9 171.0 Skipping unpacking of Microsoft.VisualStudio.TestTools.CodeCoverage.Msi of type Msi
+#9 171.0 Unpacking Microsoft.VisualStudio.TestTools.DynamicCodeCoverage
+#9 171.4 Unpacking Microsoft.CodeCoverage.Console.Targeted
+#9 171.5 Unpacking Microsoft.VisualStudio.TestTools.DCC.Resources
+#9 171.5 Unpacking Microsoft.VisualStudio.InstrumentationEngine
+#9 171.5 Skipping unpacking of Microsoft.IntelliTrace.ProfilerProxy.Msi of type Msi
+#9 171.5 Skipping unpacking of Microsoft.IntelliTrace.ProfilerProxy.Msi.x64 of type Msi
+#9 171.5 Unpacking Microsoft.IntelliTrace.Core
+#9 171.6 Unpacking Microsoft.IntelliTrace.Core.Resources
+#9 171.6 Unpacking Microsoft.IntelliTrace.Core.Targeted
+#9 171.6 Unpacking Microsoft.IntelliTrace.Core.Targeted.Resources
+#9 171.6 Unpacking Microsoft.IntelliTrace.Core.Concord
+#9 171.6 Unpacking Microsoft.VisualStudio.CodeMap
+#9 171.7 Unpacking Microsoft.VisualStudio.CodeMap.Resources
+#9 171.7 Unpacking Microsoft.VisualStudio.GraphDocument
+#9 171.7 Unpacking Microsoft.VisualStudio.GraphDocument.Resources
+#9 171.7 Unpacking Microsoft.VisualStudio.Vmp
+#9 171.8 Unpacking Microsoft.VisualStudio.Vmp.Resources
+#9 171.8 Skipping unpacking of Microsoft.SqlServer.SqlLocalDb.2025 of type Msi
+#9 171.8 Unpacking Microsoft.VisualStudio.ClassDesigner
+#9 171.8 Unpacking Microsoft.VisualStudio.ClassDesigner.Resources
+#9 171.8 Unpacking Microsoft.VisualStudio.Dsl.GraphObject
+#9 171.9 Unpacking Microsoft.VisualStudio.VC.Items.Pro
+#9 171.9 Unpacking Microsoft.VisualStudio.VC.Templates.General
+#9 171.9 Unpacking Microsoft.VisualStudio.VC.Templates.General.Resources
+#9 171.9 Unpacking Microsoft.VisualStudio.VC.Ide.Pro
+#9 171.9 Unpacking Microsoft.VisualStudio.VC.Ide.Pro.Resources
+#9 171.9 Unpacking Microsoft.VisualStudio.VC.Templates.Desktop
+#9 171.9 Unpacking Microsoft.VisualStudio.VC.Templates.UnitTest
+#9 171.9 Unpacking Microsoft.VisualStudio.VC.Templates.UnitTest.Resources
+#9 172.0 Unpacking Microsoft.VisualStudio.TextTemplating.Integration
+#9 172.0 Unpacking Microsoft.VisualStudio.TextTemplating.Integration.Resources
+#9 172.0 Unpacking Microsoft.VisualStudio.TextTemplating.Core
+#9 172.0 Unpacking Microsoft.VisualStudio.TextTemplating.Core.Resources
+#9 172.0 Unpacking Microsoft.VisualStudio.TextTemplating.MSBuild
+#9 172.0 Unpacking Microsoft.VisualStudio.TextTemplating.MSBuild.Resources
+#9 172.0 Unpacking Microsoft.CodeAnalysis.Compilers
+#9 172.3 Unpacking Microsoft.NuGet.Build.Tasks.Setup
+#9 172.3 Unpacking Microsoft.PythonTools.BuildCore.Vsix
+#9 172.4 Unpacking Microsoft.VisualStudio.TestTools.DataCollectors
+#9 172.4 Unpacking Microsoft.VisualStudio.TestTools.DataCollectors.Resources
+#9 172.4 Unpacking Microsoft.VisualStudio.TestTools.Profiler
+#9 172.4 Unpacking Microsoft.DiagnosticsHub.Collection.ExternalDependencies.x64
+#9 172.4 Unpacking Microsoft.DiagnosticsHub.Runtime.ExternalDependencies
+#9 172.4 Unpacking Microsoft.DiagnosticsHub.Runtime.ExternalDependencies.Targeted
+#9 172.6 Unpacking SQLiteCore
+#9 172.6 Unpacking SQLiteCore.Targeted
+#9 172.7 Skipping unpacking of Microsoft.Icecap.Collection.Msi of type Msi
+#9 172.7 Skipping unpacking of Microsoft.Icecap.Collection.Msi.Targeted of type Msi
+#9 172.7 Unpacking Microsoft.Icecap.Analysis
+#9 172.8 Unpacking Microsoft.Icecap.Analysis.Resources
+#9 172.8 Unpacking Microsoft.Icecap.Analysis.Resources.Targeted
+#9 172.8 Unpacking Microsoft.Icecap.Analysis.Targeted
+#9 172.8 Unpacking Microsoft.VisualStudio.TeamExplorer.MinGit
+#9 173.6 Unpacking Microsoft.DiagnosticsHub.Tools
+#9 173.6 Unpacking Microsoft.DiagnosticsHub.CpuSampling
+#9 173.6 Unpacking Microsoft.DiagnosticsHub.CpuSampling.Resources
+#9 173.7 Unpacking Microsoft.DiagnosticsHub.CpuSampling.Targeted
+#9 173.7 Unpacking Microsoft.DiagnosticsHub.Instrumentation
+#9 173.7 Unpacking Microsoft.DiagnosticsHub.Instrumentation.Resources
+#9 173.7 Unpacking Microsoft.DiagnosticsHub.Instrumentation.Targeted
+#9 173.8 Unpacking Microsoft.DiagnosticsHub.DotNetObjectAlloc
+#9 173.8 Unpacking Microsoft.DiagnosticsHub.DotNetObjectAlloc.Resources
+#9 173.8 Unpacking Microsoft.DiagnosticsHub.DotNetObjectAlloc.Targeted
+#9 173.9 Unpacking Microsoft.DiagnosticsHub.DatabaseTool
+#9 173.9 Unpacking Microsoft.DiagnosticsHub.DatabaseTool.Resources
+#9 173.9 Unpacking Microsoft.DiagnosticsHub.DatabaseTool.Targeted
+#9 173.9 Unpacking Microsoft.DiagnosticsHub.FileIOTool
+#9 173.9 Unpacking Microsoft.DiagnosticsHub.FileIOTool.Resources
+#9 173.9 Unpacking Microsoft.DiagnosticsHub.FileIOTool.Targeted
+#9 173.9 Unpacking Microsoft.DiagnosticsHub.EventsViewerTool
+#9 173.9 Unpacking Microsoft.DiagnosticsHub.EventsViewerTool.Resources
+#9 173.9 Unpacking Microsoft.DiagnosticsHub.EventsViewerTool.Targeted
+#9 173.9 Unpacking Microsoft.DiagnosticsHub.DotNetAsync
+#9 174.0 Unpacking Microsoft.DiagnosticsHub.DotNetAsync.Resources
+#9 174.0 Unpacking Microsoft.DiagnosticsHub.DotNetAsync.Targeted
+#9 174.0 Unpacking Microsoft.DiagnosticsHub.DotNetCountersTool
+#9 174.0 Unpacking Microsoft.DiagnosticsHub.DotNetCountersTool.Resources
+#9 174.0 Unpacking Microsoft.DiagnosticsHub.DotNetCountersTool.Targeted
+#9 174.0 Unpacking Microsoft.DiagnosticsHub.BenchmarkDotNet
+#9 174.0 Unpacking Microsoft.DiagnosticsHub.BenchmarkDotNet.Resources
+#9 174.0 Unpacking Microsoft.DiagnosticsHub.BenchmarkDotNet.Targeted
+#9 174.0 Unpacking Microsoft.DiagnosticsHub.UserMarks
+#9 174.0 Unpacking Microsoft.DiagnosticsHub.UserMarks.Resources
+#9 174.1 Unpacking Microsoft.VisualStudio.TestTools.TestPlatform.IDE
+#9 177.5 Unpacking Microsoft.VisualStudio.TestTools.TestWIExtension
+#9 177.5 Unpacking Microsoft.VisualStudio.TestTools.TestWIExtension.Res
+#9 177.5 Unpacking Microsoft.VisualStudio.TestTools.TestPlatform.Legacy.Agent
+#9 177.5 Unpacking Microsoft.VisualStudio.TestTools.TestPlatform.Legacy.Core
+#9 177.6 Unpacking Microsoft.VisualStudio.TestTools.TestPlatform.Legacy.Core.Resources
+#9 177.6 Unpacking Microsoft.VisualStudio.TestTools.TestPlatform.Legacy.Common
+#9 177.6 Unpacking Microsoft.VisualStudio.TestTools.TP.Legacy.Common.Res
+#9 177.6 Unpacking Microsoft.VisualStudio.TestTools.TestPlatform.Legacy.Core.Premium
+#9 177.6 Unpacking Microsoft.VisualStudio.TestTools.TestPlatform.Legacy.Professional
+#9 177.6 Unpacking Microsoft.VisualStudio.TestTools.TestPlatform.Legacy.TestSettings
+#9 177.6 Unpacking Microsoft.VisualStudio.TestTools.TestPlatform.Legacy.TestSettings.Resources
+#9 177.7 Unpacking Microsoft.VisualStudio.TestTools.TestPlatform.Legacy.Tips
+#9 177.7 Unpacking Microsoft.VisualStudio.TestTools.TestPlatform.Legacy.Tips.Resources
+#9 177.7 Unpacking Microsoft.VisualStudio.TestTools.TP.Legacy.Tips.Common
+#9 177.7 Skipping unpacking of Microsoft.VisualStudio.TestTools.TP.Legacy.Tips.Msi of type Msi
+#9 177.7 Unpacking Microsoft.VisualStudio.VC.Ide.Linux.ConnectionManager
+#9 177.7 Unpacking Microsoft.VisualStudio.VC.Ide.Linux.ConnectionManager.Resources
+#9 177.7 Unpacking Microsoft.VisualStudio.VC.Vcpkg
+#9 178.7 Copying MSBuild/Microsoft/VC/v180/ImportBefore/Default/msvc-wine.props
+#9 178.7 Patching MSBuild/Microsoft/VC/v180/Microsoft.Cpp.WindowsSDK.props
+#9 178.7 Patching Common7/Tools/VsDevCmd.bat
+#9 178.7 Patching Common7/Tools/vsdevcmd/core/vsdevcmd_start.bat
+#9 178.7 Patching Common7/Tools/vsdevcmd/core/winsdk.bat
+#9 178.8 Patching Common7/Tools/vsdevcmd/ext/cmake.bat
+#9 178.8 Patching Common7/Tools/vsdevcmd/ext/ConnectionManagerExe.bat
+#9 DONE 182.4s
+
+#10 [dev_container_auto_added_stage_label  6/13] RUN ./src/install.sh /opt/msvc
+#10 0.481 Using MSVC version 14.51.36231
+#10 1.590 Using SDK version 10.0.26100.0
+#10 DONE 17.2s
+
+#11 [dev_container_auto_added_stage_label  7/13] RUN wineboot --init &&     while pgrep wineserver > /dev/null; do sleep 1; done &&     sleep 10
+#11 0.405 wine: created the configuration directory '/root/.wine'
+#11 1.054 0054:err:winediag:nodrv_CreateWindow Application tried to create a window, but no driver could be loaded.
+#11 1.054 0054:err:winediag:nodrv_CreateWindow L"The explorer process failed to start."
+#11 1.056 0054:err:systray:initialize_systray Could not create tray window
+#11 1.160 0054:err:ole:StdMarshalImpl_MarshalInterface Failed to create ifstub, hr 0x80004002
+#11 1.160 0054:err:ole:CoMarshalInterface Failed to marshal the interface {6d5140c1-7436-11ce-8034-00aa006009fa}, hr 0x80004002
+#11 1.160 0054:err:ole:apartment_get_local_server_stream Failed: 0x80004002
+#11 1.198 0044:err:winediag:nodrv_CreateWindow Application tried to create a window, but no driver could be loaded.
+#11 1.198 0044:err:winediag:nodrv_CreateWindow L"Make sure that your X server is running and that $DISPLAY is set correctly."
+#11 1.199 0050:err:winediag:nodrv_CreateWindow Application tried to create a window, but no driver could be loaded.
+#11 1.199 0050:err:winediag:nodrv_CreateWindow L"Make sure that your X server is running and that $DISPLAY is set correctly."
+#11 1.199 0050:err:ole:apartment_createwindowifneeded CreateWindow failed with error 3
+#11 1.205 0050:err:ole:apartment_createwindowifneeded CreateWindow failed with error 0
+#11 1.212 0050:err:ole:apartment_createwindowifneeded CreateWindow failed with error 14007
+#11 1.212 0050:err:ole:StdMarshalImpl_MarshalInterface Failed to create ifstub, hr 0x800736b7
+#11 1.212 0050:err:ole:CoMarshalInterface Failed to marshal the interface {6d5140c1-7436-11ce-8034-00aa006009fa}, hr 0x800736b7
+#11 1.212 0050:err:ole:apartment_get_local_server_stream Failed: 0x800736b7
+#11 1.222 0050:err:ole:start_rpcss Failed to open RpcSs service
+#11 1.248 002c:err:winediag:nodrv_CreateWindow Application tried to create a window, but no driver could be loaded.
+#11 1.248 002c:err:winediag:nodrv_CreateWindow L"Make sure that your X server is running and that $DISPLAY is set correctly."
+#11 1.382 0090:err:winediag:nodrv_CreateWindow Application tried to create a window, but no driver could be loaded.
+#11 1.382 0090:err:winediag:nodrv_CreateWindow L"Make sure that your X server is running and that $DISPLAY is set correctly."
+#11 21.15 00e8:err:winediag:nodrv_CreateWindow Application tried to create a window, but no driver could be loaded.
+#11 21.15 00e8:err:winediag:nodrv_CreateWindow L"Make sure that your X server is running and that $DISPLAY is set correctly."
+#11 28.08 wine: configuration in L"/root/.wine" has been updated.
+#11 32.61 0054:err:ole:start_rpcss Failed to start RpcSs service
+#11 32.67 0174:err:rpc:I_RpcReceive we got fault packet with status 0x1c010003
+#11 DONE 43.6s
+
+#12 [dev_container_auto_added_stage_label  8/13] RUN sed -i     -e 's|^export INCLUDE="|export INCLUDE="z:\\opt\\Irvine32;|'     -e 's|^export LIB="|export LIB="z:\\opt\\Irvine32;|'     -e 's|^export LIBPATH="|export LIBPATH="z:\\opt\\Irvine32;|'     /opt/msvc/bin/x86/msvcenv.sh
+#12 DONE 1.5s
+
+#13 [dev_container_auto_added_stage_label  9/13] RUN mkdir -p /opt/Irvine32 &&     curl -sL -o /tmp/Irvine.zip "********/surferkip/asmbook/raw/main/Irvine.zip" &&     unzip -o -q /tmp/Irvine.zip -d /tmp/ &&     mv /tmp/Irvine/* /opt/Irvine32/ &&     rm -rf /tmp/Irvine.zip /tmp/Irvine
+#13 DONE 2.5s
+
+#14 [dev_container_auto_added_stage_label 10/13] WORKDIR /opt
+#14 DONE 0.1s
+
+#15 [dev_container_auto_added_stage_label 11/13] RUN git clone --depth 1 ********/trailofbits/vscode-masm.git
+#15 0.213 Cloning into 'vscode-masm'...
+#15 DONE 1.3s
+
+#16 [dev_container_auto_added_stage_label 12/13] RUN cd vscode-masm && npm install && npx @vscode/vsce package && mv *.vsix /opt/vscode-masm.vsix
+#16 12.45 
+#16 12.45 added 411 packages, and audited 412 packages in 11s
+#16 12.45 
+#16 12.45 119 packages are looking for funding
+#16 12.45   run `npm fund` for details
+#16 12.48 
+#16 12.48 16 vulnerabilities (7 moderate, 9 high)
+#16 12.48 
+#16 12.48 To address issues that do not require attention, run:
+#16 12.48   npm audit fix
+#16 12.48 
+#16 12.48 To address all issues (including breaking changes), run:
+#16 12.48   npm audit fix --force
+#16 12.48 
+#16 12.48 Run `npm audit` for details.
+#16 12.48 npm notice
+#16 12.48 npm notice New major version of npm available! 10.8.2 -> 12.0.2
+#16 12.48 npm notice Changelog: ********/npm/cli/releases/tag/v12.0.2
+#16 12.48 npm notice To update run: npm install -g npm@12.0.2
+#16 12.48 npm notice
+#16 13.63 Executing prepublish script 'npm run vscode:prepublish'...
+#16 13.76 
+#16 13.76 > vscode-masm@0.6.1 vscode:prepublish
+#16 13.76 > npm run compile
+#16 13.76 
+#16 13.90 
+#16 13.90 > vscode-masm@0.6.1 compile
+#16 13.90 > tsc -p ./
+#16 13.90 
+#16 21.11  WARNING  This extension consists of 220 files, out of which 171 are JavaScript files. For performance reasons, you should bundle your extension: https://aka.ms/vscode-bundle-extension. You should also exclude unnecessary files by adding them to your .vscodeignore: https://aka.ms/vscode-vscodeignore.
+#16 21.11 
+#16 21.11  INFO  Files included in the VSIX:
+#16 21.11 vscode-masm-0.6.1.vsix
+#16 21.11 ├─ [Content_Types].xml 
+#16 21.11 ├─ extension.vsixmanifest 
+#16 21.11 └─ extension/
+#16 21.11    ├─ LICENSE.txt [1.04 KB]
+#16 21.11    ├─ dmasm-language-configuration.json [0.32 KB]
+#16 21.11    ├─ masm-language-configuration.json [0.48 KB]
+#16 21.11    ├─ package.json [8.16 KB]
+#16 21.11    ├─ readme.md 
+#16 21.11    ├─ assets/
+#16 21.11    │  ├─ decompilation.png [871.81 KB]
+#16 21.11    │  ├─ descriptions.png [208.75 KB]
+#16 21.11    │  └─ signatures.png [104.59 KB]
+#16 21.11    ├─ node_modules/
+#16 21.11    │  ├─ balanced-match/ (5 files) [6.78 KB]
+#16 21.11    │  ├─ brace-expansion/ (5 files) [11.26 KB]
+#16 21.11    │  ├─ minimatch/ (6 files) [41.37 KB]
+#16 21.11    │  ├─ semver/ (52 files) [95.45 KB]
+#16 21.11    │  ├─ vscode-jsonrpc/ (26 files) [147.22 KB]
+#16 21.11    │  ├─ vscode-languageclient/ (63 files) [468.94 KB]
+#16 21.11    │  ├─ vscode-languageserver-protocol/ (37 files) [146.14 KB]
+#16 21.11    │  └─ vscode-languageserver-types/ (7 files) [171.45 KB]
+#16 21.11    ├─ out/
+#16 21.11    │  ├─ client.js [9.02 KB]
+#16 21.11    │  ├─ codelens.js [3.94 KB]
+#16 21.11    │  ├─ commands.js [11.79 KB]
+#16 21.11    │  ├─ decorations.js [7.05 KB]
+#16 21.11    │  ├─ extension.js [3.76 KB]
+#16 21.11    │  ├─ installation.js [3.9 KB]
+#16 21.11    │  └─ utils.js [4.38 KB]
+#16 21.11    └─ syntaxes/
+#16 21.11       ├─ dmasm.tmLanguage.json [9.13 KB]
+#16 21.11       └─ masm.tmLanguage.json [15.85 KB]
+#16 21.11 
+#16 21.11 => Run vsce ls --tree to see all included files.
+#16 21.11 
+#16 21.67  DONE  Packaged: /opt/vscode-masm/vscode-masm-0.6.1.vsix (220 files, 1.35 MB)
+#16 DONE 24.3s
+
+#17 [dev_container_auto_added_stage_label 13/13] WORKDIR /app
+#17 DONE 0.1s
+
+#18 preparing layers for inline cache
+#18 DONE 75.6s
+
+#19 exporting to image
+#19 exporting layers done
+#19 writing image sha256:b0fbe285cff4eebbcd760425d8c0b5e07d7894271e7e7968fd59205388cb1494 0.0s done
+#19 naming to docker.io/library/vsc-ids-github-runners-and-actions-c11893576be3bd7fa6560d210bf8df58881304adc6d1acf88a069112f0f4a513 done
+#19 DONE 0.0s
+[467578 ms] Stop: Run: docker buildx build --load --build-arg BUILDKIT_INLINE_CACHE=1 -f /tmp/devcontainercli-root/container-features/0.83.3-1785448552035/Dockerfile-with-features -t vsc-ids-github-runners-and-actions-c11893576be3bd7fa6560d210bf8df58881304adc6d1acf88a069112f0f4a513 --target dev_containers_target_stage --build-arg _DEV_CONTAINERS_BASE_IMAGE=dev_container_auto_added_stage_label /var/lib/docker/codespacemount/workspace/IDS-Github-Runners-and-Actions
+[469599 ms] Start: Run: docker run --sig-proxy=false -a STDOUT -a STDERR --mount type=bind,src=/var/lib/docker/codespacemount/workspace,dst=/workspaces --mount source=/root/.codespaces/shared,target=/workspaces/.codespaces/shared,type=bind --mount source=/var/lib/docker/codespacemount/.persistedshare,target=/workspaces/.codespaces/.persistedshare,type=bind --mount source=/.codespaces/agent/mount,target=/.codespaces/bin,type=bind --mount source=/mnt/containerTmp,target=/tmp,type=bind --mount type=bind,src=/.codespaces/agent/mount/cache,dst=/vscode -l Type=codespaces -e CODESPACES=******** -e ContainerVersion=13 -e RepositoryName=IDS-Github-Runners-and-Actions --init --label ContainerVersion=13 --hostname codespaces-41d4dd --add-host codespaces-41d4dd:127.0.0.1 --cap-add sys_nice --network host --entrypoint /bin/sh vsc-ids-github-runners-and-actions-c11893576be3bd7fa6560d210bf8df58881304adc6d1acf88a069112f0f4a513 -c echo Container started
+Container started
+[615 ms] Stop: Run: docker run --sig-proxy=false -a STDOUT -a STDERR --mount type=bind,src=/var/lib/docker/codespacemount/workspace,dst=/workspaces --mount source=/root/.codespaces/shared,target=/workspaces/.codespaces/shared,type=bind --mount source=/var/lib/docker/codespacemount/.persistedshare,target=/workspaces/.codespaces/.persistedshare,type=bind --mount source=/.codespaces/agent/mount,target=/.codespaces/bin,type=bind --mount source=/mnt/containerTmp,target=/tmp,type=bind --mount type=bind,src=/.codespaces/agent/mount/cache,dst=/vscode -l Type=codespaces -e CODESPACES=******** -e ContainerVersion=13 -e RepositoryName=IDS-Github-Runners-and-Actions --init --label ContainerVersion=13 --hostname codespaces-41d4dd --add-host codespaces-41d4dd:127.0.0.1 --cap-add sys_nice --network host --entrypoint /bin/sh vsc-ids-github-runners-and-actions-c11893576be3bd7fa6560d210bf8df58881304adc6d1acf88a069112f0f4a513 -c echo Container started
+Shell server terminated (code: 1, signal: null)
+{"outcome":"error","message":"An error occurred setting up the container.","description":"An error occurred setting up the container.","containerId":"8457f6bfb5aea09f2cc5099de486756869be417fbbf1a041c5e6637e1c9fdc70"}
+container 8457f6bfb5aea09f2cc5099de486756869be417fbbf1a041c5e6637e1c9fdc70 is not running
+Error response from daemon: No such exec instance: 29bdb97c479442b68117b506c41781d4627fe86db7aa246b6a7b6b9854e97df0
+Error: An error occurred setting up the container.
+    at U9 (/.codespaces/agent/bin/node_modules/@devcontainers/cli/dist/spec-node/devContainersSpecCLI.js:467:1277)
+    at RL (/.codespaces/agent/bin/node_modules/@devcontainers/cli/dist/spec-node/devContainersSpecCLI.js:467:1021)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async AZ (/.codespaces/agent/bin/node_modules/@devcontainers/cli/dist/spec-node/devContainersSpecCLI.js:485:3870)
+    at async uC (/.codespaces/agent/bin/node_modules/@devcontainers/cli/dist/spec-node/devContainersSpecCLI.js:485:4989)
+    at async L5 (/.codespaces/agent/bin/node_modules/@devcontainers/cli/dist/spec-node/devContainersSpecCLI.js:666:205)
+    at async G5 (/.codespaces/agent/bin/node_modules/@devcontainers/cli/dist/spec-node/devContainersSpecCLI.js:665:15084)
+    at async /.codespaces/agent/bin/node_modules/@devcontainers/cli/dist/spec-node/devContainersSpecCLI.js:485:1188
+devcontainer process exited with exit code 1
+Failed to create container.
+Error: An error occurred setting up the container.
+Error code: 1302 (UnifiedContainersErrorFatalCreatingContainer)
+Container creation failed.
+
+Creating recovery container.
+Creating container...
+$ devcontainer up --id-label Type=codespaces --workspace-folder /var/lib/docker/codespacemount/workspace/IDS-Github-Runners-and-Actions --mount type=bind,source=/.codespaces/agent/mount/cache,target=/vscode --user-data-folder /var/lib/docker/codespacemount/.persistedshare --container-data-folder .vscode-remote/data/Machine --container-system-data-folder /var/vscode-remote --log-level trace --log-format json --update-remote-user-uid-default never --mount-workspace-git-root false --omit-config-remote-env-from-metadata --skip-non-blocking-commands --skip-post-create --config "/var/lib/docker/codespacemount/workspace/IDS-Github-Runners-and-Actions/.devcontainer/devcontainer.json" --override-config /root/.codespaces/shared/merged_devcontainer.json --default-user-env-probe loginInteractiveShell --container-session-data-folder /workspaces/.codespaces/.persistedshare/devcontainers-cli/cache --secrets-file /root/.codespaces/shared/user-secrets-envs.json
+[282 ms] @devcontainers/cli 0.83.3. Node.js v18.20.8. linux 6.8.0-1052-azure x64.
+[1428 ms] Start: Run: docker run --sig-proxy=false -a STDOUT -a STDERR --mount type=bind,src=/var/lib/docker/codespacemount/workspace,dst=/workspaces --mount source=/root/.codespaces/shared,target=/workspaces/.codespaces/shared,type=bind --mount source=/var/lib/docker/codespacemount/.persistedshare,target=/workspaces/.codespaces/.persistedshare,type=bind --mount source=/.codespaces/agent/mount,target=/.codespaces/bin,type=bind --mount source=/mnt/containerTmp,target=/tmp,type=bind --mount type=bind,src=/.codespaces/agent/mount/cache,dst=/vscode -l Type=codespaces -e CODESPACES_RECOVERY_CONTAINER=******** -e CODESPACES=******** -e ContainerVersion=13 -e RepositoryName=IDS-Github-Runners-and-Actions --label ContainerVersion=13 --hostname codespaces-d291f1 --add-host codespaces-d291f1:127.0.0.1 --cap-add sys_nice --network host --entrypoint /bin/sh -l devcontainer.metadata=[{"id":"ghcr.io/devcontainers/features/common-utils:2"},{"id":"ghcr.io/devcontainers/features/git:1","customizations":{"vscode":{"settings":{"github.copilot.chat.codeGeneration.instructions":[{"text":"This dev container includes an up-to-date version of Git, built from source as needed, pre-installed and available on the `PATH`."}]}}}},{"remoteUser":"vscode"},{"mounts":["source=/root/.codespaces/shared,target=/workspaces/.codespaces/shared,type=bind","source=/var/lib/docker/codespacemount/.persistedshare,target=/workspaces/.codespaces/.persistedshare,type=bind","source=/.codespaces/agent/mount,target=/.codespaces/bin,type=bind","source=/mnt/containerTmp,target=/tmp,type=bind"],"containerEnv":{"CODESPACES_RECOVERY_CONTAINER":"********","CODESPACES":"********","ContainerVersion":"13","RepositoryName":"IDS-Github-Runners-and-Actions"},"remoteUser":"vscode"}] mcr.microsoft.com/devcontainers/base:alpine -c echo Container started
+Unable to find image 'mcr.microsoft.com/devcontainers/base:alpine' locally
+alpine: Pulling from devcontainers/base
+e6f31ffc071e: Pull complete 
+e54fdc922ba5: Pull complete 
+190d8c4138e5: Pull complete 
+7ef216b93cfd: Pull complete 
+0a14c975576f: Pull complete 
+cc17e1799f87: Pull complete 
+f2ddc2e667d1: Pull complete 
+Digest: sha256:6ebb1e4715a6b1821a8612a077281777d79115bd0b94078d55344866aaa654fe
+Status: Downloaded newer image for mcr.microsoft.com/devcontainers/base:alpine
+Container started
+Outcome: success User: vscode WorkspaceFolder: /workspaces/IDS-Github-Runners-and-Actions
+devcontainer process exited with exit code 0
+Running blocking commands...
+$ devcontainer up --id-label Type=codespaces --workspace-folder /var/lib/docker/codespacemount/workspace/IDS-Github-Runners-and-Actions --mount type=bind,source=/.codespaces/agent/mount/cache,target=/vscode --user-data-folder /var/lib/docker/codespacemount/.persistedshare --container-data-folder .vscode-remote/data/Machine --container-system-data-folder /var/vscode-remote --log-level trace --log-format json --update-remote-user-uid-default never --mount-workspace-git-root false --omit-config-remote-env-from-metadata --skip-non-blocking-commands --expect-existing-container --config "/var/lib/docker/codespacemount/workspace/IDS-Github-Runners-and-Actions/.devcontainer/devcontainer.json" --override-config /root/.codespaces/shared/merged_devcontainer.json --default-user-env-probe loginInteractiveShell --container-session-data-folder /workspaces/.codespaces/.persistedshare/devcontainers-cli/cache --secrets-file /root/.codespaces/shared/user-secrets-envs.json
+[303 ms] @devcontainers/cli 0.83.3. Node.js v18.20.8. linux 6.8.0-1052-azure x64.
+Outcome: success User: vscode WorkspaceFolder: /workspaces/IDS-Github-Runners-and-Actions
+devcontainer process exited with exit code 0
+Configuring codespace...
+Finished configuring codespace.

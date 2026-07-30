@@ -30,7 +30,7 @@
     {
       "id": "TC-004",
       "input": "!@#$",
-      "expected": "0!",
+      "expected": "$#@!",
       "description": "Special characters"
     }
   ]

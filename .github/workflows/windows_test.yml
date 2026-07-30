@@ -7,7 +7,7 @@ permissions:
   contents: read
 
 jobs:
-  asm-sanity-check:
+  Windows Compilation and Base Run:
     runs-on: windows-latest
 
     steps:
@@ -34,7 +34,7 @@ jobs:
           ml /c src\RevStr.asm
           link /SUBSYSTEM:CONSOLE /OUT:src\RevStr.exe RevStr.obj C:\Irvine32\Irvine32.lib kernel32.lib user32.lib
 
-      - name: Test Output
+      - name: Test Run
         shell: cmd
         run: |
           src\RevStr.exe

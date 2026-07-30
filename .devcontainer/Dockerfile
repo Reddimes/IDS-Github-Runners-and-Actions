@@ -7,7 +7,7 @@ RUN dpkg --add-architecture i386 && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
         wine wine64 wine32 python3 msitools ca-certificates \
-        curl unzip git && \
+        curl unzip git nodejs npm && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -33,8 +33,13 @@ RUN mkdir -p /opt/Irvine32 && \
     mv /tmp/Irvine/* /opt/Irvine32/ && \
     rm -rf /tmp/Irvine.zip /tmp/Irvine
 
-# === Layer 4: ttyd (for browser access) ===
-RUN apt-get update && apt-get install -y ttyd && apt-get clean && rm -rf /var/lib/apt/lists/*
+# === Layer 4: VS Code Extension (trailofbits/vscode-masm) ===
+WORKDIR /opt
+RUN git clone --depth 1 https://github.com/trailofbits/vscode-masm.git && \
+    cd vscode-masm && \
+    npm install && \
+    npx @vscode/vsce package && \
+    mv *.vsix /opt/vscode-masm.vsix
 
 # === Final Setup ===
 WORKDIR /app

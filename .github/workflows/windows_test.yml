@@ -83,8 +83,14 @@ jobs:
           python scripts\interact.py tests/interaction_test_cases.json
 
       - name: Display Interaction Log
-        shell: cmd
-        run: if exist tests\interaction_trace.log (type tests\interaction_trace.log) else (echo Interaction log not found.)
+        shell: pwsh
+        run: |
+          $logPath = "$env:GITHUB_WORKSPACE\tests\interaction_trace.log"
+          if (Test-Path $logPath) {
+            Get-Content $logPath | Write-Host
+          } else {
+            Write-Warning "Interaction log not found at $logPath"
+          }
 
       - name: Upload Results
         if: always()

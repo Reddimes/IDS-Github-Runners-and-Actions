@@ -5,33 +5,56 @@
   },
   "config": {
     "prompt_pattern": "Enter String: ",
-    "exit_command": "exit",
-    "fuzzy_match": true
+    "exit_command": "exit"
   },
   "test_cases": [
     {
       "id": "TC-001",
-      "input": "hello",
-      "expected": "hello\r\nolleh",
-      "description": "Standard lowercase"
+      "description": "Standard lowercase",
+      "steps": [
+        {
+          "input": "hello",
+          "expected": "hello\r\nolleh",
+          "fuzzy_match": true,
+          "skip_verification": false
+        }
+      ]
     },
     {
       "id": "TC-002",
-      "input": "MASM",
-      "expected": "MASM\r\nMSAM",
-      "description": "Mixed case"
+      "description": "Mixed case",
+      "steps": [
+        {
+          "input": "MASM",
+          "expected": "MASM\r\nMSAM",
+          "fuzzy_match": true,
+          "skip_verification": false
+        }
+      ]
     },
     {
       "id": "TC-003",
-      "input": "123 456",
-      "expected": "123 456\r\n654 321",
-      "description": "Spaces included"
+      "description": "Spaces included",
+      "steps": [
+        {
+          "input": "123 456",
+          "expected": "123 456\r\n654 321",
+          "fuzzy_match": true,
+          "skip_verification": false
+        }
+      ]
     },
     {
       "id": "TC-004",
-      "input": "!@#$",
-      "expected": "!@#$\r\n$#@!",
-      "description": "Special characters"
+      "description": "Special characters",
+      "steps": [
+        {
+          "input": "!@#$",
+          "expected": "!@#$\r\n$#@!",
+          "fuzzy_match": true,
+          "skip_verification": false
+        }
+      ]
     }
   ]
 }

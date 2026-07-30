@@ -16,7 +16,7 @@ RUN dpkg --add-architecture i386 && \
 # === Layer 2: MSVC + Wine ===
 WORKDIR /opt/msvc
 RUN git clone --depth 1 https://github.com/mstorsjo/msvc-wine.git src
-RUN PYTHONUNBUFFERED=1 ./src/vsdownload.py --accept-license --dest /opt/msvc --architecture x86
+RUN PYTHONUNBUFFERED=1 ./src/vsdownload.py --accept-license --dest /opt/msvc --architecture x86 --with-atl no --with-asan no --with-msbuild no --with-dia no
 RUN ./src/install.sh /opt/msvc
 RUN wineboot --init && \
     while pgrep wineserver > /dev/null; do sleep 1; done && \

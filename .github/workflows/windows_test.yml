@@ -7,9 +7,8 @@ permissions:
   contents: read
 
 jobs:
-  compile-and-run:
+  build:
     runs-on: windows-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -34,7 +33,22 @@ jobs:
           ml /c src\RevStr.asm
           link /SUBSYSTEM:CONSOLE /OUT:src\RevStr.exe RevStr.obj C:\Irvine32\Irvine32.lib kernel32.lib user32.lib
 
+      - name: Upload Binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: compiled-binary
+          path: src/RevStr.exe
+
+  test-run:
+    needs: build
+    runs-on: windows-latest
+    steps:
+      - name: Download Binary
+        uses: actions/download-artifact@v4
+        with:
+          name: compiled-binary
+          path: src/
+
       - name: Test Run
         shell: cmd
-        run: |
-          src\RevStr.exe
+        run: src\RevStr.exe

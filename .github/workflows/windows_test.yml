@@ -87,6 +87,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: interaction-results
-          path: |
-            tests/interaction_trace.log
-            tests/test_results.json
+          path: tests/

@@ -62,7 +62,7 @@ jobs:
         run: |
           call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86
           ml /c src\RevStr-input.asm
-          link /SUBSYSTEM:CONSOLE /OUT:src\RevStr-input.exe src\RevStr-input.obj C:\Irvine32\Irvine32.lib kernel32.lib user32.lib
+          link /SUBSYSTEM:CONSOLE /OUT:src\RevStr-input.exe RevStr-input.obj C:\Irvine32\Irvine32.lib kernel32.lib user32.lib
 
       - name: Setup Miniconda
         uses: conda-incubator/setup-miniconda@v3

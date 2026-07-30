@@ -1,4 +1,4 @@
-name: Windows Assembly Sanity Check
+name: Windows - Compile and Run
 
 on:
   workflow_dispatch:
@@ -7,7 +7,7 @@ permissions:
   contents: read
 
 jobs:
-  Windows Compilation and Base Run:
+  compile-and-run:
     runs-on: windows-latest
 
     steps:
@@ -34,7 +34,7 @@ jobs:
           ml /c src\RevStr.asm
           link /SUBSYSTEM:CONSOLE /OUT:src\RevStr.exe RevStr.obj C:\Irvine32\Irvine32.lib kernel32.lib user32.lib
 
-      - name: Test Run
+      - name: Test Output
         shell: cmd
         run: |
           src\RevStr.exe

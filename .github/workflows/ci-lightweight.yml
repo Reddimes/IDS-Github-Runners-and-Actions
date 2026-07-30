@@ -1,0 +1,48 @@
+name: CI Lightweight (Linux MASM)
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup MSVC + Wine (mstorsjo/msvc-wine)
+        run: |
+          set -e
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y wine64 wine32 python3 msitools ca-certificates
+          mkdir -p /opt/msvc
+          cd /opt/msvc
+          git clone --depth 1 https://github.com/mstorsjo/msvc-wine.git src
+          PYTHONUNBUFFERED=1 ./src/vsdownload.py --accept-license --dest /opt/msvc
+          ./src/install.sh /opt/msvc
+          wineboot --init
+          while pgrep wineserver > /dev/null; do sleep 1; done
+          echo "/opt/msvc/bin/x86" >> "$GITHUB_PATH"
+
+      - name: Download Irvine32
+        run: |
+          mkdir -p /opt/irvine32
+          curl -sL -o /tmp/Irvine.zip "https://github.com/surferkip/asmbook/raw/main/Irvine.zip"
+          unzip -o -q /tmp/Irvine.zip -d /tmp/
+          cp /tmp/Irvine/Irvine32.inc /opt/irvine32/
+          cp /tmp/Irvine/Irvine32.lib /opt/irvine32/
+          cp /tmp/Irvine/*.inc /opt/irvine32/
+          echo "IRVINE_DIR=/opt/irvine32" >> "$GITHUB_ENV"
+
+      - name: Build and Simple Check
+        shell: bash
+        run: |
+          # Assemble and Link (simplified for CI)
+          # Assuming src/RevStr.asm exists as per previous discovery
+          ml /c /Foz:RevStr.obj src/RevStr.asm
+          link /SUBSYSTEM:CONSOLE /OUT:RevStr.exe RevStr.obj /libpath:/opt/irvine32
+          
+          # Run and verify output with grep
+          ./RevStr | grep "Abraham Lincoln" || (echo "Expected string not found" && exit 1)
+EOF}<tool_call|><|tool_call>call:bash{command:

@@ -28,12 +28,15 @@ def run_test_suite(manifest_path):
     }
 
     log_file_path = os.path.join("tests", "interaction_trace.log")
+    results_file_path = os.path.join("tests", "test_results.json")
+    os.makedirs("tests", exist_ok=True)
     
     try:
         # Spawn the target process
         child = wexpect.spawn(target_exe, encoding="utf-8")
         
-        with open(log_file_path, "w") as log_file:
+        try:
+            log_file = open(log_file_path, "w")
             log_file.write(f"--- Interaction Session Start ---\n")
             log_file.write(f"Target: {target_exe}\n")
             log_file.write(f"Timestamp: {data['metadata']['timestamp'] if 'timestamp' in data['metadata'] else datetime.datetime.now().isoformat()}\n")
@@ -56,10 +59,7 @@ def run_test_suite(manifest_path):
                     child.sendline(input_str)
                     log_file.write(f"SENT: {input_str}\n")
 
-                    # Wait for the next prompt or EOF (to see the result)
-                    # Since the program might be in a loop, we expect the prompt again 
-                    # unless it's the last one and it exits.
-                    # For simplicity, we'll expect either the prompt or EOF.
+                    # Wait for the next prompt or EOF
                     try:
                         child.expect([config['prompt_pattern'], wexpect.EOF], timeout=2)
                     except wexpect.TIMEOUT:
@@ -108,21 +108,35 @@ def run_test_suite(manifest_path):
             
             log_file.write(f"\n--- Interaction Session End ---\n")
             log_file.write(f"Final Results: {results['summary']}\n")
+            log_file.flush()
+
+        except Exception as e:
+            # If log_file is already opened, we can write the error.
+            # If it wasn't opened (spawn failed), we use print and exit.
+            if 'log_file' in locals():
+                log_file.write(f"CRITICAL ERROR during interaction: {str(e)}\n")
+                log_file.flush()
+                log_file.close()
+            print(f"Critical Failure: {e}")
+            sys.exit(1)
+        finally:
+            if 'log_file' in locals():
+                log_file.close()
+
+        # Finalize results
+        results['summary']['score'] = (results['summary']['passed'] / results['summary']['total']) * 100
+        
+        # Append final score to log
+        with open(log_file_path, "a") as f_log:
+            f_log.write("-" * 30 + "\n")
+            f_log.write(f"Final Score: {results['summary']['score']}%\n")
+
+        with open(results_file_path, "w") as f:
+            json.dump(results, f, indent=2)
 
     except Exception as e:
-        log_file.write(f"CRITICAL ERROR: {str(e)}\n")
-        print(f"Critical Failure: {e}")
+        print(f"Setup Failure: {e}")
         sys.exit(1)
-
-    # Finalize results
-    results['summary']['score'] = (results['summary']['passed'] / results['summary']['total']) * 100
-    
-    with open(log_file_path, "a") as log_file:
-        log_file.write("-" * 30 + "\n")
-        log_file.write(f"Final Score: {results['summary']['score']}%\n")
-
-    with open(os.path.join("tests", "test_results.json"), "w") as f:
-        json.dump(results, f, indent=2)
 
     print(f"\nTest Suite Complete: {results['summary']['passed']}/{results['summary']['total']} passed.")
     print(f"Final Score: {results['summary']['score']}%")

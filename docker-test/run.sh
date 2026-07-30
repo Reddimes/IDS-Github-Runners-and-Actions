@@ -21,7 +21,7 @@ EXE="/app/src/${BASENAME}.exe"
 docker compose -f "$COMPOSE_FILE" up -d
 
 run_in() {
-    docker compose -f "$COMPOSE_FILE" exec -T masm-test "$@"
+    docker compose -f "$COMPOSE_FILE" exec -t masm-test "$@"
 }
 
 echo "=== Compiling ${BASENAME}.asm ==="

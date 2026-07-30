@@ -1,45 +1,36 @@
-# MASM Assembly Project — opencode Agent Instructions
+# Token optimization (for Codex, OpenCode, and other AGENTS.md-aware agents)
 
-## Project Overview
-x86 assembly language project using MASM and the Irvine32 library. Two CI paths: native Windows (GitHub Actions) and Linux via Wine (Docker).
+This project provides a `token-optimizer` MCP server whose tools cut context/token
+usage 60–90% via caching, diffing, and compression. When the MCP server is
+configured (see the integration READMEs), prefer these tools:
 
-## Source Layout
-- `src/` — `.asm` files (e.g., `RevStr.asm`)
-- `tools/ConptyCapture/ConptyCapture.cpp` — native C++ ConPTY capture helper for Windows CI
-- `docker-test/` — single-file Docker compilation container with auto-validation
-- `.github/workflows/masm-windows.yml` — native Windows workflow (ConPTY capture)
-- `.github/workflows/masm-linux.yml` — Linux/Wine workflow
+- **`smart_read`** instead of reading a file directly when the file is **large**
+  (>~400 lines / >25 KB) or you have **already read it** this session — on
+  re-reads it returns only a **diff**, often a few tokens instead of the whole file.
+- **`smart_glob`** instead of a content grep when searching a **big/unknown tree**
+  — it returns **paths only** with filtering/pagination; read only what you need.
+- **`smart_edit`** instead of a raw edit on **large files** — returns a compact
+  unified diff rather than echoing the file.
+- **`optimize_session`** when context is filling up; **`get_session_stats`** to see
+  tokens saved.
+- **`get_optimization_report`** to show the user how much they've saved — total
+  tokens saved, overall %, and a breakdown by action/hook/server. It returns a
+  ready-to-display `formatted` summary; show that when the user asks about savings.
+- **`optimize_text`** to stash bulky text out-of-context under a key (retrieve
+  later). **`compress_text`** is byte-compression for **at-rest storage only** —
+  its base64 output usually costs *more* LLM tokens, so never feed it back into
+  context.
+- **`count_tokens`** to measure a chunk before deciding how to handle it.
 
-## Active Goal
-Capture `WriteConsoleA` output from `RevStr.exe` in headless GitHub Actions CI. `RevStr.asm` is **read-only** — do not modify it. The approach is a native C++ ConPTY capture tool (`ConptyCapture.cpp`) compiled with MSVC `cl.exe` in CI.
+Small files / one-off reads: the built-in tools are fine — don't add overhead.
 
-## Key Constraints
-- **Never modify `src/RevStr.asm`** — it uses Irvine32 `WriteString` → `WriteConsoleA`, bypassing stdout.
-- ConPTY (`CreatePseudoConsole`) is the only reliable way to capture console buffer output in headless Windows CI.
-- `ConptyCapture.cpp` must compile with MSVC `cl.exe` (C++ strict typing: explicit casts for `LPPROC_THREAD_ATTRIBUTE_LIST`).
-- Windows workflow uses `cmd` shell for compile/link steps (needs `vcvarsall.bat`), `pwsh` for Irvine32 download and test validation.
+<!-- CODEGRAPH_START -->
+## CodeGraph
 
-## Build/Compile Commands
-```bash
-# Docker (local)
-docker build -f docker-test/Dockerfile -t masm-run .
-docker run --rm -v src/RevStr.asm:/test.asm masm-run
-```
+In repositories indexed by CodeGraph (a `.codegraph/` directory exists at the repo root), reach for it BEFORE grep/find or reading files when you need to understand or locate code:
 
-```cmd
-# Windows CI — ConptyCapture tool
-call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
-cl /O2 /EHsc /Fe:tools\ConptyCapture\publish\ConptyCapture.exe tools\ConptyCapture\ConptyCapture.cpp
-```
+- **MCP tool** (when available): `codegraph_explore` answers most code questions in one call — the relevant symbols' verbatim source plus the call paths between them, including dynamic-dispatch hops grep can't follow. Name a file or symbol in the query to read its current line-numbered source. If it's listed but deferred, load it by name via tool search.
+- **Shell** (always works): `codegraph explore "<symbol names or question>"` prints the same output.
 
-## Workflow Polling
-- Workflows complete in ~60s. Poll with `sleep 40` then `gh run view <run-id>`.
-- Use `gh run view <run-id> --log-failed` to inspect failed step logs.
-
-## Known Issues
-- ConPTY pipe handles must be created with `bInheritHandle=TRUE`, then cleared with `SetHandleInformation` after PTY creation.
-- MSVC C++ requires explicit `(LPPROC_THREAD_ATTRIBUTE_LIST)` casts on `LPVOID` for proc thread attribute APIs.
-- `CreatePseudoConsole` flag `0` (not `PSEUDOCONSOLE_INHERIT_CURSOR`) — cursor handling caused hangs.
-
-## User Identity
-Jeff Young <jeffyoung1990@gmail.com>
+If there is no `.codegraph/` directory, skip CodeGraph entirely — indexing is the user's decision.
+<!-- CODEGRAPH_END -->

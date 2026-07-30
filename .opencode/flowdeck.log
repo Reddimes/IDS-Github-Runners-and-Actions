@@ -1,0 +1,603 @@
+{"timestamp":"2026-07-29T00:06:22.194Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:07:46.050Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:14:03.136Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:16:07.315Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:16:51.210Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:18:08.487Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T00:18:08.488Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:18:08.510Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:20:30.117Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:20:37.821Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:21:31.720Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:22:07.267Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:23:35.141Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:24:41.399Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:26:39.777Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:27:51.379Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:28:47.387Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:30:05.327Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:31:18.057Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:32:41.704Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:34:06.938Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:37:10.262Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:40:17.214Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T00:40:17.214Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:40:17.483Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:41:31.716Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T00:41:31.716Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:41:31.734Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:44:27.993Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:45:20.184Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:46:00.856Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:47:12.970Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T00:47:12.970Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:47:12.989Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:47:40.299Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T00:47:40.300Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:47:40.312Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:49:49.809Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:49:54.539Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T00:50:14.163Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T01:00:41.573Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T01:01:50.960Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T01:06:30.451Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T01:23:26.118Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T01:28:28.449Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T01:29:09.133Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T01:30:15.595Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T01:31:34.816Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T01:32:45.057Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T01:33:42.837Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T01:36:05.755Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T01:37:57.631Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T01:39:15.812Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T01:43:24.057Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T01:43:24.057Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T01:43:24.080Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T01:47:08.087Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T01:51:14.101Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T01:51:14.101Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T01:51:14.123Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T01:51:46.790Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T01:52:16.050Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T01:53:39.239Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T01:54:23.962Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T01:54:39.295Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T01:55:28.208Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T01:56:47.561Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T01:58:23.173Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T01:58:33.905Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:14:40.551Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T02:14:40.551Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:14:40.568Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:16:38.478Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T02:16:38.479Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:16:38.492Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:17:21.500Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T02:17:21.500Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:17:21.518Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:17:46.023Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:19:02.312Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T02:19:02.312Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:19:02.330Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:19:40.796Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:21:26.119Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:25:55.680Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:30:52.153Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T02:30:52.153Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:30:52.165Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:30:52.165Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T02:30:52.165Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:30:52.175Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:33:34.005Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T02:33:34.005Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:33:34.026Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:36:34.958Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:36:57.230Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:38:38.149Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T02:38:38.149Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:38:38.165Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:38:38.166Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T02:38:38.166Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:38:38.180Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:39:30.913Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:41:50.032Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:49:30.487Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:52:27.282Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:57:45.500Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T02:57:45.500Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:57:45.766Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T02:59:20.324Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:01:23.518Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:03:13.436Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:07:20.107Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T03:07:20.107Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:07:20.122Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:07:51.721Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:10:06.469Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:11:58.953Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:13:15.349Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:13:37.175Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:13:53.907Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:18:25.979Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:21:47.590Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T03:21:47.591Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:21:47.606Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:27:14.330Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T03:27:14.331Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:33:49.859Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:34:56.916Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:35:47.195Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T03:35:47.195Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:35:47.218Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:36:07.501Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:36:39.752Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T03:36:39.752Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:36:39.772Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:37:14.862Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:38:03.056Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:49:33.673Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T03:49:33.673Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:49:33.693Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:49:33.694Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T03:49:33.694Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:49:33.716Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:50:35.571Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:51:08.561Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:55:22.609Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T03:55:22.609Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:55:22.626Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:57:44.580Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T03:57:44.581Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:57:44.602Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T03:58:08.819Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:00:06.504Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:01:34.833Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:02:33.243Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:05:00.520Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T04:05:00.520Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:05:00.532Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:06:38.364Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T04:06:38.364Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:06:38.387Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:07:22.655Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T04:07:22.655Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:07:22.675Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:08:03.832Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T04:08:03.833Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:08:03.847Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:08:19.872Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:10:09.289Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T04:10:09.289Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:10:09.301Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:13:45.668Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T04:13:45.668Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:13:45.680Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:17:20.082Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T04:17:20.082Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:17:20.098Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:19:29.063Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T04:19:29.063Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:19:29.087Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:19:43.624Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:22:38.268Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T04:22:38.268Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:22:38.280Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:24:20.078Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T04:24:20.078Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:24:20.092Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:27:38.499Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:30:49.046Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T04:30:49.046Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:30:49.060Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:34:55.051Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T04:34:55.051Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:34:55.064Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:35:34.739Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:47:20.519Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T04:47:20.519Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:47:20.530Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:49:02.953Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T04:49:02.953Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:49:02.963Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:49:02.963Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T04:49:02.963Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:49:02.972Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:50:42.821Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:54:05.680Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:56:18.144Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:57:16.217Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T04:57:16.217Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:57:16.234Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:58:46.835Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T04:58:46.836Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:58:46.846Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:58:46.847Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T04:58:46.847Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T04:58:46.858Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:01:00.367Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:02:15.094Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:03:23.898Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T05:03:23.898Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:03:23.913Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:04:10.497Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T05:04:10.497Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:04:10.518Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:05:30.931Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:06:39.299Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:07:40.077Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:08:44.397Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:10:44.439Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:11:44.499Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:13:15.576Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:15:17.636Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:18:45.235Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:19:40.896Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:20:11.546Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:20:52.874Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T05:20:52.874Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:20:52.890Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:21:39.976Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:22:07.364Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:23:08.408Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:24:23.718Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:26:34.348Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:30:24.664Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:32:05.301Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:32:55.744Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:34:12.404Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:34:41.804Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:36:49.573Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T05:36:49.574Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:36:49.596Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:41:19.506Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:44:43.136Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:46:04.528Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:46:40.520Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:47:50.844Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T05:47:50.844Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:48:27.281Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:50:17.376Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T05:50:17.376Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:50:17.394Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:51:14.781Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:53:51.741Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T05:53:51.741Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:53:51.760Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:57:10.434Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T05:58:35.112Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:04:19.855Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T06:04:19.855Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:04:19.886Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:05:53.601Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T06:05:53.602Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:05:53.618Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:06:59.068Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T06:06:59.068Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:06:59.090Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:11:37.058Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T06:11:37.058Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:11:37.078Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:11:37.079Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T06:11:37.079Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:11:37.096Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:15:39.873Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T06:15:39.874Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:15:39.892Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:16:07.858Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:17:24.479Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:20:03.338Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T06:20:03.338Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:20:03.359Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:22:28.572Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:23:45.895Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:24:25.999Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:24:51.482Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:25:25.288Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:27:19.213Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:30:45.156Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:31:55.463Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:32:21.958Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:33:07.327Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:34:39.574Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:35:46.147Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:36:40.880Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:38:14.210Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:40:03.344Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:41:38.784Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T06:41:38.784Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:41:38.800Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:43:37.788Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T06:43:37.789Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T06:43:37.806Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T07:30:06.963Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T23:54:12.184Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T23:55:42.650Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-29T23:59:31.508Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-29T23:59:31.508Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:00:33.948Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T00:00:33.948Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:00:33.972Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:03:49.668Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T00:03:49.669Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:03:49.681Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:03:49.681Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T00:03:49.681Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:03:49.692Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:05:48.407Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T00:05:48.407Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:05:48.420Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:09:09.455Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T00:09:09.455Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:09:09.478Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:09:21.401Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:11:04.459Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:11:58.506Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:13:21.068Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:14:11.560Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:17:12.627Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T00:17:12.627Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:17:12.645Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:18:12.778Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T00:18:12.778Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:18:12.799Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:18:57.555Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T00:18:57.555Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:18:57.572Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:20:46.313Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:23:17.886Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T00:23:17.886Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:23:17.901Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:25:29.868Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T00:25:29.868Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:25:29.885Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:25:48.840Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:26:22.876Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:29:09.669Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T00:29:09.670Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:29:09.691Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:31:54.832Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T00:31:54.832Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:31:54.853Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:38:11.164Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T00:38:11.164Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:38:11.187Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:42:28.684Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T00:42:28.684Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:42:28.707Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:43:14.537Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T00:43:14.537Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:43:14.813Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:44:55.590Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:45:36.777Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T00:45:36.777Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:45:36.791Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:46:00.574Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:46:56.085Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:47:19.847Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:49:54.008Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:50:28.120Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T00:50:28.121Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:50:28.139Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:51:55.685Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T00:51:55.685Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:51:55.711Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:52:59.225Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T00:52:59.225Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:52:59.245Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:53:06.988Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T00:56:11.685Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T01:01:11.922Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T01:01:38.618Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T01:01:52.945Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T01:03:23.747Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T01:03:23.748Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T01:03:23.761Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T01:04:20.056Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T01:05:32.737Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T01:13:00.596Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T01:13:00.596Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T01:13:00.611Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T01:30:21.144Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T01:35:52.690Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T01:35:52.690Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T01:38:03.356Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T01:39:27.355Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T01:40:49.479Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T01:43:16.480Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T01:45:51.830Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T01:46:16.911Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T01:46:57.367Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T01:48:46.386Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T01:50:39.209Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T01:51:56.566Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T01:54:58.408Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T01:56:57.957Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T01:59:21.958Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T01:59:21.959Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T01:59:21.975Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T01:59:46.088Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T02:00:54.561Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T02:02:31.556Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T02:02:31.556Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T02:02:31.821Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T02:03:13.820Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T02:03:13.820Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T02:03:13.835Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T02:04:05.415Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T02:04:05.415Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T02:04:05.429Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T02:04:16.887Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T02:05:24.760Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T02:14:39.527Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T02:15:42.490Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T02:15:42.490Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T02:15:42.503Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T02:16:43.266Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T02:17:55.066Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T02:17:55.066Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T02:17:55.081Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T02:19:15.117Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T02:19:15.117Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T02:19:15.137Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T02:19:27.400Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T02:24:21.041Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T02:54:53.584Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T02:56:09.875Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T02:57:17.628Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T02:57:33.122Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T02:59:10.763Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:02:22.103Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:03:22.865Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:04:43.398Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:05:10.567Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T03:05:10.567Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:05:10.577Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:05:58.434Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:07:23.146Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T03:07:23.146Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:07:23.155Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:10:06.475Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T03:10:06.475Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:10:06.486Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:10:50.682Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:11:59.677Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T03:11:59.677Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:11:59.688Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:12:50.249Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:17:02.727Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:26:08.618Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T03:26:08.618Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:26:08.629Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:26:08.629Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T03:26:08.629Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:26:08.637Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:27:39.949Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:31:23.243Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:34:12.642Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:35:31.526Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:36:52.554Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:43:24.200Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:44:55.690Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:45:56.235Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:46:43.847Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:47:13.707Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:50:01.011Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:51:29.868Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:54:07.870Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:55:03.839Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:56:31.777Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:57:29.925Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T03:59:20.564Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:00:37.179Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:01:48.675Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:02:24.854Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:03:45.340Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:06:06.519Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:07:34.616Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:14:26.755Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:14:33.563Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T04:14:33.563Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:14:33.576Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:14:55.112Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:19:30.027Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:20:55.545Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:30:00.056Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:31:23.114Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:34:16.501Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:35:40.012Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:37:38.668Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:38:46.088Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:39:34.022Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:39:58.633Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:40:47.458Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:42:01.479Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T04:42:01.479Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:42:01.496Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:44:18.411Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:46:16.457Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:46:59.466Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:47:41.106Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:48:14.625Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:49:28.613Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:52:12.135Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T04:52:12.135Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:52:12.155Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:54:23.524Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T04:54:23.525Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:54:23.543Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:54:37.420Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:56:52.049Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:57:29.732Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:57:58.701Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T04:58:39.625Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:00:01.123Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T05:00:01.123Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:00:01.389Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:01:12.951Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:03:29.670Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:06:10.325Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:07:45.615Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:09:07.789Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:10:59.499Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:11:25.393Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:12:50.378Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:14:30.356Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T05:14:30.356Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:14:30.375Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:18:44.701Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:26:18.921Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T05:26:18.921Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:26:18.943Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:26:32.530Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:30:47.775Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T05:30:47.775Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:30:47.790Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:31:08.137Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:35:57.673Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T05:35:57.673Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:35:57.685Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:37:44.000Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T05:37:44.000Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:37:44.015Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:40:26.018Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T05:40:26.019Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:40:26.038Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:42:19.044Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T05:42:19.044Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:42:19.056Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:42:50.356Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:48:10.984Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:51:04.410Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:51:59.042Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T05:56:22.054Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T06:08:15.929Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T06:14:12.512Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T06:14:12.512Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T06:14:12.526Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T06:14:35.328Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T06:25:57.166Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T06:26:42.953Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T06:28:00.216Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T06:29:22.915Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T06:31:11.237Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T06:32:12.737Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T06:32:22.978Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T06:32:47.391Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T06:35:34.433Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T06:39:35.218Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T06:43:04.033Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T06:43:04.033Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T06:43:04.047Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T06:44:43.293Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T06:52:25.612Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T06:52:25.612Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T06:52:25.624Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T06:53:28.979Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T06:53:28.979Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T06:53:28.998Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T06:53:55.862Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T07:02:50.743Z","event":"error","phase":null,"detail":"Session encountered an error."}
+{"timestamp":"2026-07-30T07:02:50.743Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T07:02:50.763Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}
+{"timestamp":"2026-07-30T07:03:44.879Z","event":"idle","phase":null,"detail":"Session is idle. Run /checkpoint to save state."}

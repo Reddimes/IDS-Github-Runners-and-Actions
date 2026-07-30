@@ -1,0 +1,22 @@
+name: CI Advanced
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup MASM
+        uses: glslang/setup-masm@v1.4
+        with:
+          vs-architecture: 'x64'
+      - name: Compile
+        shell: cmd
+        run: |
+          call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86
+          ml /c src/example.asm
+          link /SUBSYSTEM:CONSOLE /OUT:example.exe example.obj

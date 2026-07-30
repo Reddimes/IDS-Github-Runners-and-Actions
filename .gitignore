@@ -1,9 +1,5 @@
-CLAUDE.md
-.obsidian/
-unsloth_compiled_cache/
-start-opencode.sh
-.codebase/
-.opencode/
-.supermemory/
-node_modules/
+node_modules
+package.json
+package-lock.json
 bun.lock
+.gitignore

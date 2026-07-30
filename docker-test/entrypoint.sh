@@ -1,6 +1,18 @@
 #!/bin/sh
 set -e
 
+# If we are being used as an entrypoint (running on startup), 
+# we stay alive to allow 'exec' to work.
+if [ "$#" -eq 0 ]; then
+    echo "Container started, waiting for commands..."
+    tail -f /dev/null
+fi
+
+# If we are running a command via 'exec', execute it directly.
+if [ $# -gt 0 ]; then
+    exec "$@"
+fi
+
 IRVINE="z:\\opt\\irvine32"
 SRC="z:\\test.asm"
 

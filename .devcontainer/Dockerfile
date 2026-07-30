@@ -11,11 +11,11 @@ RUN dpkg --add-architecture i386 && \
     curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
     apt-get install -y nodejs && \
     curl -sL -o /tmp/Irvine.zip "https://github.com/surferkip/asmbook/raw/main/Irvine.zip" && \
-    unzip -o -q /tmp/Irvine.zip -d /tmp/Irvine_check && \
+    unzip -o -q /tmp/Irvine.zip -d /tmp/ && \
     mkdir -p /opt/Irvine32 && \
-    cp /tmp/Irvine_check/Irvine/Examples/Lib32/user32.lib /opt/Irvine32/ && \
-    cp /tmp/Irvine_check/Irvine/Examples/Lib32/kernel32.lib /opt/Irvine32/ && \
-    rm -rf /tmp/Irvine.zip /tmp/Irvine_check && \
+    cp /tmp/Irvine/Examples/Lib32/user32.lib /opt/Irvine32/ && \
+    cp /tmp/Irvine/Examples/Lib32/kernel32.lib /opt/Irvine32/ && \
+    rm -rf /tmp/Irvine.zip /tmp/Irvine && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -28,11 +28,8 @@ RUN wineboot --init && \
     while pgrep wineserver > /dev/null; do sleep 1; done && \
     sleep 10
 
-# Copy stubs to MSVC lib directory and update environment
-RUN mkdir -p /opt/msvc/lib/i386 && \
-    cp /opt/Irvine32/user32.lib /opt/msvc/lib/i386/ && \
-    cp /opt/Irvine32/kernel32.lib /opt/msvc/lib/i386/ && \
-    sed -i \
+# Patch the MSVC environment to include Irvine32 paths
+RUN sed -i \
     -e 's|^export INCLUDE="|export INCLUDE="z:\\opt\\Irvine32;|' \
     -e 's|^export LIB="|export LIB="z:\\opt\\Irvine32;|' \
     -e 's|^export LIBPATH="|export LIBPATH="z:\\opt\\Irvine32;|' \

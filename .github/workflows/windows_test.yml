@@ -76,6 +76,7 @@ jobs:
         run: conda activate test-env && python scripts\interact.py tests\interaction_test_cases.json
 
       - name: Display Interaction Log
+        if: always()
         shell: pwsh
         run: |
           if (Test-Path "tests\interaction_trace.log") {

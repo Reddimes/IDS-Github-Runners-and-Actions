@@ -22,6 +22,7 @@ def run_test_suite(manifest_path):
     
     # Convert manifest_path to absolute path to be safe
     manifest_path = os.path.abspath(manifest_path)
+    print(f"DEBUG: Manifest path: {manifest_path}")
     
     if not os.path.exists(manifest_path):
         print(f"Error: Manifest file not found: {manifest_path}")
@@ -34,6 +35,7 @@ def run_test_suite(manifest_path):
     # Resolve target_exe relative to the project root
     if not os.path.isabs(target_exe):
         target_exe = os.path.join(project_root, target_exe)
+    print(f"DEBUG: Target exe path: {target_exe}")
     
     if not os.path.exists(target_exe):
         print(f"Error: Target executable not found: {target_exe}")

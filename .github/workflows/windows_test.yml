@@ -49,18 +49,6 @@ jobs:
         with:
           vs-architecture: 'x86'
 
-      - name: Setup Miniconda
-        uses: conda-incubator/setup-miniconda@v3
-        with:
-          channels: conda-forge
-          activate-environment: test-env
-          auto-activate-base: false
-
-      - name: Install dependencies
-        shell: cmd
-        run: |
-          conda install -n test-env python=3.12 setuptools wexpect -y
-
       - name: Download and extract Irvine32 library
         shell: pwsh
         run: |
@@ -76,11 +64,28 @@ jobs:
           ml /c src\RevStr-input.asm
           link /SUBSYSTEM:CONSOLE /OUT:src\RevStr-input.exe RevStr-input.obj C:\Irvine32\Irvine32.lib kernel32.lib user32.lib
 
+      - name: Setup Miniconda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          channels: conda-forge
+          activate-environment: test-env
+          auto-activate-base: false
+
+      - name: Install dependencies
+        shell: cmd
+        run: |
+          conda install -n test-env python=3.12 setuptools wexpect -y
+
       - name: Test Run (Data-Driven Interaction)
         shell: cmd
         run: |
           conda activate test-env
           python scripts\interact.py tests/interaction_test_cases.json
+
+      - name: Display Interaction Log
+        shell: pwsh
+        run: |
+          Get-Content tests/interaction_trace.log | Write-Host
 
       - name: Upload Results
         if: always()

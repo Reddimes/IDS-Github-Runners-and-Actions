@@ -22,12 +22,9 @@ jobs:
       - name: Download and extract Irvine32 library
         shell: pwsh
         run: |
-          New-Item -ItemType Directory -Force -Path "C:\Irvine32" | Out-Null
           Invoke-WebRequest -Uri "https://github.com/surferkip/asmbook/raw/main/Irvine.zip" -OutFile "$env:TEMP\Irvine.zip"
           Expand-Archive -Path "$env:TEMP\Irvine.zip" -DestinationPath "C:\IrvineTemp" -Force
-          Copy-Item "C:\IrvineTemp\Irvine\Irvine32.inc" "C:\Irvine32\"
-          Copy-Item "C:\IrvineTemp\Irvine\Irvine32.lib" "C:\Irvine32\"
-          Copy-Item "C:\IrvineTemp\Irvine\*.inc" "C:\Irvine32\"
+          Move-Item -Path "C:\IrvineTemp\Irvine" -Destination "C:\Irvine32"
           "INCLUDE=C:\Irvine32" >> $env:GITHUB_ENV
 
       - name: Compile and Link
@@ -40,7 +37,4 @@ jobs:
       - name: Test Output
         shell: cmd
         run: |
-          src\RevStr.exe > output.txt
-          echo --- Output Content ---
-          type output.txt
-          echo --- End Output ---
+          src\RevStr.exe

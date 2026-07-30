@@ -10,14 +10,18 @@
   ],
   "customizations": {
     "vscode": {
+      "extensions": [
+        "blindtiger.masm"
+      ],
       "settings": {
-        "terminal.integrated.shell.linux": "/bin/bash"
+        "terminal.integrated.shell.linux": "/bin/bash",
+        "masm.compilerPath": "ml",
+        "masm.linkerPath": "link",
+        "masm.includePaths": ["z:\\opt\\Irvine32"],
+        "masm.libPaths": ["z:\\opt\\Irvine32"]
       }
     }
   },
   "runArgs": ["--init"],
-  "mounts": [
-    "source=${localWorkspaceFolder},target=/app,type=bind"
-  ],
   "overrideCommand": "ttyd -p 7681 wine /app/src/revstr-input.exe"
 }

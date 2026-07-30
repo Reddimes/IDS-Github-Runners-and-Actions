@@ -5,9 +5,10 @@ on:
 
 permissions:
   contents: read
+  actions: write
 
 jobs:
-  build:
+  compile-and-test:
     runs-on: windows-latest
     steps:
       - name: Checkout repository
@@ -23,7 +24,7 @@ jobs:
         run: |
           Invoke-WebRequest -Uri "https://github.com/surferkip/asmbook/raw/main/Irvine.zip" -OutFile "$env:TEMP\Irvine.zip"
           Expand-Archive -Path "$env:TEMP\Irvine.zip" -DestinationPath "C:\IrvineTemp" -Force
-          Move-Item -Path "C:\IrvineTemp\Irvine" -Destination "C:\Irvine32"
+          Move-Item -Path "C:\IrvineTemp\Irvine" -Destination "C:\Irvine32" -Force
           "INCLUDE=C:\Irvine32" >> $env:GITHUB_ENV
 
       - name: Compile and Link
@@ -33,22 +34,49 @@ jobs:
           ml /c src\RevStr.asm
           link /SUBSYSTEM:CONSOLE /OUT:src\RevStr.exe RevStr.obj C:\Irvine32\Irvine32.lib kernel32.lib user32.lib
 
-      - name: Upload Binary
-        uses: actions/upload-artifact@v4
-        with:
-          name: compiled-binary
-          path: src/RevStr.exe
-
-  test-run:
-    needs: build
-    runs-on: windows-latest
-    steps:
-      - name: Download Binary
-        uses: actions/download-artifact@v4
-        with:
-          name: compiled-binary
-          path: src/
-
       - name: Test Run
         shell: cmd
         run: src\RevStr.exe
+
+  interaction-test:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup MASM
+        uses: glslang/setup-masm@v1.4
+        with:
+          vs-architecture: 'x86'
+
+      - name: Install dependencies
+        shell: cmd
+        run: pip install wexpect
+
+      - name: Download and extract Irvine32 library
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri "https://github.com/surferkip/asmbook/raw/main/Irvine.zip" -OutFile "$env:TEMP\Irvine.zip"
+          Expand-Archive -Path "$env:TEMP\Irvine.zip" -DestinationPath "C:\IrvineTemp" -Force
+          Move-Item -Path "C:\IrvineTemp\Irvine" -Destination "C:\Irvine32" -Force
+          "INCLUDE=C:\Irvine32" >> $env:GITHUB_ENV
+
+      - name: Compile and Link
+        shell: cmd
+        run: |
+          call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86
+          ml /c src\RevStr-input.asm
+          link /SUBSYSTEM:CONSOLE /OUT:src\RevStr-input.exe RevStr-input.obj C:\Irvine32\Irvine32.lib kernel32.lib user32.lib
+
+      - name: Test Run (Data-Driven Interaction)
+        shell: cmd
+        run: python scripts\interact.py tests/interaction_test_cases.json
+
+      - name: Upload Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: interaction-results
+          path: |
+            interaction_trace.log
+            test_results.json

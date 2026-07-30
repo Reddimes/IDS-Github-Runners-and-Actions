@@ -32,7 +32,7 @@ jobs:
         run: |
           call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86
           ml /c src\RevStr.asm
-        link /SUBSYSTEM:CONSOLE /OUT:src\RevStr.exe RevStr.obj /LIBPATH:C:\Irvine32
+          link /SUBSYSTEM:CONSOLE /OUT:src\RevStr.exe RevStr.obj /LIBPATH:C:\Irvine32
 
       - name: Test Output
         shell: cmd

@@ -34,7 +34,7 @@ jobs:
         shell: cmd
         run: |
           call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86
-        ml /c src\RevStr.asm
+          ml /c src\RevStr.asm
           link /SUBSYSTEM:CONSOLE /OUT:src\RevStr.exe RevStr.obj C:\Irvine32\Irvine32.lib kernel32.lib user32.lib
 
       - name: Test Output

@@ -22,7 +22,7 @@ RUN dpkg --add-architecture i386 && \
 # === Layer 2: MSVC + Wine ===
 WORKDIR /opt/msvc
 RUN git clone --depth 1 https://github.com/mstorsjo/msvc-wine.git src
-RUN PYTHONUNBUFFERED=1 ./src/vsdownload.py --accept-license --dest /opt/msvc --architecture x86 --with-atl no --with-asan no --with-msbuild no --with-dia no --with-sdk no
+RUN PYTHONUNBUFFERED=1 ./src/vsdownload.py --accept-license --dest /opt/msvc --architecture x86 --with-atl no --with-asan no --with-msbuild no --with-dia no
 RUN ./src/install.sh /opt/msvc
 RUN wineboot --init && \
     while pgrep wineserver > /dev/null; do sleep 1; done && \
@@ -36,9 +36,7 @@ RUN sed -i \
     /opt/msvc/bin/x86/msvcenv.sh
 
 # === Layer 3: VS Code Extension (trailofbits/vscode-masm) ===
-WORKDIR /opt
-RUN git clone --depth 1 https://github.com/trailofbits/vscode-masm.git
-RUN cd vscode-masm && npm install && npx @vscode/vsce package && mv *.vsix /opt/vscode-masm.vsix
+COPY .devcontainer/extensions/vscode-masm-0.6.1.vsix /opt/vscode-masm.vsix
 
 # === Final Setup ===
 WORKDIR /app

@@ -8,9 +8,6 @@
   "forwardPorts": [],
   "customizations": {
     "vscode": {
-      "extensions": [
-        "trailofbits.vscode-masm"
-      ],
       "settings": {
         "terminal.integrated.shell.linux": "/bin/bash",
         "masm.compilerPath": "ml",

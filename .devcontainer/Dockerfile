@@ -9,7 +9,6 @@ RUN dpkg --add-architecture i386 && \
         wine wine64 wine32 python3 msitools ca-certificates \
         curl unzip git && \
     curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
-    apt-get install -y nodejs && \
     curl -sL -o /tmp/Irvine.zip "https://github.com/surferkip/asmbook/raw/main/Irvine.zip" && \
     unzip /tmp/Irvine.zip -d /tmp/ && \
     mv /tmp/Irvine /opt/Irvine32 && \

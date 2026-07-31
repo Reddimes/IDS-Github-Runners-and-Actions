@@ -19,10 +19,10 @@ RUN dpkg --add-architecture i386 && \
     rm -rf /var/lib/apt/lists/*
 
 # === Layer 2: MSVC + Wine ===
-WORKDIR /opt/msvc
-RUN git clone --depth 1 https://github.com/mstorsjo/msvc-wine.git src
-RUN PYTHONUNBUFFERED=1 ./src/vsdownload.py --accept-license --dest /opt/msvc --architecture x86 --with-atl no --with-asan no --with-msbuild no --with-dia no
-RUN ./src/install.sh /opt/msvc
+# WORKDIR /opt/msvc
+RUN git clone --depth 1 https://github.com/mstorsjo/msvc-wine.git /tmp/msvc-wine
+RUN PYTHONUNBUFFERED=1 /tmp/msvc-wine/vsdownload.py --accept-license --dest /opt/msvc --architecture x86 --with-atl no --with-asan no --with-msbuild no --with-dia no
+RUN /tmp/msvc-wine/install.sh /opt/msvc
 RUN wineboot --init && \
     while pgrep wineserver > /dev/null; do sleep 1; done && \
     sleep 10
@@ -38,4 +38,4 @@ RUN sed -i \
 COPY .devcontainer/extensions/vscode-masm-0.6.1.vsix /opt/vscode-masm.vsix
 
 # === Final Setup ===
-WORKDIR /app
+# WORKDIR /app

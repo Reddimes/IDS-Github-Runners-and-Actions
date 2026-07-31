@@ -13,7 +13,7 @@ RUN dpkg --add-architecture i386 && \
     curl -sL -o /tmp/Irvine.zip "https://github.com/surferkip/asmbook/raw/main/Irvine.zip" && \
     unzip /tmp/Irvine.zip -d /tmp/ && \
     sleep 2 && \
-    mv /tmp/Irvine /opt/Irvine32 \
+    mv /tmp/Irvine /opt/Irvine32 && \
     cp /opt/Irvine32/User32.Lib /opt/Irvine32/user32.lib && \
     cp /opt/Irvine32/Kernel32.Lib /opt/Irvine32/kernel32.lib && \
     rm -rf /tmp/Irvine.zip /tmp/Irvine && \
